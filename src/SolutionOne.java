@@ -1,5 +1,3 @@
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 
 public class SolutionOne {
@@ -66,7 +64,7 @@ public class SolutionOne {
         }
         return prevNode;
     }
-    // 543. Diameter of Binary Tree (Do 2/3)
+    // 543. Diameter of Binary Tree
     public int diameterOfBinaryTree(TreeNode root) {
         int[] res = new int[1];
         dfs(root, res);
@@ -123,7 +121,7 @@ public class SolutionOne {
         }
         return false;
     }
-    // 494. Target Sum (Do 1/3)
+    // 494. Target Sum (Do 2/3)
     public int findTargetSumWays(int[] nums, int target) {
         int totalSum = 0;
         for(var e : nums) totalSum += e;
@@ -135,13 +133,13 @@ public class SolutionOne {
                 dp[i][j] = Integer.MIN_VALUE;
             }
         }
-        return backtrack(0, 0, nums, target, totalSum, dp);
+        return bt_findTargetSumWays(0, 0, nums, target, totalSum, dp);
     }
-    private int backtrack(int index, int total, int[] nums, int target, int totalSum, int[][] dp){
+    private int bt_findTargetSumWays(int index, int total, int[] nums, int target, int totalSum, int[][] dp){
         if(index == nums.length) return total == target ? 1 : 0;
         if(dp[index][total+totalSum] != Integer.MIN_VALUE) return dp[index][total+totalSum];
-        dp[index][total+totalSum] = backtrack(index+1, total+nums[index], nums, target, totalSum, dp)
-                + backtrack(index+1, total-nums[index], nums, target, totalSum, dp);
+        dp[index][total+totalSum] = bt_findTargetSumWays(index+1, total+nums[index], nums, target, totalSum, dp)
+                + bt_findTargetSumWays(index+1, total-nums[index], nums, target, totalSum, dp);
         return dp[index][total+totalSum];
     }
     // 3. Longest Substring Without Repeating Characters
@@ -167,7 +165,7 @@ public class SolutionOne {
         }
         return res;
     }
-    // 121. Best Time to Buy and Sell Stock (Do 1/3)
+    // 121. Best Time to Buy and Sell Stock (Do 2/3)
     public int maxProfit(int[] prices) {
         int l = 0;
         int r = 1;
@@ -188,7 +186,7 @@ public class SolutionOne {
         }
         return profit;
     }
-    // 122. Best Time to Buy and Sell Stock II (Do 1/3)
+    // 122. Best Time to Buy and Sell Stock II (Do 2/3)
     public int maxProfitII(int[] prices) {
         int profit = 0;
         if(prices.length == 0) return profit;
