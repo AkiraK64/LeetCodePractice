@@ -81,47 +81,39 @@ public class SolutionOne {
     }
     // 567. Permutation in String
     public boolean checkInclusion(String s1, String s2) {
-        int slidePointer = -1;
         int s1_length = s1.length();
-        if(s1_length == 0) return true;
-        int s1_copyLength = s1_length;
-        boolean[] charAppear = new boolean[26];
-        int[] charCount = new int[26];
-        for(var c : s1.toCharArray()){
-            charAppear[c - 'a'] = true;
-            charCount[c - 'a'] += 1;
-        }
         int s2_length = s2.length();
-        int curIndex = 0;
-        int slideIndex = 0;
-        for(int i=0;i<s2_length;i++){
-            curIndex = s2.charAt(i) - 'a';
-            if(!charAppear[curIndex]){
-                if(slidePointer != -1) {
-                    while (slidePointer < i){
-                        slideIndex = s2.charAt(slidePointer) - 'a';
-                        charCount[slideIndex] += 1;
-                        slidePointer += 1;
-                    }
-                    slidePointer = -1;
-                    s1_length = s1_copyLength;
-                }
-                continue;
-            }
-            if(charAppear[curIndex] && slidePointer == -1) slidePointer = i;
-            while (charCount[curIndex] == 0){
-                slideIndex = s2.charAt(slidePointer) - 'a';
-                charCount[slideIndex] += 1;
-                slidePointer += 1;
-                s1_length += 1;
-            }
-            charCount[curIndex] -= 1;
-            s1_length -= 1;
-            if(s1_length == 0) return true;
+        if(s1_length > s2_length) return false;
+        int[] s1_frequency = new int[26];
+        int[] s2_frequency = new int[26];
+        for(int i=0;i<s1_length;i++){
+            s1_frequency[s1.charAt(i) - 'a'] += 1;
+            s2_frequency[s2.charAt(i) - 'a'] += 1;
         }
-        return false;
+        int matches = 0;
+        for(int i=0;i<26;i++){
+            if(s1_frequency[i] == s2_frequency[i])
+                matches += 1;
+        }
+        int left = 0;
+        for(int right=s1_length;right<s2_length;right++){
+            if(matches == 26) return true;
+
+            int index = s2.charAt(right) - 'a';
+            s2_frequency[index] += 1;
+            if(s2_frequency[index] == s1_frequency[index]) matches += 1;
+            else if(s2_frequency[index] == (s1_frequency[index] + 1)) matches -= 1;
+
+            index = s2.charAt(left) - 'a';
+            s2_frequency[index] -= 1;
+            if(s2_frequency[index] == s1_frequency[index]) matches += 1;
+            else if(s2_frequency[index] == (s1_frequency[index] - 1)) matches -= 1;
+
+            left += 1;
+        }
+        return matches == 26;
     }
-    // 494. Target Sum (Do 2/3)
+    // 494. Target Sum
     public int findTargetSumWays(int[] nums, int target) {
         int totalSum = 0;
         for(var e : nums) totalSum += e;
@@ -165,28 +157,27 @@ public class SolutionOne {
         }
         return res;
     }
-    // 121. Best Time to Buy and Sell Stock (Do 2/3)
+    // 121. Best Time to Buy and Sell Stock
     public int maxProfit(int[] prices) {
-        int l = 0;
-        int r = 1;
+        int days = prices.length;
+        int left = 0;
+        int right = 1;
         int profit = 0;
         int expectedProfit = 0;
-        int days = prices.length;
-        for(int i=0;i<days;i++){
-            if(r>=days) break;
-            expectedProfit = prices[r] - prices[l];
-            if(expectedProfit < 0){
-                l=i;
-                r=i+1;
+        while (right < days){
+            expectedProfit = prices[right] - prices[left];
+            if(expectedProfit > 0){
+                right += 1;
+                if(expectedProfit > profit) profit = expectedProfit;
             }
             else{
-                r++;
-                if(profit < expectedProfit) profit = expectedProfit;
+                left = right;
+                right = left + 1;
             }
         }
         return profit;
     }
-    // 122. Best Time to Buy and Sell Stock II (Do 2/3)
+    // 122. Best Time to Buy and Sell Stock II
     public int maxProfitII(int[] prices) {
         int profit = 0;
         if(prices.length == 0) return profit;
@@ -195,5 +186,105 @@ public class SolutionOne {
                 profit += (prices[i] - prices[i-1]);
         }
         return profit;
+    }
+    // 757. Set Intersection size at least Two (Do 1/3)
+    public int intersectionSizeTwo(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[1] == o2[1]) return o2[0] - o1[0];
+                return o1[1] - o2[1];
+            }
+        });
+
+        int res = 0;
+        int secondLastPoint = -1;
+        int lastPoint = -1;
+        int start = 0;
+        int end = 0;
+
+        for(var interval : intervals){
+            start = interval[0];
+            end = interval[1];
+
+            if(start <= secondLastPoint) continue;
+            if(start > lastPoint){
+                res += 2;
+                lastPoint = end;
+                secondLastPoint = end-1;
+            }
+            else{
+                res += 1;
+                secondLastPoint = lastPoint;
+                lastPoint = end;
+            }
+        }
+
+        return res;
+    }
+    // 309. Best Time to Buy and Sell Stock with Cooldown
+    public int maxProfitWithCooldown(int[] prices) {
+        int days = prices.length;
+        int[][] dp = new int[days][2];
+        for(int i=0;i<days;i++){
+            dp[i][0] = -1;
+            dp[i][1] = -1;
+        }
+        return bt_maxProfitWithCooldown(0, 0, prices, dp);
+    }
+    private int bt_maxProfitWithCooldown(int i, int state, int[] prices, int[][] dp){
+        if(i == prices.length) return 0;
+        if(state == 3) return bt_maxProfitWithCooldown(i+1, 0, prices, dp);
+        if(dp[i][state] != -1) return dp[i][state];
+        int profit = bt_maxProfitWithCooldown(i+1, state, prices, dp);
+        int expectedProfit = 0;
+        if(state == 0){
+            expectedProfit = -prices[i] + bt_maxProfitWithCooldown(i+1, 1, prices, dp);
+            dp[i][state] = Math.max(expectedProfit, profit);
+        }
+        else{
+            expectedProfit = prices[i] + bt_maxProfitWithCooldown(i+1,3, prices, dp);
+            dp[i][state] = Math.max(expectedProfit, profit);
+        }
+        return dp[i][state];
+    }
+    // 125. Valid Palindrome
+    public boolean isPalindrome(String s) {
+        int s_length = s.length();
+        if(s_length == 0) return true;
+        int left = 0;
+        int right = s_length-1;
+        var leftChar = s.charAt(left);
+        var rightChar = s.charAt(right);
+        while (left < right){
+            leftChar = s.charAt(left);
+            if(leftChar < 48 || (leftChar > 57 && leftChar < 65) || (leftChar > 90 && leftChar < 97) || leftChar > 122){
+                left += 1;
+                continue;
+            }
+            rightChar = s.charAt(right);
+            if(rightChar < 48 || (rightChar > 57 && rightChar < 65) || (rightChar > 90 && rightChar < 97) || rightChar > 122){
+                right -= 1;
+                continue;
+            }
+            if(leftChar < 65){
+                if(leftChar == rightChar){
+                    left += 1;
+                    right -= 1;
+                }
+                else return false;
+            }
+            else if(rightChar < 65){
+                return false;
+            }
+            else{
+                if(rightChar == leftChar || Math.abs(rightChar - leftChar) == 32){
+                    left += 1;
+                    right -= 1;
+                }
+                else return false;
+            }
+        }
+        return true;
     }
 }
