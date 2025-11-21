@@ -287,7 +287,7 @@ public class SolutionOne {
         }
         return true;
     }
-    // 1930. Unique Length-3 Palindromic Subsequences (Do 1/3)
+    // 1930. Unique Length-3 Palindromic Subsequences (Do 2/3)
     public int countPalindromicSubsequence(String s) {
         int s_length = s.length();
         if(s_length < 3) return 0;
@@ -308,5 +308,81 @@ public class SolutionOne {
             }
         }
         return ans;
+    }
+    // 3217. Delete nodes from Linked List Present in Arrays
+    public ListNode modifiedList(int[] nums, ListNode head) {
+        var checkSet = new HashSet<>();
+        for(var e : nums) checkSet.add(e);
+        ListNode dummy = new ListNode(0, head);
+        ListNode prev = dummy;
+        ListNode cur = head;
+        while (cur != null){
+            if(checkSet.contains(cur.val))
+                prev.next = cur.next;
+            else
+                prev = prev.next;
+            cur = cur.next;
+        }
+        return dummy.next;
+    }
+    // 20. Valid Parentheses
+    public boolean isValid(String s) {
+        Stack<Character> checkStack = new Stack<>();
+        for(var c : s.toCharArray()){
+            if(c == '(' || c == '{' || c == '[')
+                checkStack.add(c);
+            else{
+                if(checkStack.isEmpty()) return false;
+                var checkChar = checkStack.pop();
+                if(checkChar == '(' && c != ')') return false;
+                if(checkChar == '{' && c != '}') return false;
+                if(checkChar == '[' && c != ']') return false;
+            }
+        }
+        return checkStack.isEmpty();
+    }
+    // 704. Binary Search
+    public int search(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        int middle = 0;
+        while (left <= right){
+            middle = (left + right) / 2;
+            if(nums[middle] == target) return middle;
+            else if(nums[middle] > target) right = middle - 1;
+            else left = middle + 1;
+        }
+        return -1;
+    }
+    // 21. Merge Two Sorted List
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0, null);
+        ListNode cur = dummy;
+        while (list1 != null && list2 != null){
+            if(list1.val > list2.val){
+                cur.next = list2;
+                list2 = list2.next;
+            }
+            else{
+                cur.next = list1;
+                list1 = list1.next;
+            }
+            cur = cur.next;
+        }
+
+        while (list1 != null){
+            cur.next = list1;
+            list1 = list1.next;
+            cur = cur.next;
+        }
+
+        while (list2 != null){
+            cur.next = list2;
+            list2 = list2.next;
+            cur = cur.next;
+        }
+
+        cur.next = null;
+        return dummy.next;
     }
 }
