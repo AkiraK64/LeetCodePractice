@@ -187,7 +187,7 @@ public class SolutionOne {
         }
         return profit;
     }
-    // 757. Set Intersection size at least Two (Do 1/3)
+    // 757. Set Intersection size at least Two (Do 2/3)
     public int intersectionSizeTwo(int[][] intervals) {
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
@@ -286,5 +286,27 @@ public class SolutionOne {
             }
         }
         return true;
+    }
+    // 1930. Unique Length-3 Palindromic Subsequences (Do 1/3)
+    public int countPalindromicSubsequence(String s) {
+        int s_length = s.length();
+        if(s_length < 3) return 0;
+        int[] first = new int[26];
+        int[] last = new int[26];
+        Arrays.fill(first, s_length);
+        Arrays.fill(last, 0);
+        int index = 0;
+        for(int i=0;i<s_length;i++){
+            index = s.charAt(i) - 'a';
+            if(first[index] == s_length) first[index] = i;
+            last[index] = i;
+        }
+        int ans = 0;
+        for(int i=0;i<26;i++){
+            if(first[i] < last[i]){
+                ans += s.substring(first[i] + 1, last[i]).chars().distinct().count();
+            }
+        }
+        return ans;
     }
 }
