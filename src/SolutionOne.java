@@ -187,7 +187,7 @@ public class SolutionOne {
         }
         return profit;
     }
-    // 757. Set Intersection size at least Two (Do 2/3)
+    // 757. Set Intersection size at least Two
     public int intersectionSizeTwo(int[][] intervals) {
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
@@ -287,7 +287,7 @@ public class SolutionOne {
         }
         return true;
     }
-    // 1930. Unique Length-3 Palindromic Subsequences (Do 2/3)
+    // 1930. Unique Length-3 Palindromic Subsequences
     public int countPalindromicSubsequence(String s) {
         int s_length = s.length();
         if(s_length < 3) return 0;
@@ -384,5 +384,85 @@ public class SolutionOne {
 
         cur.next = null;
         return dummy.next;
+    }
+    // 3190. Find Minimum Operations to Make All Elements Divisible by Three
+    public int minimumOperations(int[] nums) {
+        int res = 0;
+        for(var e : nums){
+            if(e % 3 != 0) res += 1;
+        }
+        return res;
+    }
+    // 717. 1-bit and 2-bit Characters
+    public boolean isOneBitCharacter(int[] bits) {
+        int bits_length = bits.length;
+        if(bits_length == 0) return false;
+        if(bits_length == 1) return  bits[0] == 0;
+        int index = 0;
+        while (index < bits_length - 1){
+            if(bits[index] == 0) index += 1;
+            else index += 2;
+        }
+        if(index == bits_length - 1) return bits[index] == 0;
+        return false;
+    }
+    // 1437. Check if All 1's Are at Least Length K Places Away
+    public boolean kLengthApart(int[] nums, int k) {
+        int distance = 0;
+        boolean found = false;
+        for(var e : nums){
+            if(e == 1){
+                if (found){
+                    if(distance < k) return false;
+                    distance = 0;
+                }
+                else found = true;
+            }
+            else if(found){
+                distance += 1;
+            }
+        }
+        return true;
+    }
+    // 141. Linked List Cycle (Floyd's Algorithm) (DO 1/3)
+    public boolean hasCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) return true;
+        }
+        return false;
+    }
+    // 226. Invert Binary Tree
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null) return null;
+        var leftRoot = invertTree(root.left);
+        var rightRoot = invertTree(root.right);
+        root.right = leftRoot;
+        root.left = rightRoot;
+        return root;
+    }
+    // 424. Longest Repeating Character Replacement (DO 1/3)
+    public int characterReplacement(String s, int k) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        int maxFrequencyOfChar = 0;
+        int s_length = s.length();
+        int left = 0;
+        int res = 0;
+        for(int right=0;right<s_length;right++){
+            Character charIndex = s.charAt(right);
+            map.put(charIndex, map.getOrDefault(charIndex, 0) + 1);
+            maxFrequencyOfChar = Math.max(maxFrequencyOfChar, map.get(charIndex));
+            while ((right - left + 1) - maxFrequencyOfChar > k){
+                charIndex = s.charAt(left);
+                map.put(charIndex, map.get(charIndex) - 1);
+                left += 1;
+            }
+            res = Math.max(res, right - left + 1);
+        }
+        return res;
     }
 }
