@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class SolutionOne {
+public class FirstSolution {
     // 217. Contain Duplicate
     public boolean containsDuplicate(int[] nums) {
         var checkSet = new HashSet<Integer>();
