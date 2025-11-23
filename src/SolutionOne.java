@@ -424,7 +424,7 @@ public class SolutionOne {
         }
         return true;
     }
-    // 141. Linked List Cycle (Floyd's Algorithm) (DO 1/3)
+    // 141. Linked List Cycle (Floyd's Algorithm) (DO 2/3)
     public boolean hasCycle(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
@@ -445,7 +445,7 @@ public class SolutionOne {
         root.left = rightRoot;
         return root;
     }
-    // 424. Longest Repeating Character Replacement (DO 1/3)
+    // 424. Longest Repeating Character Replacement (DO 2/3)
     public int characterReplacement(String s, int k) {
         HashMap<Character, Integer> map = new HashMap<>();
         int maxFrequencyOfChar = 0;
@@ -459,10 +459,31 @@ public class SolutionOne {
             while ((right - left + 1) - maxFrequencyOfChar > k){
                 charIndex = s.charAt(left);
                 map.put(charIndex, map.get(charIndex) - 1);
+                maxFrequencyOfChar = Math.max(maxFrequencyOfChar, map.get(charIndex));
                 left += 1;
             }
             res = Math.max(res, right - left + 1);
         }
         return res;
+    }
+    // 1262. Greatest Sum Divisible By Three
+    public int maxSumDivThree(int[] nums) {
+        int length = nums.length;
+        int[] sum = new int[]{0,0,0};
+        int[] tmpSum = new int[]{0,0,0};
+        int remainder = 0;
+        int index = 0;
+        for(int i=0;i<length;i++){
+            remainder = nums[i] % 3;
+            for(int j=0;j<3;j++){
+                index = (3+j-remainder) % 3;
+                if(sum[index] % 3 != index) tmpSum[j] = sum[j];
+                else tmpSum[j] = sum[index] + nums[i];
+            }
+            for (int j=0;j<3;j++) {
+                sum[j] = Math.max(sum[j], tmpSum[j]);
+            }
+        }
+        return sum[0];
     }
 }
