@@ -198,7 +198,7 @@ public class FirstSolution {
         }
         return profit;
     }
-    // 424. Longest Repeating Character Replacement (DO 2/3)
+    // 424. Longest Repeating Character Replacement
     public int characterReplacement(String s, int k) {
         HashMap<Character, Integer> map = new HashMap<>();
         int maxFrequencyOfChar = 0;
@@ -302,7 +302,7 @@ public class FirstSolution {
         cur.next = null;
         return dummy.next;
     }
-    // 141. Linked List Cycle (Floyd's Algorithm) (DO 2/3)
+    // 141. Linked List Cycle (Floyd's Algorithm)
     public boolean hasCycle(ListNode head) {
         ListNode fast = head;
         ListNode slow = head;
@@ -377,8 +377,9 @@ public class FirstSolution {
         return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
 
+
     /** <i>Heap & Priority Queue</i> */
-    // 703. Kth Largest Element in a Stream (DO 1/3)
+    // 703. Kth Largest Element in a Stream
     public int kthLargestAdd(int k, int[] nums, int val){
         var kthIns = new KthLargest(k, nums);
         return kthIns.add(val);
@@ -399,6 +400,42 @@ public class FirstSolution {
         }
         return maxHeap.isEmpty() ? 0 : maxHeap.peek();
     }
+
+
+    /** <i>1-D Dynamic Programing</i> */
+    // 70. Climbing Stairs
+    public int climbStairs(int n) {
+        int[] dp = new int[n+1];
+        Arrays.fill(dp, -1);
+        return bt_climbStairs(n, dp);
+    }
+    private int bt_climbStairs(int left, int[] dp){
+        if(left < 0) return 0;
+        if(left == 0) return 1;
+        if(dp[left] != -1) return dp[left];
+        dp[left] = bt_climbStairs(left - 1, dp) + bt_climbStairs(left - 2, dp);
+        return dp[left];
+    }
+    // 746. Min Cost Climbing Stairs
+    public int minCostClimbingStairs(int[] cost) {
+        int step = cost.length + 1;
+        int[] dp = new int[step + 1];
+        Arrays.fill(dp, -1);
+        return bt_minCostClimbingStairs(-1, step, cost, dp);
+    }
+    private int bt_minCostClimbingStairs(int index, int left, int[] costs, int[]dp){
+        if(left == 0) return 0;
+        if(dp[left] != -1) return dp[left];
+        int cost = index == -1 ? 0 : costs[index];
+        if(left == 1) dp[left] = cost;
+        else{
+            int costForOneStep = bt_minCostClimbingStairs(index + 1, left - 1, costs, dp);
+            int costForTwoStep = bt_minCostClimbingStairs(index + 2, left - 2, costs, dp);
+            dp[left] = cost + Math.min(costForOneStep, costForTwoStep);
+        }
+        return dp[left];
+    }
+
 
     /** <i>2-D Dynamic Programing</i> */
     // 494. Target Sum
@@ -460,5 +497,116 @@ public class FirstSolution {
                 profit += (prices[i] - prices[i-1]);
         }
         return profit;
+    }
+
+
+    /** <i>Intervals</i> */
+    // 252. Meeting Rooms
+    public boolean canAttendMeetings(List<Interval> intervals) {
+        int length = intervals.size();
+        if(length < 2) return true;
+
+        intervals.sort(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval o1, Interval o2) {
+                return o1.start - o2.start;
+            }
+        });
+
+        for(int i=0;i<length-1;i++){
+            if(intervals.get(i).end > intervals.get(i+1).start) return false;
+        }
+        return true;
+    }
+
+
+    /** <i>Math & Geometry</i> */
+    // 202. Happy Number
+    public boolean isHappy(int n) {
+        if(n == 1) return true;
+        HashSet<Integer> set = new HashSet<>();
+        while (!set.contains(n)){
+            set.add(n);
+            n = sumOfSquares(n);
+            if(n == 1) return true;
+        }
+        return false;
+    }
+    private int sumOfSquares(int n){
+        int res = 0;
+        int add = 0;
+        while (n > 0) {
+            add = n % 10;
+            n = n / 10;
+            res += add * add;
+        }
+        return res;
+    }
+    // 66. Plus One
+    public int[] plusOne(int[] digits) {
+        int length = digits.length;
+        int[] res = new int[length+1];
+        int value = 0;
+        int reminder = 1;
+        int index = res.length-1;
+        for(int i=digits.length-1;i>=0;i--){
+            if(reminder == 0) res[index] = digits[i];
+            else {
+                value = digits[i] + reminder;
+                reminder = value / 10;
+                res[index] = value % 10;
+            }
+            index -= 1;
+        }
+        if(reminder > 0) res[0] = reminder;
+        else {
+            System.arraycopy(res, 1, digits, 0, length);
+            return digits;
+        }
+        return res;
+    }
+
+
+    /** Bit Manipulation */
+    // 136. Single Number (DO 1/3)
+    public int singleNumber(int[] nums) {
+        int res = 0;
+        for(var num : nums){
+            res ^= num;
+        }
+        return res;
+    }
+    // 191. Number of 1 Bits
+    public int hammingWeight(int n) {
+        int res = 0;
+        while (n > 0){
+            res += n & 1;
+            n >>= 1;
+        }
+        return res;
+    }
+    // 338. Counting Bits
+    public int[] countBits(int n) {
+        int index = 1;
+        int offset = 1;
+        int[] res = new int[n+1];
+        while (index <= n){
+            if(index == 2 * offset){
+                offset *= 2;
+                res[index] = 1;
+            }
+            else {
+                res[index] = res[index - offset] + 1;
+            }
+            index += 1;
+        }
+        return res;
+    }
+    public int[] countBits_SolutionTwo(int n){
+        int[] res = new int[n + 1];
+        for (int i = 0; i <= n; i++) {
+            res[i] = Integer.bitCount(i);
+        }
+        return res;
     }
 }
