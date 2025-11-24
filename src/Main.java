@@ -1,7 +1,9 @@
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         var solutionOne = new FirstSolution();
-        int[] nums = new int[]{4};
-        System.out.println(solutionOne.maxSumDivThree(nums));
+        String[] list = new String[]{"abbbbbbbbbbb","aaaaaaaaaaab"};
+        System.out.println(solutionOne.groupAnagrams(list));
     }
 }
