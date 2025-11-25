@@ -402,6 +402,46 @@ public class FirstSolution {
     }
 
 
+    /** <i>Backtracking</i> */
+    // 78. Subsets
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>((int)Math.pow(2, nums.length));
+        ArrayList<Integer> subRes = new ArrayList<>(nums.length);
+        bt_SubSets(-1, nums, subRes, res);
+        return res;
+    }
+    private void bt_SubSets(int prev, int[] nums, ArrayList<Integer> subRes, List<List<Integer>> res){
+        for(int i=prev; i<nums.length;i++){
+            if(i == prev){
+                res.add(new ArrayList<>(subRes));
+            }
+            else{
+                subRes.add(nums[i]);
+                bt_SubSets(i, nums, subRes, res);
+                subRes.removeLast();
+            }
+        }
+    }
+    // 39. Combination Sum
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> subRes = new ArrayList<>(candidates.length);
+        bt_CombinationSum(0, target, candidates, subRes, res);
+        return res;
+    }
+    private void bt_CombinationSum(int index, int target, int[] candidates, ArrayList<Integer> subRes, List<List<Integer>> res){
+        int left = 0;
+        for(int i=index;i<candidates.length;i++){
+            left = target - candidates[i];
+            if(left < 0) continue;
+            subRes.add(candidates[i]);
+            if(left == 0) res.add(new ArrayList<>(subRes));
+            else bt_CombinationSum(i, left, candidates, subRes, res);
+            subRes.removeLast();
+        }
+    }
+
+
     /** <i>1-D Dynamic Programing</i> */
     // 70. Climbing Stairs
     public int climbStairs(int n) {
