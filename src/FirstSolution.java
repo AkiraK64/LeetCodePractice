@@ -609,4 +609,29 @@ public class FirstSolution {
         }
         return res;
     }
+    // 190. Reverse Bits
+    public int reverseBits(int n) {
+        int res = 0;
+        int bit = 0;
+        int count = 0;
+        while (n > 0){
+            bit = n & 1;
+            n >>= 1;
+            res <<= 1;
+            res += bit;
+            count += 1;
+        }
+        res <<= (32 - count);
+        return res;
+    }
+    // 268. Missing Number
+    public int missingNumber(int[] nums) {
+        int n = nums.length;
+        int res = n;
+        for(int i=0;i<n;i++){
+            res ^= i;
+            res ^= nums[i];
+        }
+        return res;
+    }
 }
