@@ -634,4 +634,41 @@ public class FirstSolution {
         }
         return res;
     }
+    // 371. Sum Of Two Integers (DO 1/2)
+    public int getSum(int a, int b) {
+        int res = 0;
+        int bitA = 0;
+        int bitB = 0;
+        int bitC = 0;
+        int bitD = 0;
+        int numBit = 0;
+        int mask = 0xFFFFFFFF;
+        while (numBit < 32){
+            bitA = (a >> numBit) & 1;
+            bitB = (b >> numBit) & 1;
+            bitD = bitA ^ bitB ^ bitC;
+            bitC = (bitA & bitB) | (bitA & bitC) | (bitB & bitC);
+            if(bitD == 1) res |= (1 << numBit);
+            numBit += 1;
+        }
+        if(res > mask) res = ~(res ^ mask);
+        return res;
+    }
+    // 7. Reverse Integer (DO 1/2)
+    public int reverse(int x) {
+        final int MIN = Integer.MIN_VALUE;
+        final int MAX = Integer.MAX_VALUE;
+        final int sign = (x > 0 ? 1 : -1);
+        if(x == MIN) return 0;
+        int res = 0;
+        int num = 0;
+        x = x * sign;
+        while (x != 0){
+            num = x % 10;
+            x = x / 10;
+            if(res > (MAX - num) / 10) return 0;
+            res = res * 10 + num;
+        }
+        return res * sign;
+    }
 }

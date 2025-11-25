@@ -6,6 +6,6 @@ public class Main {
         var solutionOne = new FirstSolution();
         var dailySolution = new DailySolutionOne();
         int[] nums = new int[]{3,0,1};
-        System.out.println(solutionOne.missingNumber(nums));
+        System.out.println(solutionOne.reverse(-123));
     }
 }
