@@ -568,7 +568,7 @@ public class FirstSolution {
 
 
     /** Bit Manipulation */
-    // 136. Single Number (DO 1/3)
+    // 136. Single Number (DO 2/3)
     public int singleNumber(int[] nums) {
         int res = 0;
         for(var num : nums){

@@ -144,4 +144,23 @@ public class DailySolutionOne {
         }
         return answers;
     }
+    // 1015. Smallest Integer Divisible By K
+    public int smallestRepunitDivByK(int k) {
+        if(k == 1) return 1;
+        if(k % 2 == 0) return -1;
+        int resSlow = 1;
+        int slow = 1;
+        int resFast = 2;
+        int fast = 11 % k;
+        while (slow != fast){
+            slow = (slow * 10 + 1) % k;
+            fast = (fast * 10 + 1) % k;
+            fast = (fast * 10 + 1) % k;
+            resSlow += 1;
+            resFast += 2;
+            if(slow == 0) return resSlow;
+            else if(fast == 0) return resFast;
+        }
+        return -1;
+    }
 }
