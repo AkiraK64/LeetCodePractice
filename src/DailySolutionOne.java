@@ -163,4 +163,39 @@ public class DailySolutionOne {
         }
         return -1;
     }
+    // 2435. Paths in Matrix Whose Sum is Divisible by K
+    public int numberOfPaths(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int module = (int) 1e9 + 7;
+        int[][] dp = new int[m * n][k];
+        for(int i=0;i<m*n;i++){
+            for(int h=0;h<k;h++) {
+                dp[i][h] = -1;
+            }
+        }
+        return bt_numberOfPaths(0,0,0,k,grid,m,n,dp,module);
+    }
+    private int bt_numberOfPaths(int i, int j, int reminder, int k, int[][] grid, int m, int n, int[][] dp, int module){
+        if((i == m-1) && (j == n-1)) {
+            int newReminder = (reminder + grid[i][j]) % k;
+            return newReminder == 0 ? 1 : 0;
+        }
+        int index = i * n + j;
+        if(dp[index][reminder] != -1) return dp[index][reminder];
+        int newReminder = (grid[i][j] + reminder) % k;
+        int pathCount = 0;
+        if(i == m-1){
+            pathCount = bt_numberOfPaths(i, j+1, newReminder, k, grid, m, n, dp, module);
+        }
+        else if(j == n-1){
+            pathCount = bt_numberOfPaths(i+1, j, newReminder, k, grid, m, n, dp, module);
+        }
+        else{
+            pathCount = bt_numberOfPaths(i, j+1, newReminder, k, grid, m, n, dp, module)
+                                + bt_numberOfPaths(i+1, j, newReminder, k, grid, m, n, dp, module);
+        }
+        dp[index][reminder] = pathCount % module;
+        return dp[index][reminder];
+    }
 }
