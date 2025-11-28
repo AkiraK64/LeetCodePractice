@@ -101,7 +101,7 @@ public class NeetcodeSolution {
         }
         return res;
     }
-    // 271. Encode and Decode Strings (DO 1/3)
+    // 271. Encode and Decode Strings (DO 2/3)
     public String encode(List<String> strs) {
         StringBuilder res = new StringBuilder();
         for(var str : strs){
@@ -112,21 +112,20 @@ public class NeetcodeSolution {
         return res.toString();
     }
     public List<String> decode(String str) {
-        List<String> res = new ArrayList<>();
         int index = 0;
+        int maxIndex = str.length() - 1;
         int length = 0;
-        var charArrs = str.toCharArray();
-        int charArrsLength = charArrs.length;
-        char c = '0';
-        while (index < charArrsLength){
-            c = charArrs[index];
+        List<String> res = new ArrayList<>();
+        char c = '#';
+        while (index <= maxIndex){
+            c = str.charAt(index);
             if(c == '#'){
-                res.add(str.substring(index+1, index+1+length));
+                res.add(str.substring(index + 1, index + 1 + length));
                 index += length;
                 length = 0;
             }
             else{
-                length = length * 10 + (c - 48);
+                length = length * 10 + (c - '0');
             }
             index += 1;
         }
