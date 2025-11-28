@@ -76,26 +76,25 @@ public class NeetcodeSolution {
         }
         return new ArrayList<>(resMap.values());
     }
-    // 374. Top K Frequent Elements (DO 1/3)
+    // 374. Top K Frequent Elements (DO 2/3)
     public int[] topKFrequent(int[] nums, int k) {
+        List<Integer>[] freq = new List[nums.length + 1];
         HashMap<Integer, Integer> map = new HashMap<>();
         for(var num : nums){
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
-        int nums_length = nums.length;
-        List<Integer>[] freq = new List[nums_length+1];
-        for(int i=0;i<=nums_length;i++){
+        for(int i=0;i<=nums.length;i++){
             freq[i] = new ArrayList<>();
         }
         for(var key : map.keySet()){
             freq[map.get(key)].add(key);
         }
-        int index = 0;
         int[] res = new int[k];
-        for(int i=nums_length;i>=0;i--){
+        int index = 0;
+        for(int i=nums.length;i>=0;i--){
             if(freq[i].isEmpty()) continue;
-            for(var num : freq[i]){
-                res[index] = num;
+            for(var e : freq[i]){
+                res[index] = e;
                 index += 1;
                 if(index == k) return res;
             }
