@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-/** Heap & Priority - KthLargest Class */
-
+/** <i>Heap & Priority - 703. Kth Largest Element in a Stream</i>*/
 public class KthLargest {
     PriorityQueue<Integer> minHeap;
     int k;

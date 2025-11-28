@@ -1,7 +1,7 @@
 import java.util.*;
 
 // Daily Problem
-public class DailySolutionOne {
+public class DailyLeetcodeSolution {
     // 1262. Greatest Sum Divisible By Three
     public int maxSumDivThree(int[] nums) {
         int length = nums.length;

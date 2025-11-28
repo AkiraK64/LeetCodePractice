@@ -1,8 +1,7 @@
-import java.lang.instrument.IllegalClassFormatException;
 import java.util.*;
 
 /** <b>Neetcode 150</b> */
-public class FirstSolution {
+public class NeetcodeSolution {
     /** <i>Array And Hash</i> */
     // 217. Contain Duplicate
     public boolean containsDuplicate(int[] nums) {
@@ -343,6 +342,29 @@ public class FirstSolution {
             }
         }
         return checkStack.isEmpty();
+    }
+    // 739. Daily Temperatures
+    public int[] dailyTemperatures(int[] temperatures) {
+        Stack<Integer> tpStack = new Stack<>();
+        tpStack.add(0);
+        int prevDay = 0;
+        int curTemp = 0;
+        int prevTemp = 0;
+        int[] res = new int[temperatures.length];
+        for(int i=1;i<temperatures.length;i++){
+            curTemp = temperatures[i];
+            while (!tpStack.isEmpty()){
+                prevDay = tpStack.peek();
+                prevTemp = temperatures[prevDay];
+                if(curTemp > prevTemp) {
+                    res[prevDay] = i - prevDay;
+                    tpStack.pop();
+                }
+                else break;
+            }
+            tpStack.add(i);
+        }
+        return res;
     }
 
 
