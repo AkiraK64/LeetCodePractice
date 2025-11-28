@@ -24,18 +24,16 @@ public class DailySolutionOne {
     }
     // 1437. Check if All 1's Are at Least Length K Places Away
     public boolean kLengthApart(int[] nums, int k) {
-        int distance = 0;
-        boolean found = false;
+        int count = 0;
+        boolean firstTime = true;
         for(var e : nums){
             if(e == 1){
-                if (found){
-                    if(distance < k) return false;
-                    distance = 0;
-                }
-                else found = true;
+                if(firstTime) firstTime = false;
+                else if(count < k) return false;
+                count = 0;
             }
-            else if(found){
-                distance += 1;
+            else if(!firstTime){
+                count += 1;
             }
         }
         return true;

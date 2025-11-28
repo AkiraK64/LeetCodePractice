@@ -76,6 +76,32 @@ public class FirstSolution {
         }
         return new ArrayList<>(resMap.values());
     }
+    // 374. Top K Frequent Elements (DO 1/3)
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(var num : nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int nums_length = nums.length;
+        List<Integer>[] freq = new List[nums_length+1];
+        for(int i=0;i<=nums_length;i++){
+            freq[i] = new ArrayList<>();
+        }
+        for(var key : map.keySet()){
+            freq[map.get(key)].add(key);
+        }
+        int index = 0;
+        int[] res = new int[k];
+        for(int i=nums_length;i>=0;i--){
+            if(freq[i].isEmpty()) continue;
+            for(var num : freq[i]){
+                res[index] = num;
+                index += 1;
+                if(index == k) return res;
+            }
+        }
+        return res;
+    }
 
 
     /** <i>Two Pointers</i> */
@@ -608,7 +634,7 @@ public class FirstSolution {
 
 
     /** Bit Manipulation */
-    // 136. Single Number (DO 2/3)
+    // 136. Single Number
     public int singleNumber(int[] nums) {
         int res = 0;
         for(var num : nums){
@@ -674,7 +700,7 @@ public class FirstSolution {
         }
         return res;
     }
-    // 371. Sum Of Two Integers (DO 1/2)
+    // 371. Sum Of Two Integers
     public int getSum(int a, int b) {
         int res = 0;
         int bitA = 0;
@@ -694,7 +720,7 @@ public class FirstSolution {
         if(res > mask) res = ~(res ^ mask);
         return res;
     }
-    // 7. Reverse Integer (DO 1/2)
+    // 7. Reverse Integer
     public int reverse(int x) {
         final int MIN = Integer.MIN_VALUE;
         final int MAX = Integer.MAX_VALUE;
