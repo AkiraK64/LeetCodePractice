@@ -1,3 +1,4 @@
+import java.lang.instrument.IllegalClassFormatException;
 import java.util.*;
 
 /** <b>Neetcode 150</b> */
@@ -102,6 +103,37 @@ public class FirstSolution {
         }
         return res;
     }
+    // 271. Encode and Decode Strings (DO 1/3)
+    public String encode(List<String> strs) {
+        StringBuilder res = new StringBuilder();
+        for(var str : strs){
+            res.append(str.length());
+            res.append('#');
+            res.append(str);
+        }
+        return res.toString();
+    }
+    public List<String> decode(String str) {
+        List<String> res = new ArrayList<>();
+        int index = 0;
+        int length = 0;
+        var charArrs = str.toCharArray();
+        int charArrsLength = charArrs.length;
+        char c = '0';
+        while (index < charArrsLength){
+            c = charArrs[index];
+            if(c == '#'){
+                res.add(str.substring(index+1, index+1+length));
+                index += length;
+                length = 0;
+            }
+            else{
+                length = length * 10 + (c - 48);
+            }
+            index += 1;
+        }
+        return res;
+    }
 
 
     /** <i>Two Pointers</i> */
@@ -143,6 +175,54 @@ public class FirstSolution {
             }
         }
         return true;
+    }
+    // 167. Two Sum II - Input Array Is Sorted
+    public int[] twoSumSorted(int[] numbers, int target) {
+        int leftIndex = 0;
+        int rightIndex = numbers.length-1;
+        int sum = 0;
+        while (leftIndex < rightIndex){
+            sum = numbers[leftIndex] + numbers[rightIndex];
+            if(sum == target) return new int[]{leftIndex + 1, rightIndex + 1};
+            else if(sum < target) leftIndex += 1;
+            else rightIndex -= 1;
+        }
+        return new int[]{-1,-1};
+    }
+    // 15. 3sum (DO 1/2)
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        for(int i=0;i<nums.length-2;i++){
+            if(nums[i] > 0) break;
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            left = i+1;
+            right = nums.length-1;
+            while (left < right){
+                sum = nums[i] + nums[left] + nums[right];
+                if(sum == 0) {
+                    res.add(List.of(nums[i], nums[left], nums[right]));
+                    left += 1;
+                    right -= 1;
+                    while (left < right && nums[left] == nums[left-1])
+                        left += 1;
+                }
+                else if(sum < 0) {
+                    left += 1;
+                    while (left < right && nums[left] == nums[left-1])
+                        left += 1;
+                }
+                else {
+                    right -= 1;
+                    while (left < right && nums[right] == nums[right+1])
+                        right -= 1;
+                }
+            }
+        }
+        return res;
     }
 
 
