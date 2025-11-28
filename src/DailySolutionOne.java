@@ -198,4 +198,44 @@ public class DailySolutionOne {
         dp[index][reminder] = pathCount % module;
         return dp[index][reminder];
     }
+    // 3381. Maximum Subarray Sum With Length Divisible By K (DO 2/3)
+    public long maxSubarraySum(int[] nums, int k) {
+        long res = Long.MIN_VALUE;
+        long prefix = 0;
+        long[] minPrefix = new long[k];
+        Arrays.fill(minPrefix, Long.MAX_VALUE / 2);
+        minPrefix[k-1] = 0;
+        for(int i=0;i<nums.length;i++){
+            prefix += nums[i];
+            res = Math.max(res, prefix - minPrefix[i%k]);
+            minPrefix[i%k] = Math.min(minPrefix[i%k], prefix);
+        }
+        return res;
+    }
+    // 2872. Maximum Number of K-Divisible Components (DO 1/3)
+    public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
+        List<Integer>[] graph = new List[n];
+        for(int i=0;i<n;i++){
+            graph[i] = new ArrayList<>();
+        }
+        for(var edge : edges){
+            int firstNode = edge[0];
+            int secondNode = edge[1];
+            graph[firstNode].add(secondNode);
+            graph[secondNode].add(firstNode);
+        }
+        int[] res = new int[1];
+        dfs_MaxKDivisibleComponents(graph, 0, -1, values, k, res);
+        return res[0];
+    }
+    private long dfs_MaxKDivisibleComponents(List<Integer>[] graph, int curNode, int parentNode, int[] value, int k, int[] res){
+        long subTreeSum = value[curNode];
+        for(int childNode : graph[curNode]){
+            if(childNode != parentNode){
+                subTreeSum += dfs_MaxKDivisibleComponents(graph, childNode, curNode, value, k, res);
+            }
+        }
+        if(subTreeSum % k == 0) res[0] += 1;
+        return subTreeSum;
+    }
 }
