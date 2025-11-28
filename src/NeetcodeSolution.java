@@ -733,6 +733,48 @@ public class NeetcodeSolution {
         }
         return res;
     }
+    // 50. Pow(x,n) (DO 1/2)
+    public double myPow(double x, int n) {
+        if(n == 0) return 1;
+        if(n == -1) return 1/x;
+        if(n%2 == 0){
+            double res = myPow(x, n/2);
+            return res * res;
+        }
+        else{
+            double res = myPow(x, (n-1)/2);
+            return res * res * x;
+        }
+    }
+    // 43. Multiply Strings (DO 1/2)
+    public String multiply(String num1, String num2) {
+        int num1_length = num1.length();
+        int num2_length = num2.length();
+        int[] res = new int[num1_length + num2_length];
+        int a = 0;
+        int b = 0;
+        var num1_reverse = new StringBuilder(num1).reverse().toString();
+        var num2_reverse = new StringBuilder(num2).reverse().toString();
+        for(int i=0;i<num1_length;i++){
+            for(int j=0;j<num2_length;j++){
+                a = num1_reverse.charAt(i) - '0';
+                b =  num2_reverse.charAt(j) - '0';
+                res[i+j] += a*b;
+                res[i+j+1] += res[i+j] /10;
+                res[i+j] = res[i+j] % 10;
+            }
+        }
+        int index = num1_length + num2_length - 1;
+        while (index >= 0 && res[index] == 0)
+            index -= 1;
+        if(index == -1) return "0";
+        StringBuilder resStr = new StringBuilder();
+        while (index >= 0){
+            resStr.append(res[index]);
+            index -= 1;
+        }
+        return resStr.toString();
+    }
 
 
     /** Bit Manipulation */

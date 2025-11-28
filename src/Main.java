@@ -3,4 +3,7 @@ public class Main {
         var solution = new NeetcodeSolution();
         var dailySolution = new DailyLeetcodeSolution();
     }
+    public double myPow(double x, int n) {
+        return Math.pow(x, n);
+    }
 }
