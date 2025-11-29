@@ -210,30 +210,32 @@ public class DailyLeetcodeSolution {
         }
         return res;
     }
-    // 2872. Maximum Number of K-Divisible Components (DO 1/3)
+    // 2872. Maximum Number of K-Divisible Components (DO 2/3)
     public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
         List<Integer>[] graph = new List[n];
-        for(int i=0;i<n;i++){
+        for(int i=0;i<n;i++)
             graph[i] = new ArrayList<>();
-        }
+        int first = 0;
+        int second = 0;
         for(var edge : edges){
-            int firstNode = edge[0];
-            int secondNode = edge[1];
-            graph[firstNode].add(secondNode);
-            graph[secondNode].add(firstNode);
+            first = edge[0];
+            second = edge[1];
+            graph[first].add(second);
+            graph[second].add(first);
         }
         int[] res = new int[1];
         dfs_MaxKDivisibleComponents(graph, 0, -1, values, k, res);
         return res[0];
     }
-    private long dfs_MaxKDivisibleComponents(List<Integer>[] graph, int curNode, int parentNode, int[] value, int k, int[] res){
-        long subTreeSum = value[curNode];
-        for(int childNode : graph[curNode]){
-            if(childNode != parentNode){
-                subTreeSum += dfs_MaxKDivisibleComponents(graph, childNode, curNode, value, k, res);
+    private long dfs_MaxKDivisibleComponents(List<Integer>[] graph, int cur, int par, int[] values, int k, int[] res){
+        long subTreeSum = values[cur];
+        for(var child : graph[cur]){
+            if(child != par){
+                subTreeSum += dfs_MaxKDivisibleComponents(graph, child, cur, values, k, res);
             }
         }
-        if(subTreeSum % k == 0) res[0] += 1;
+        if(subTreeSum % k == 0)
+            res[0] += 1;
         return subTreeSum;
     }
     // 3512. Minimum Operations to Make Array Sum Divisible by K
