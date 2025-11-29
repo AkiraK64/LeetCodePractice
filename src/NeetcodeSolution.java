@@ -76,22 +76,20 @@ public class NeetcodeSolution {
         }
         return new ArrayList<>(resMap.values());
     }
-    // 374. Top K Frequent Elements (DO 2/3)
+    // 374. Top K Frequent Elements
     public int[] topKFrequent(int[] nums, int k) {
-        List<Integer>[] freq = new List[nums.length + 1];
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(var num : nums){
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        for(int i=0;i<=nums.length;i++){
+        int length = nums.length;
+        List<Integer>[] freq = new List[length+1];
+        for(int i=0;i<=length;i++)
             freq[i] = new ArrayList<>();
-        }
-        for(var key : map.keySet()){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(var num : nums)
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        for(var key : map.keySet())
             freq[map.get(key)].add(key);
-        }
-        int[] res = new int[k];
         int index = 0;
-        for(int i=nums.length;i>=0;i--){
+        int[] res = new int[k];
+        for(int i=length;i>=0;i--){
             if(freq[i].isEmpty()) continue;
             for(var e : freq[i]){
                 res[index] = e;
@@ -101,7 +99,7 @@ public class NeetcodeSolution {
         }
         return res;
     }
-    // 271. Encode and Decode Strings (DO 2/3)
+    // 271. Encode and Decode Strings
     public String encode(List<String> strs) {
         StringBuilder res = new StringBuilder();
         for(var str : strs){
