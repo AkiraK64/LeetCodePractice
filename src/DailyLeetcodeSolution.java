@@ -236,4 +236,12 @@ public class DailyLeetcodeSolution {
         if(subTreeSum % k == 0) res[0] += 1;
         return subTreeSum;
     }
+    // 3512. Minimum Operations to Make Array Sum Divisible by K
+    public int minOperations(int[] nums, int k) {
+        int sum = 0;
+        for(var num : nums){
+            sum = (sum + num) % k;
+        }
+        return sum;
+    }
 }
