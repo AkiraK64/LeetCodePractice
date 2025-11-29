@@ -364,6 +364,34 @@ public class NeetcodeSolution {
         }
         return res;
     }
+    // 155. Min Stack
+    // 150. Evaluate Reverse Polish Notation
+    public int evalRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+        HashSet<String> set = new HashSet<>(Set.of("+", "-", "*", "/"));
+        int first = 0;
+        int second = 0;
+        for(var token : tokens){
+            if(set.contains(token)) {
+                second = stack.pop();
+                first = stack.pop();
+                if (Objects.equals(token, "+")) {
+                    first = first + second;
+                } else if (Objects.equals(token, "-")) {
+                    first = first - second;
+                } else if (Objects.equals(token, "*")) {
+                    first = first * second;
+                } else if (Objects.equals(token, "/")) {
+                    first = first / second;
+                }
+            }
+            else{
+                first = Integer.parseInt(token);
+            }
+            stack.add(first);
+        }
+        return stack.pop();
+    }
 
 
     /** <i>Binary Search</i> */
@@ -379,6 +407,25 @@ public class NeetcodeSolution {
             else left = middle + 1;
         }
         return -1;
+    }
+    // 74. Search A 2D Matrix
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int left = 0;
+        int right = row * col - 1;
+        int middle = 0;
+        int rowIndex = 0;
+        int colIndex = 0;
+        while (left <= right){
+            middle = (left + right) / 2;
+            rowIndex = middle / col;
+            colIndex = middle - rowIndex * col;
+            if(matrix[rowIndex][colIndex] == target) return true;
+            else if(matrix[rowIndex][colIndex] < target) left = middle + 1;
+            else right = middle - 1;
+        }
+        return false;
     }
 
 
@@ -506,10 +553,6 @@ public class NeetcodeSolution {
 
     /** <i>Heap & Priority Queue</i> */
     // 703. Kth Largest Element in a Stream
-    public int kthLargestAdd(int k, int[] nums, int val){
-        var kthIns = new KthLargest(k, nums);
-        return kthIns.add(val);
-    }
     // 1046 Last Stone Weight
     public int lastStoneWeight(int[] stones) {
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
