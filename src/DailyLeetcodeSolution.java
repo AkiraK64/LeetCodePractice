@@ -196,10 +196,10 @@ public class DailyLeetcodeSolution {
         dp[index][reminder] = pathCount % module;
         return dp[index][reminder];
     }
-    // 3381. Maximum Subarray Sum With Length Divisible By K (DO 2/3)
+    // 3381. Maximum Subarray Sum With Length Divisible By K
     public long maxSubarraySum(int[] nums, int k) {
-        long res = Long.MIN_VALUE;
         long prefix = 0;
+        long res = Long.MIN_VALUE;
         long[] minPrefix = new long[k];
         Arrays.fill(minPrefix, Long.MAX_VALUE / 2);
         minPrefix[k-1] = 0;
