@@ -246,4 +246,26 @@ public class DailyLeetcodeSolution {
         }
         return sum;
     }
+    // 1590. Make Sum Divisible By P
+    public int minSubarray(int[] nums, int p) {
+        HashMap<Integer, Integer> prefix = new HashMap<>();
+        prefix.put(0, -1);
+        int rTotal = 0;
+        for (int num : nums) rTotal = (rTotal + num) % p;
+        if(rTotal == 0) return 0;
+        int reminder = 0;
+        int index = 0;
+        int nReminder = 0;
+        int res = nums.length;
+        for(int i=0;i<nums.length;i++){
+            reminder = (reminder + nums[i]) % p;
+            nReminder = (((reminder - rTotal) % p) + p) % p;
+            if(prefix.containsKey(nReminder)){
+                index = prefix.get(nReminder);
+                res = Math.min(res, (i - index));
+            }
+            prefix.put(reminder, i);
+        }
+        return res == nums.length ? -1 : res;
+    }
 }
