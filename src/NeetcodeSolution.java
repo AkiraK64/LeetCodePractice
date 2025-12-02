@@ -129,6 +129,67 @@ public class NeetcodeSolution {
         }
         return res;
     }
+    // 238. Product Of Array Except Self
+    public int[] productExceptSelf(int[] nums) {
+        int length = nums.length;
+        int[] res = new int[length];
+        int product = 1;
+        for(int i=0;i<length;i++){
+            res[i] = product;
+            product *= nums[i];
+        }
+        product = 1;
+        for (int i=length-1;i>=0;i--){
+            res[i] *= product;
+            product *= nums[i];
+        }
+        return res;
+    }
+    // 36. Valid Sudoku
+    public boolean isValidSudoku(char[][] board) {
+        List<int[]>[] map = new List[9];
+        for(int i=0;i<9;i++) map[i] = new ArrayList<>();
+        int value = 0;
+        int rowIndex = 0;
+        int colIndex = 0;
+        for(var row : board){
+            for(var col : row){
+                if(col != '.') {
+                    value = (col - '0') - 1;
+                    for(var index : map[value]){
+                        if(rowIndex == index[0]) return false;
+                        if(colIndex == index[1]) return false;
+                        if(rowIndex / 3 == index[0] / 3 && colIndex / 3 == index[1] / 3) return false;
+                    }
+                    map[value].add(new int[]{rowIndex, colIndex});
+                }
+                colIndex += 1;
+            }
+            rowIndex += 1;
+            colIndex = 0;
+        }
+        return true;
+    }
+    // 128. Longest Consecutive Sequence (DO 1/3)
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for(var num : nums) set.add(num);
+        int res = 0;
+        int length = 0;
+        int numCheck = 0;
+        for(var num : set){
+            if(!set.contains(num-1)){
+                length = 0;
+                numCheck = num;
+                while (set.contains(numCheck)){
+                    length += 1;
+                    numCheck += 1;
+                }
+                res = Math.max(res, length);
+            }
+        }
+        return res;
+    }
 
 
     /** <i>Two Pointers</i> */
@@ -218,6 +279,18 @@ public class NeetcodeSolution {
                         right -= 1;
                 }
             }
+        }
+        return res;
+    }
+    // 11. Container With Most Water (DO 1/3)
+    public int maxArea(int[] height) {
+        int l = 0;
+        int r = height.length-1;
+        int res = 0;
+        while (l < r){
+            res = Math.max(res, Math.min(height[l], height[r]) * (r-l));
+            if(height[l] <= height[r]) l++;
+            else r--;
         }
         return res;
     }

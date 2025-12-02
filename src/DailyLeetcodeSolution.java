@@ -3,6 +3,7 @@ import java.util.*;
 // Daily Problem
 public class DailyLeetcodeSolution {
     // 1262. Greatest Sum Divisible By Three
+    /** DP Bottom-Up */
     public int maxSumDivThree(int[] nums) {
         int length = nums.length;
         int[] sum = new int[]{0,0,0};
@@ -23,6 +24,7 @@ public class DailyLeetcodeSolution {
         return sum[0];
     }
     // 1437. Check if All 1's Are at Least Length K Places Away
+    /** Array & Hashing */
     public boolean kLengthApart(int[] nums, int k) {
         int count = 0;
         boolean firstTime = true;
@@ -39,6 +41,7 @@ public class DailyLeetcodeSolution {
         return true;
     }
     // 3190. Find Minimum Operations to Make All Elements Divisible by Three
+    /** Array & Hashing */
     public int minimumOperations(int[] nums) {
         int res = 0;
         for(var e : nums){
@@ -47,6 +50,7 @@ public class DailyLeetcodeSolution {
         return res;
     }
     // 717. 1-bit and 2-bit Characters
+    /** Array & Hashing */
     public boolean isOneBitCharacter(int[] bits) {
         int bits_length = bits.length;
         if(bits_length == 0) return false;
@@ -60,6 +64,7 @@ public class DailyLeetcodeSolution {
         return false;
     }
     // 1930. Unique Length-3 Palindromic Subsequences
+    /** Array & Hashing */
     public int countPalindromicSubsequence(String s) {
         int s_length = s.length();
         if(s_length < 3) return 0;
@@ -76,12 +81,13 @@ public class DailyLeetcodeSolution {
         int ans = 0;
         for(int i=0;i<26;i++){
             if(first[i] < last[i]){
-                ans += s.substring(first[i] + 1, last[i]).chars().distinct().count();
+                ans += (int) s.substring(first[i] + 1, last[i]).chars().distinct().count();
             }
         }
         return ans;
     }
     // 3217. Delete nodes from Linked List Present in Arrays
+    /** Linked List */
     public ListNode modifiedList(int[] nums, ListNode head) {
         var checkSet = new HashSet<>();
         for(var e : nums) checkSet.add(e);
@@ -98,6 +104,7 @@ public class DailyLeetcodeSolution {
         return dummy.next;
     }
     // 757. Set Intersection size at least Two
+    /** Greedy */
     public int intersectionSizeTwo(int[][] intervals) {
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
@@ -133,6 +140,7 @@ public class DailyLeetcodeSolution {
         return res;
     }
     // 1018. Binary Prefix Divisible By 5
+    /** Array & Hashing */
     public List<Boolean> prefixesDivBy5(int[] nums) {
         List<Boolean> answers = new ArrayList<>(nums.length);
         int x = 0;
@@ -143,6 +151,7 @@ public class DailyLeetcodeSolution {
         return answers;
     }
     // 1015. Smallest Integer Divisible By K
+    /** Two Pointers */
     public int smallestRepunitDivByK(int k) {
         if(k == 1) return 1;
         if(k % 2 == 0) return -1;
@@ -162,6 +171,7 @@ public class DailyLeetcodeSolution {
         return -1;
     }
     // 2435. Paths in Matrix Whose Sum is Divisible by K
+    /** 3D-DP Top-Down */
     public int numberOfPaths(int[][] grid, int k) {
         int m = grid.length;
         int n = grid[0].length;
@@ -197,6 +207,7 @@ public class DailyLeetcodeSolution {
         return dp[index][reminder];
     }
     // 3381. Maximum Subarray Sum With Length Divisible By K
+    /** Array & Hashing */
     public long maxSubarraySum(int[] nums, int k) {
         long prefix = 0;
         long res = Long.MIN_VALUE;
@@ -211,6 +222,7 @@ public class DailyLeetcodeSolution {
         return res;
     }
     // 2872. Maximum Number of K-Divisible Components (DO 2/3)
+    /** DFS */
     public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
         List<Integer>[] graph = new List[n];
         for(int i=0;i<n;i++)
@@ -239,6 +251,7 @@ public class DailyLeetcodeSolution {
         return subTreeSum;
     }
     // 3512. Minimum Operations to Make Array Sum Divisible by K
+    /** Array & Hashing */
     public int minOperations(int[] nums, int k) {
         int sum = 0;
         for(var num : nums){
@@ -247,6 +260,7 @@ public class DailyLeetcodeSolution {
         return sum;
     }
     // 1590. Make Sum Divisible By P
+    /** Array & Hashing */
     public int minSubarray(int[] nums, int p) {
         HashMap<Integer, Integer> prefix = new HashMap<>();
         prefix.put(0, -1);
@@ -267,5 +281,53 @@ public class DailyLeetcodeSolution {
             prefix.put(reminder, i);
         }
         return res == nums.length ? -1 : res;
+    }
+    // 2141. Maximum Running Time of N Computers (DO 1/3)
+    /**  Binary Search */
+    public long maxRunTime(int n, int[] batteries) {
+        long left = 0;
+        long right = 0;
+        for(var bt : batteries) right += bt;
+        long middle = 0;
+        long totalUsableCapacity = 0;
+        long res = 0;
+        while (left <= right){
+            middle = (left + right) / 2;
+            totalUsableCapacity = 0;
+            for(var bt : batteries) totalUsableCapacity += Math.min(middle, bt);
+            if(totalUsableCapacity >= n * middle) {
+                left = middle + 1;
+                res = Math.max(res, middle);
+            }
+            else {
+                right = middle - 1;
+            }
+        }
+        return res;
+    }
+    // 3623. Count Number Of Trapezoids I
+    /** Array & Hashing */
+    public int countTrapezoids(int[][] points) {
+        int MOD = 1000000007;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(var point : points){
+            map.put(point[1], map.getOrDefault(point[1], 0) + 1);
+        }
+        long newValue = 0;
+        long totalSum = 0;
+        long totalSumOfSquares = 0;
+        for (var value : map.values()){
+            if(value == 1) continue;
+            newValue = ((long) value * (value - 1)) / 2;
+            newValue %= MOD;
+            totalSum = (totalSum + newValue) % MOD;
+            totalSumOfSquares = (totalSumOfSquares + (newValue * newValue) % MOD) % MOD;
+        }
+        long total = 0;
+        total = (totalSum * totalSum) % MOD;
+        total = (((total - totalSumOfSquares) % MOD) + MOD) % MOD;
+        if(total % 2 == 0) total = total / 2;
+        else total = (total + MOD) / 2;
+        return (int)total;
     }
 }
