@@ -170,7 +170,7 @@ public class NeetcodeSolution {
         }
         return true;
     }
-    // 128. Longest Consecutive Sequence (DO 1/3)
+    // 128. Longest Consecutive Sequence
     public int longestConsecutive(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
         for(var num : nums) set.add(num);
@@ -282,7 +282,7 @@ public class NeetcodeSolution {
         }
         return res;
     }
-    // 11. Container With Most Water (DO 1/3)
+    // 11. Container With Most Water
     public int maxArea(int[] height) {
         int l = 0;
         int r = height.length-1;

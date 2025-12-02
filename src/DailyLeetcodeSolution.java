@@ -282,26 +282,24 @@ public class DailyLeetcodeSolution {
         }
         return res == nums.length ? -1 : res;
     }
-    // 2141. Maximum Running Time of N Computers (DO 1/3)
+    // 2141. Maximum Running Time of N Computers
     /**  Binary Search */
     public long maxRunTime(int n, int[] batteries) {
         long left = 0;
         long right = 0;
         for(var bt : batteries) right += bt;
-        long middle = 0;
-        long totalUsableCapacity = 0;
         long res = 0;
+        long totalUsableCapacity = 0;
+        long middle = 0;
         while (left <= right){
             middle = (left + right) / 2;
             totalUsableCapacity = 0;
-            for(var bt : batteries) totalUsableCapacity += Math.min(middle, bt);
-            if(totalUsableCapacity >= n * middle) {
+            for(var bt : batteries) totalUsableCapacity += Math.min(bt, middle);
+            if(totalUsableCapacity >= n * middle){
                 left = middle + 1;
                 res = Math.max(res, middle);
             }
-            else {
-                right = middle - 1;
-            }
+            else right = middle - 1;
         }
         return res;
     }

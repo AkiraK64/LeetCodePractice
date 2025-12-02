@@ -4,7 +4,7 @@ public class Main {
      * Two Pointers - 11 (1/3)
      * Array & Hashing - 103 (1/3)
      * Daily:
-     * 2141 - (1/3)
+     * 2141 - (2/3)
      */
     public static void main(String[] args) {
         var solution = new NeetcodeSolution();
