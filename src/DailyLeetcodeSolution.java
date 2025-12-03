@@ -328,4 +328,66 @@ public class DailyLeetcodeSolution {
         else total = (total + MOD) / 2;
         return (int)total;
     }
+    // 3625. Count Number Of Trapezoids II
+    public int countTrapezoidsII(int[][] points) {
+        Map<Double, Map<Double, Integer>> parallels = new HashMap<>();
+        Map<Integer, Map<Double, Integer>> sameMidPoints = new HashMap<>();
+        int pointAmount = points.length;
+        double a = 0.0;
+        double b = 0.0;
+        int midPoint = 0;
+        int dx = 0;
+        int dy = 0;
+        for(int i=0;i<pointAmount;i++){
+            for(int j=i+1;j<pointAmount;j++){
+                dx = points[j][0] - points[i][0];
+                dy = points[j][1] - points[i][1];
+                if(dx == 0){
+                    a = Double.MAX_VALUE;
+                    b = points[i][0];
+                }
+                else {
+                    a = 1.0 * dy / dx;
+                    b = 1.0 * (points[i][1] * dx - points[i][0] * dy) / dx;
+                }
+                if(a == -0.0) a = 0.0;
+                if(b == -0.0) b = 0.0;
+                if(parallels.containsKey(a)){
+                    var subMap = parallels.get(a);
+                    subMap.put(b, subMap.getOrDefault(b, 0) + 1);
+                }
+                else{
+                    Map<Double, Integer> subMap = new HashMap<>();
+                    subMap.put(b, 1);
+                    parallels.put(a, subMap);
+                }
+                midPoint = (points[i][0] + points[j][0] + 2000) * 4000 + (points[i][1] + points[j][1] + 2000);
+                if(sameMidPoints.containsKey(midPoint)){
+                    var subMap = sameMidPoints.get(midPoint);
+                    subMap.put(a, subMap.getOrDefault(a, 0) + 1);
+                }
+                else{
+                    Map<Double, Integer> subMap = new HashMap<>();
+                    subMap.put(a, 1);
+                    sameMidPoints.put(midPoint, subMap);
+                }
+            }
+        }
+        int res = 0;
+        for(var v : parallels.values()){
+            int s = 0;
+            for (var value : v.values()){
+                res += value * s;
+                s += value;
+            }
+        }
+        for (var v : sameMidPoints.values()){
+            int s = 0;
+            for (var value : v.values()){
+                res -= value * s;
+                s += value;
+            }
+        }
+        return res;
+    }
 }
