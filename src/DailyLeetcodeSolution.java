@@ -285,21 +285,21 @@ public class DailyLeetcodeSolution {
     // 2141. Maximum Running Time of N Computers
     /**  Binary Search */
     public long maxRunTime(int n, int[] batteries) {
-        long left = 0;
-        long right = 0;
-        for(var bt : batteries) right += bt;
-        long res = 0;
+        long l = 0;
+        long r = 0;
+        for(var bt : batteries) r += bt;
         long totalUsableCapacity = 0;
-        long middle = 0;
-        while (left <= right){
-            middle = (left + right) / 2;
+        long mid = 0;
+        long res = 0;
+        while (l <= r){
+            mid = (l + r) / 2;
             totalUsableCapacity = 0;
-            for(var bt : batteries) totalUsableCapacity += Math.min(bt, middle);
-            if(totalUsableCapacity >= n * middle){
-                left = middle + 1;
-                res = Math.max(res, middle);
+            for(var bt : batteries) totalUsableCapacity += Math.min(bt, mid);
+            if(totalUsableCapacity >= n * mid){
+                l = mid + 1;
+                res = Math.max(res, mid);
             }
-            else right = middle - 1;
+            else r = mid - 1;
         }
         return res;
     }
@@ -329,27 +329,23 @@ public class DailyLeetcodeSolution {
         return (int)total;
     }
     // 3625. Count Number Of Trapezoids II
+    /** Array & Hashing */
     public int countTrapezoidsII(int[][] points) {
         Map<Double, Map<Double, Integer>> parallels = new HashMap<>();
         Map<Integer, Map<Double, Integer>> sameMidPoints = new HashMap<>();
-        int pointAmount = points.length;
-        double a = 0.0;
-        double b = 0.0;
-        int midPoint = 0;
-        int dx = 0;
-        int dy = 0;
-        for(int i=0;i<pointAmount;i++){
-            for(int j=i+1;j<pointAmount;j++){
-                dx = points[j][0] - points[i][0];
-                dy = points[j][1] - points[i][1];
-                if(dx == 0){
-                    a = Double.MAX_VALUE;
-                    b = points[i][0];
-                }
-                else {
-                    a = 1.0 * dy / dx;
-                    b = 1.0 * (points[i][1] * dx - points[i][0] * dy) / dx;
-                }
+        double a, b;
+        int x1, x2, y1, y2, dx, dy, midPoint;
+        int n = points.length;
+        for(int i=0;i<n;i++){
+            x1 = points[i][0];
+            y1 = points[i][1];
+            for(int j=i+1;j<n;j++){
+                x2 = points[j][0];
+                y2 = points[j][1];
+                dx = x2 - x1;
+                dy = y2 - y1;
+                a = (dx == 0 ? Double.MAX_VALUE : 1.0 * dy / dx);
+                b = (dx == 0 ? x1 : 1.0 * (y1 * dx - x1 * dy) / dx);
                 if(a == -0.0) a = 0.0;
                 if(b == -0.0) b = 0.0;
                 if(parallels.containsKey(a)){
@@ -361,7 +357,7 @@ public class DailyLeetcodeSolution {
                     subMap.put(b, 1);
                     parallels.put(a, subMap);
                 }
-                midPoint = (points[i][0] + points[j][0] + 2000) * 4000 + (points[i][1] + points[j][1] + 2000);
+                midPoint = (x1 + x2 + 2000) * 4000 + (y1 + y2 + 2000);
                 if(sameMidPoints.containsKey(midPoint)){
                     var subMap = sameMidPoints.get(midPoint);
                     subMap.put(a, subMap.getOrDefault(a, 0) + 1);
@@ -374,18 +370,18 @@ public class DailyLeetcodeSolution {
             }
         }
         int res = 0;
-        for(var v : parallels.values()){
+        for(var e : parallels.values()){
             int s = 0;
-            for (var value : v.values()){
-                res += value * s;
-                s += value;
+            for(var t : e.values()){
+                res += s * t;
+                s += t;
             }
         }
-        for (var v : sameMidPoints.values()){
+        for (var e : sameMidPoints.values()){
             int s = 0;
-            for (var value : v.values()){
-                res -= value * s;
-                s += value;
+            for(var t : e.values()){
+                res -= s * t;
+                s += t;
             }
         }
         return res;

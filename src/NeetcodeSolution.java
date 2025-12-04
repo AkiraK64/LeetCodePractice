@@ -172,19 +172,14 @@ public class NeetcodeSolution {
     }
     // 128. Longest Consecutive Sequence
     public int longestConsecutive(int[] nums) {
-        HashSet<Integer> set = new HashSet<>();
-        for(var num : nums) set.add(num);
+        Set<Integer> numSet = new HashSet<>();
+        for(var num : nums) numSet.add(num);
         int res = 0;
-        int length = 0;
-        int numCheck = 0;
-        for(var num : set){
-            if(!set.contains(num-1)){
-                length = 0;
-                numCheck = num;
-                while (set.contains(numCheck)){
+        for(var num : numSet){
+            if(!numSet.contains(num-1)){
+                int length = 1;
+                while (numSet.contains(num + length))
                     length += 1;
-                    numCheck += 1;
-                }
                 res = Math.max(res, length);
             }
         }
@@ -284,13 +279,14 @@ public class NeetcodeSolution {
     }
     // 11. Container With Most Water
     public int maxArea(int[] height) {
+        int size = height.length;
         int l = 0;
-        int r = height.length-1;
+        int r = size - 1;
         int res = 0;
         while (l < r){
             res = Math.max(res, Math.min(height[l], height[r]) * (r-l));
-            if(height[l] <= height[r]) l++;
-            else r--;
+            if(height[l] <= height[r]) l += 1;
+            else r -= 1;
         }
         return res;
     }
@@ -464,6 +460,24 @@ public class NeetcodeSolution {
             stack.add(first);
         }
         return stack.pop();
+    }
+    // 853. Car Fleet
+    public int carFleet(int target, int[] position, int[] speed) {
+        int carAmount = position.length;
+        int[][] cars = new int[carAmount][2];
+        for(int i=0;i<carAmount;i++){
+            cars[i][0] = position[i];
+            cars[i][1] = speed[i];
+        }
+        Arrays.sort(cars, (a,b)->(b[0] - a[0]));
+        Stack<Double> stack = new Stack<Double>();
+        double time = 0.0;
+        for(int i=0;i<carAmount;i++){
+            time = (double) (target - cars[i][0]) / cars[i][1];
+            if(stack.isEmpty()) stack.add(time);
+            if(time > stack.peek()) stack.push(time);
+        }
+        return stack.size();
     }
 
 
