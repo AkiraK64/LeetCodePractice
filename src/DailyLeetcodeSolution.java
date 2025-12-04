@@ -2,6 +2,15 @@ import java.util.*;
 
 // Daily Problem
 public class DailyLeetcodeSolution {
+    // 2154. Keep Multiplying Found Values By Two
+    public int findFinalValue(int[] nums, int original) {
+        HashSet<Integer> numSet = new HashSet<>();
+        for(var num : nums) numSet.add(num);
+        int res = original;
+        while (numSet.contains(res))
+            res *= 2;
+        return res;
+    }
     // 1262. Greatest Sum Divisible By Three
     /** DP Bottom-Up */
     public int maxSumDivThree(int[] nums) {
@@ -383,6 +392,23 @@ public class DailyLeetcodeSolution {
                 res -= s * t;
                 s += t;
             }
+        }
+        return res;
+    }
+    // 2211. Count Collisions on a Road
+    /** Iterator */
+    public int countCollisions(String directions) {
+        int res = 0;
+        int n = directions.length();
+        int l = 0;
+        int r = n-1;
+        while (l < n && directions.charAt(l) == 'L')
+            l += 1;
+        while (r >= 0 && directions.charAt(r) == 'R')
+            r -= 1;
+        while (l <= r){
+            if(directions.charAt(l) != 'S') res += 1;
+            l += 1;
         }
         return res;
     }

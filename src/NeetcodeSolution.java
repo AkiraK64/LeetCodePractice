@@ -514,6 +514,34 @@ public class NeetcodeSolution {
         }
         return false;
     }
+    // 875. Koko Eating Bananas
+    public int minEatingSpeed(int[] piles, int h) {
+        int l = 1;
+        int r = 0;
+        for(var pile : piles) if(pile > r) r = pile;
+        int mid = 0;
+        int res = r;
+        int expectedHours = 0;
+        boolean updated = true;
+        while (l <= r){
+            mid = (l + r) / 2;
+            expectedHours = h;
+            updated = true;
+            for (var pile : piles) {
+                expectedHours -= Math.ceilDiv(pile, mid);
+                if(expectedHours < 0){
+                    l = mid + 1;
+                    updated = false;
+                    break;
+                }
+            }
+            if(updated){
+                res = mid;
+                r = mid - 1;
+            }
+        }
+        return res;
+    }
 
 
     /** <i>Linked List</i> */
