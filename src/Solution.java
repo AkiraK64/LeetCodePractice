@@ -547,6 +547,26 @@ public class Solution {
         }
         return res;
     }
+    // 153. Find Minimum in Rotated Sorted Array
+    public int findMin(int[] nums) {
+        int l = 0;
+        int r = nums.length - 1;
+        int res = Integer.MAX_VALUE;
+        int mid = 0;
+        while (l <= r){
+            mid = (l + r) / 2;
+            res = Math.min(res, nums[mid]);
+            if(nums[mid] <= nums[l] && nums[mid] <= nums[r])
+                r = mid - 1;
+            else if(nums[mid] >= nums[l] && nums[mid] >= nums[r])
+                l = mid + 1;
+            else{
+                res = Math.min(res, nums[l]);
+                break;
+            }
+        }
+        return res;
+    }
 
 
     /** <i>Linked List</i>
