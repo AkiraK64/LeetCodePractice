@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class WeeklyLeetcodeSolution {
+public class WeeklySolution {
     /** Sunday - 30/11/2025 */
     public int countElements(int[] nums, int k) {
         int length = nums.length;

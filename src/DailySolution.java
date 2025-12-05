@@ -1,7 +1,7 @@
 import java.util.*;
 
-// Daily Problem
-public class DailyLeetcodeSolution {
+/** Daily Problem */
+public class DailySolution {
     // 2154. Keep Multiplying Found Values By Two
     public int findFinalValue(int[] nums, int original) {
         HashSet<Integer> numSet = new HashSet<>();
@@ -411,5 +411,12 @@ public class DailyLeetcodeSolution {
             l += 1;
         }
         return res;
+    }
+    // 3432. Count Partitions with Even Sum Difference
+    /** Array & Hashing */
+    public int countPartitions(int[] nums) {
+        int sum = 0;
+        for(var num : nums) sum += num;
+        return sum % 2 == 0 ? nums.length - 1 : 0;
     }
 }

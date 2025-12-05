@@ -2,7 +2,7 @@ import java.util.*;
 
 /** <b>Neetcode 150</b>
  */
-public class NeetcodeSolution {
+public class Solution {
     /** <i>Array And Hash</i>
      */
     // 217. Contain Duplicate
