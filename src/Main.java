@@ -6,8 +6,7 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        int[] piles = new int[]{805306368,805306368,805306368};
-        int h = 1000000000;
-        System.out.println(solution.minEatingSpeed(piles, h));
+        int[] nums = new int[]{4,5,6,7,0,1,2};
+        System.out.println(solution.searchII(nums, 0));
     }
 }
