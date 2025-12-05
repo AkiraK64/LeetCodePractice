@@ -1,6 +1,7 @@
 import java.util.*;
 
-/** <b>Neetcode 150</b> */
+/** <b>Neetcode 150</b>
+ */
 public class NeetcodeSolution {
     /** <i>Array And Hash</i>
      */
@@ -177,12 +178,11 @@ public class NeetcodeSolution {
         for(var num : nums) numSet.add(num);
         int res = 0;
         for(var num : numSet){
-            if(!numSet.contains(num-1)){
-                int length = 1;
-                while (numSet.contains(num + length))
-                    length += 1;
-                res = Math.max(res, length);
-            }
+            if(numSet.contains(num-1)) continue;
+            int length = 1;
+            while (numSet.contains(num + length))
+                length += 1;
+            res = Math.max(res, length);
         }
         return res;
     }
@@ -281,12 +281,12 @@ public class NeetcodeSolution {
     }
     // 11. Container With Most Water
     public int maxArea(int[] height) {
-        int size = height.length;
+        int length = height.length;
         int l = 0;
-        int r = size - 1;
+        int r = length - 1;
         int res = 0;
         while (l < r){
-            res = Math.max(res, Math.min(height[l], height[r]) * (r-l));
+            res = Math.max(res, Math.min(height[l], height[r]) * (r - l));
             if(height[l] <= height[r]) l += 1;
             else r -= 1;
         }
@@ -467,21 +467,21 @@ public class NeetcodeSolution {
     }
     // 853. Car Fleet
     public int carFleet(int target, int[] position, int[] speed) {
-        int carAmount = position.length;
-        int[][] cars = new int[carAmount][2];
-        for(int i=0;i<carAmount;i++){
+        int amount = position.length;
+        int[][] cars = new int[amount][2];
+        for(int i=0;i<amount;i++){
             cars[i][0] = position[i];
             cars[i][1] = speed[i];
         }
-        Arrays.sort(cars, (a,b)->(b[0] - a[0]));
-        Stack<Double> stack = new Stack<Double>();
-        double time = 0.0;
-        for(int i=0;i<carAmount;i++){
-            time = (double) (target - cars[i][0]) / cars[i][1];
-            if(stack.isEmpty()) stack.add(time);
-            if(time > stack.peek()) stack.push(time);
+        Arrays.sort(cars, (x,y) -> (y[0] - x[0]));
+        Stack<Double> carSt = new Stack<>();
+        double time;
+        for(int i=0;i<amount;i++){
+            time = 1.0 * (target - cars[i][0]) / cars[i][1];
+            if(carSt.isEmpty()) carSt.push(time);
+            else if(time > carSt.peek()) carSt.push(time);
         }
-        return stack.size();
+        return carSt.size();
     }
 
 
