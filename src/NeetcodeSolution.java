@@ -2,7 +2,8 @@ import java.util.*;
 
 /** <b>Neetcode 150</b> */
 public class NeetcodeSolution {
-    /** <i>Array And Hash</i> */
+    /** <i>Array And Hash</i>
+     */
     // 217. Contain Duplicate
     public boolean containsDuplicate(int[] nums) {
         var checkSet = new HashSet<Integer>();
@@ -187,7 +188,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Two Pointers</i> */
+    /** <i>Two Pointers</i>
+     */
     // 125. Valid Palindrome
     public boolean isPalindrome(String s) {
         int s_length = s.length();
@@ -292,7 +294,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Sliding Window</i> */
+    /** <i>Sliding Window</i>
+     */
     // 567. Permutation in String
     public boolean checkInclusion(String s1, String s2) {
         int s1_length = s1.length();
@@ -393,7 +396,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Stack</i> */
+    /** <i>Stack</i>
+     */
     // 20. Valid Parentheses
     public boolean isValid(String s) {
         Stack<Character> checkStack = new Stack<>();
@@ -481,7 +485,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Binary Search</i> */
+    /** <i>Binary Search</i>
+     */
     // 704. Binary Search
     public int search(int[] nums, int target) {
         int left = 0;
@@ -544,7 +549,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Linked List</i> */
+    /** <i>Linked List</i>
+     */
     // 206. Reverse Linked List
     public ListNode reverseList(ListNode head) {
         if(head == null) return null;
@@ -604,7 +610,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Tree</i> */
+    /** <i>Tree</i>
+     */
     // 226. Invert Binary Tree
     public TreeNode invertTree(TreeNode root) {
         if(root == null) return null;
@@ -666,7 +673,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Heap & Priority Queue</i> */
+    /** <i>Heap & Priority Queue</i>
+     */
     // 703. Kth Largest Element in a Stream
     // 1046 Last Stone Weight
     public int lastStoneWeight(int[] stones) {
@@ -686,7 +694,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Backtracking</i> */
+    /** <i>Backtracking</i>
+     */
     // 78. Subsets
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>((int)Math.pow(2, nums.length));
@@ -726,7 +735,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>1-D Dynamic Programing</i> */
+    /** <i>1-D Dynamic Programing</i>
+     */
     // 70. Climbing Stairs
     public int climbStairs(int n) {
         int[] dp = new int[n+1];
@@ -761,7 +771,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>2-D Dynamic Programing</i> */
+    /** <i>2-D Dynamic Programing</i>
+     */
     // 494. Target Sum
     public int findTargetSumWays(int[] nums, int target) {
         int totalSum = 0;
@@ -811,7 +822,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Greedy</i> */
+    /** <i>Greedy</i>
+     */
     // 122. Best Time to Buy and Sell Stock II
     public int maxProfitII(int[] prices) {
         int profit = 0;
@@ -824,7 +836,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Intervals</i> */
+    /** <i>Intervals</i>
+     */
     // 252. Meeting Rooms
     public boolean canAttendMeetings(List<Interval> intervals) {
         int length = intervals.size();
@@ -844,7 +857,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** <i>Math & Geometry</i> */
+    /** <i>Math & Geometry</i>
+     */
     // 202. Happy Number
     public boolean isHappy(int n) {
         if(n == 1) return true;
@@ -933,7 +947,8 @@ public class NeetcodeSolution {
     }
 
 
-    /** Bit Manipulation */
+    /** Bit Manipulation
+     */
     // 136. Single Number
     public int singleNumber(int[] nums) {
         int res = 0;
