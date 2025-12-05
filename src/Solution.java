@@ -735,6 +735,15 @@ public class Solution {
         }
         return maxHeap.isEmpty() ? 0 : maxHeap.peek();
     }
+    // 215. Kth Largest Element in an Array
+    public int findKthLargest(int[] nums, int k) {
+        Queue<Integer> pq = new PriorityQueue<>();
+        for(int num : nums){
+            pq.add(num);
+            if(pq.size() > k) pq.poll();
+        }
+        return pq.peek();
+    }
 
 
     /** <i>Backtracking</i>
