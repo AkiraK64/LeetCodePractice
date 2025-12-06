@@ -6,7 +6,9 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        int[] nums = new int[]{4,5,6,7,0,1,2};
-        System.out.println(solution.searchII(nums, 0));
+        int[] t1 = new int[]{1,2,3};
+        int[] t2 = new int[]{4,5,6};
+        int k = 3;
+        System.out.println(weeklySolution.maxPoints(t1, t2, 2));
     }
 }
