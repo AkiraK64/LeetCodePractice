@@ -419,4 +419,29 @@ public class DailySolution {
         for(var num : nums) sum += num;
         return sum % 2 == 0 ? nums.length - 1 : 0;
     }
+    // 3578. Count Partitions With Min-Max Difference At most K
+    /** Two Pointers */
+    public int countPartitions(int[] nums, int k) {
+        int MOD = (int)(1e9+7);
+        int l=1;
+        int n = nums.length;
+        TreeMap<Integer, Integer> numMap = new TreeMap<>();
+        int[] res = new int[n+1];
+        int[] prefix = new int[n+1];
+        res[0] = 1;
+        prefix[0] = 1;
+        for(int r=1;r<=n;r++){
+            int cur = nums[r-1];
+            numMap.merge(cur, 1, Integer::sum);
+            while (numMap.lastKey() - numMap.firstKey() > k){
+                if(numMap.merge(nums[l-1], -1, Integer::sum) == 0)
+                    numMap.remove(nums[l-1]);
+                l+=1;
+            }
+            res[r] = (prefix[r - 1] - (l >= 2 ? prefix[l - 2] : 0)) % MOD;
+            res[r] = (res[r] + MOD) % MOD;
+            prefix[r] = (prefix[r-1] + res[r]) % MOD;
+        }
+        return res[n];
+    }
 }

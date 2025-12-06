@@ -651,6 +651,42 @@ public class Solution {
         }
         return false;
     }
+    // 143. Reorder List
+    public void reorderList(ListNode head) {
+        // FIND MID NODE
+        var mid = head;
+        var tail = head;
+        var prevMid = new ListNode(0, mid);
+        while (tail.next != null){
+            prevMid = prevMid.next;
+            mid = mid.next;
+            tail = tail.next;
+            if(tail.next != null) tail = tail.next;
+        }
+        // REVERSE NODE FROM MID NODE
+        var curMid = mid;
+        var nextMid = mid.next;
+        while (nextMid != null){{
+            prevMid = curMid;
+            curMid = nextMid;
+            nextMid = nextMid.next;
+            curMid.next = prevMid;
+        }}
+        // RE-ORDER LIST
+        var cur = head;
+        var curNext = cur;
+        var prevTail = tail;
+        while (mid != tail){
+            curNext = cur.next;
+            prevTail = tail.next;
+            cur.next = tail;
+            tail.next = curNext;
+            cur = curNext;
+            tail = prevTail;
+        }
+        if(cur != mid) cur.next = tail;
+        tail.next = null;
+    }
 
 
     /** <i>Tree</i>
