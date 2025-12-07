@@ -729,6 +729,39 @@ public class Solution {
         }
         return newHead;
     }
+    // 2. Add Two Numbers
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int reminder = 0;
+        int value = 0;
+        var res = new ListNode(0, null);
+        var head = res;
+        while (l1 != null && l2 != null){
+            value = l1.val + l2.val + reminder;
+            reminder = value / 10;
+            res.next = new ListNode(value % 10, null);
+            res = res.next;
+            l1 = l1.next;
+            l2 = l2.next;
+        }
+        while (l1 != null){
+            value = l1.val + reminder;
+            reminder = value / 10;
+            res.next = new ListNode(value % 10, null);
+            res = res.next;
+            l1 = l1.next;
+        }
+        while (l2 != null){
+            value = l2.val + reminder;
+            reminder = value / 10;
+            res.next = new ListNode(value % 10, null);
+            res = res.next;
+            l2 = l2.next;
+        }
+        if(reminder != 0){
+            res.next = new ListNode(reminder, null);
+        }
+        return head.next;
+    }
 
 
     /** <i>Tree</i>
