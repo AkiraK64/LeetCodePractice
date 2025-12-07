@@ -1,6 +1,6 @@
 public class Main {
     /** Neetcode:
-     * Dairy: 3578 (1/3)
+     * Dairy: 3578 (2/3)
      */
     public static void main(String[] args) {
         var solution = new Solution();
