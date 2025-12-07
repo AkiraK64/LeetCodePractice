@@ -5,6 +5,7 @@ import java.util.PriorityQueue;
 
 public class WeeklySolution {
     /** Sunday - 30/11/2025 */
+    // Q1. Count Elements With At least K Greater Values
     public int countElements(int[] nums, int k) {
         int length = nums.length;
         if(k == 0) return length;
@@ -18,11 +19,13 @@ public class WeeklySolution {
         }
         return res;
     }
+    // Q2. Maximum Substrings with Distinct Start
     public int maxDistinct(String s) {
         HashSet<Character> set = new HashSet<>();
         for(var c : s.toCharArray()) set.add(c);
         return set.size();
     }
+    // Q3. Minimum Absolute Distance Between Mirror Pairs
     public int minMirrorPairDistance(int[] nums) {
         HashMap<Integer, Integer> map = new HashMap<>();
         int reversed = 0;
@@ -48,6 +51,7 @@ public class WeeklySolution {
         return new long[0];
     }
     /** Saturday - 6/12/2025 */
+    // Q1. Complete Prime
     public boolean completePrime(int num) {
         int n = 1;
         int a = 1;
@@ -71,6 +75,7 @@ public class WeeklySolution {
         }
         return false;
     }
+    // Q2. Minimum Operators To Make Binary Palindrome
     public int[] minOperations(int[] nums) {
         int num = 0;
         int[] res = new int[nums.length];
@@ -107,6 +112,7 @@ public class WeeklySolution {
         }
         return true;
     }
+    // Q3. Maximize Points After Choosing K Tasks
     public long maxPoints(int[] technique1, int[] technique2, int k) {
         int n = 0;
         long res = 0;

@@ -444,4 +444,11 @@ public class DailySolution {
         }
         return res[n];
     }
+    // 1523. Count Odd Numbers in an Interval Range
+    /** Math */
+    public int countOdds(int low, int high) {
+        if(high % 2 == 0) high -= 1;
+        if(low % 2 == 0) low += 1;
+        return (high - low) / 2 + 1;
+    }
 }
