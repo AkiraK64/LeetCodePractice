@@ -1,6 +1,8 @@
 public class Main {
     /** Neetcode:
-     * Dairy: 3578 (2/3)
+     * Two-Pointers - 287 (1/3)
+     * LinkedList - 146 (1/3)
+     * Dairy:
      */
     public static void main(String[] args) {
         var solution = new Solution();
