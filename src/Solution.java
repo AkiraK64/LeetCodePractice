@@ -687,6 +687,48 @@ public class Solution {
         if(cur != mid) cur.next = tail;
         tail.next = null;
     }
+    // 19. Remove Nth Node From End Of List
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        int count = 0;
+        var tail = head;
+        var nthNode = head;
+        while (tail.next != null && count < n){
+            tail = tail.next;
+            count += 1;
+        }
+        if(count == n-1) return head.next;
+        else if(count < n-1) return head;
+        while (tail.next != null){
+            nthNode = nthNode.next;
+            tail = tail.next;
+        }
+        if(nthNode.next != null) nthNode.next = nthNode.next.next;
+        return head;
+    }
+    // 138. Copy List with Random Pointer
+    public Node copyRandomList(Node head) {
+        if(head == null) return null;
+        var newHead = new Node(head.val);
+        var cur = head;
+        var newCur = newHead;
+        newCur.random = cur.random;
+        Map<Node, Node> matchMap = new HashMap<>();
+        matchMap.put(cur, newCur);
+        while (cur.next != null){
+            cur = cur.next;
+            newCur.next = new Node(cur.val);
+            newCur = newCur.next;
+            newCur.random = cur.random;
+            matchMap.put(cur, newCur);
+        }
+        newCur = newHead;
+        while (newCur != null){
+            if(newCur.random != null)
+                newCur.random = matchMap.get(newCur.random);
+            newCur = newCur.next;
+        }
+        return newHead;
+    }
 
 
     /** <i>Tree</i>
