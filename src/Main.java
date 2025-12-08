@@ -11,6 +11,6 @@ public class Main {
         int[] t1 = new int[]{1,2,3};
         int[] t2 = new int[]{4,5,6};
         int k = 3;
-        System.out.println(weeklySolution.maxPoints(t1, t2, 2));
+        System.out.println(dailySolution.countTriples(5));
     }
 }

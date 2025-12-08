@@ -451,4 +451,21 @@ public class DailySolution {
         if(low % 2 == 0) low += 1;
         return (high - low) / 2 + 1;
     }
+    // 1925. Count Squares Sum Triples
+    /** Math */
+    public int countTriples(int n) {
+        int m = (int)Math.sqrt(n * n * 0.5);
+        int sum = 0;
+        int sqrt = 0;
+        int res = 0;
+        for(int i=1;i<=m;i++){
+            for(int j=i+1;j<n;j++){
+                sum = i * i + j * j;
+                if(sum > n * n) break;
+                sqrt = (int)Math.sqrt(sum);
+                if(sum == sqrt * sqrt) res += 2;
+            }
+        }
+        return res;
+    }
 }
