@@ -874,6 +874,36 @@ public class Solution {
         return pq.peek();
     }
     // 973. K Closest Points to Origin (DO IN PYTHON)
+    // 621. Task Schedule
+    public int leastInterval(char[] tasks, int n) {
+        int[] count = new int[26];
+        for(var task : tasks)
+            count[task - 'A'] += 1;
+        PriorityQueue<Integer> availableTasks = new PriorityQueue<>(Collections.reverseOrder());
+        for(var cnt : count)
+            if(cnt > 0)
+                availableTasks.add(cnt);
+        Queue<int[]> cooldownTasks = new ArrayDeque<>();
+        int time = 0;
+        while (!availableTasks.isEmpty() || !cooldownTasks.isEmpty()){
+            time += 1;
+
+            if(availableTasks.isEmpty()){
+                var nextTask = cooldownTasks.poll();
+                time = nextTask[1];
+                availableTasks.add(nextTask[0]);
+            }
+            else if(!cooldownTasks.isEmpty() && time == cooldownTasks.peek()[1]){
+                availableTasks.add(cooldownTasks.poll()[0]);
+            }
+
+            int curTaskCount = availableTasks.poll();
+            if(curTaskCount > 1) {
+                cooldownTasks.add(new int[]{curTaskCount - 1, time + n + 1});
+            }
+        }
+        return time;
+    }
 
 
     /** <i>Backtracking</i>

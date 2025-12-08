@@ -2,6 +2,7 @@ public class Main {
     /** Neetcode:
      * Two-Pointers - 287 (2/3)
      * LinkedList - 146 (2/3)
+     * Heap - 621 (1/3)
      * Dairy:
      */
     public static void main(String[] args) {
@@ -11,6 +12,6 @@ public class Main {
         int[] t1 = new int[]{1,2,3};
         int[] t2 = new int[]{4,5,6};
         int k = 3;
-        System.out.println(dailySolution.countTriples(5));
+        System.out.println(solution.leastInterval(new char[]{'A','B','A'}, 2));
     }
 }
