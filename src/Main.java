@@ -1,7 +1,7 @@
 public class Main {
     /** Neetcode:
-     * Two-Pointers - 287 (1/3)
-     * LinkedList - 146 (1/3)
+     * Two-Pointers - 287 (2/3)
+     * LinkedList - 146 (2/3)
      * Dairy:
      */
     public static void main(String[] args) {
