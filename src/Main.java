@@ -9,9 +9,6 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        int[] t1 = new int[]{1,2,3};
-        int[] t2 = new int[]{4,5,6};
-        int k = 3;
-        System.out.println(solution.leastInterval(new char[]{'A','B','A'}, 2));
+        System.out.println(dailySolution.specialTriplets(new int[]{0,1,0,0}));
     }
 }
