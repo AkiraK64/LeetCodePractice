@@ -292,6 +292,22 @@ public class Solution {
         }
         return res;
     }
+    // 287. Find The Duplicate Number
+    public int findDuplicate(int[] nums) {
+        int slow = 0;
+        int fast = 0;
+        while (true){
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+            if(slow == fast) break;
+        }
+        int slow2 = 0;
+        while (true){
+            slow = nums[slow];
+            slow2 = nums[slow2];
+            if(slow == slow2) return slow;
+        }
+    }
 
 
     /** <i>Sliding Window</i>
@@ -762,24 +778,6 @@ public class Solution {
         }
         return head.next;
     }
-    // 287. Find the Duplicate Numbers
-    public int findDuplicate(int[] nums) {
-        int slow = 0;
-        int fast = 0;
-        while (true){
-            slow = nums[slow];
-            fast = nums[nums[fast]];
-            if(slow == fast) break;
-        }
-        int slow2 = 0;
-        while (true){
-            slow = nums[slow];
-            slow2 = nums[slow2];
-            if(slow2 == slow) break;
-        }
-        return slow;
-    }
-
 
 
     /** <i>Tree</i>
@@ -876,31 +874,28 @@ public class Solution {
     // 973. K Closest Points to Origin (DO IN PYTHON)
     // 621. Task Schedule
     public int leastInterval(char[] tasks, int n) {
-        int[] count = new int[26];
+        int[] fTask = new int[26];
         for(var task : tasks)
-            count[task - 'A'] += 1;
-        PriorityQueue<Integer> availableTasks = new PriorityQueue<>(Collections.reverseOrder());
-        for(var cnt : count)
-            if(cnt > 0)
-                availableTasks.add(cnt);
-        Queue<int[]> cooldownTasks = new ArrayDeque<>();
+            fTask[task - 'A'] += 1;
+        PriorityQueue<Integer> availTasks = new PriorityQueue<>(Collections.reverseOrder());
+        for(int i=0;i<26;i++)
+            if(fTask[i] > 0)
+                availTasks.add(fTask[i]);
+        Queue<int[]> cdTasks = new ArrayDeque<>();
         int time = 0;
-        while (!availableTasks.isEmpty() || !cooldownTasks.isEmpty()){
+        while (!availTasks.isEmpty() || !cdTasks.isEmpty()){
             time += 1;
-
-            if(availableTasks.isEmpty()){
-                var nextTask = cooldownTasks.poll();
+            if(availTasks.isEmpty()){
+                var nextTask = cdTasks.poll();
                 time = nextTask[1];
-                availableTasks.add(nextTask[0]);
+                availTasks.add(nextTask[0]);
             }
-            else if(!cooldownTasks.isEmpty() && time == cooldownTasks.peek()[1]){
-                availableTasks.add(cooldownTasks.poll()[0]);
+            else if(!cdTasks.isEmpty() && time == cdTasks.peek()[1]){
+                availTasks.add(cdTasks.poll()[0]);
             }
-
-            int curTaskCount = availableTasks.poll();
-            if(curTaskCount > 1) {
-                cooldownTasks.add(new int[]{curTaskCount - 1, time + n + 1});
-            }
+            var curTask = availTasks.poll();
+            if(curTask > 1)
+                cdTasks.add(new int[]{curTask-1, time + n + 1});
         }
         return time;
     }

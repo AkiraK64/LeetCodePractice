@@ -470,32 +470,20 @@ public class DailySolution {
     }
     // 3583. Count Special Triplets
     /** Array & Hashtable */
-    public int specialTriplets(int[] nums) {
+    public int specialTriplets(int[] nums){
         int MOD = (int)(1e9+7);
-        int n = nums.length;
-        int res = 0;
-        int suffix = 0;
-        int countZero = 0;
-        HashMap<Integer, List<Integer>> numMap = new HashMap<>();
-        for(int i=0;i<n;i++){
-            if(nums[i] == 0){
-                countZero += 1;
-                continue;
-            }
-            var cur = numMap.computeIfAbsent(nums[i], k -> new ArrayList<>(List.of(0,0,0)));
-            if(nums[i] % 2 == 0){
-                var child = numMap.computeIfAbsent(nums[i] / 2, k -> new ArrayList<>(List.of(0,0,0)));
-                int childCount = child.getFirst() - cur.get(1);
-                suffix = (cur.getFirst() * childCount) % MOD;
-                suffix = (cur.get(2) + suffix) % MOD;
-                cur.set(2, suffix);
-                cur.set(1, child.getFirst());
-                res = (res + suffix) % MOD;
-            }
-            cur.set(0, cur.getFirst() + 1);
+        HashMap<Integer, Integer> rCount = new HashMap<>();
+        HashMap<Integer, Integer> lCount = new HashMap<>();
+        long res = 0;
+        for(var num : nums) rCount.merge(num, 1, Integer::sum);
+        for(var num : nums){
+            rCount.merge(num, -1, Integer::sum);
+            int target = num * 2;
+            long leftTargetCount = rCount.getOrDefault(target, 0);
+            long rightTargetCount = lCount.getOrDefault(target, 0);
+            res = (res + (leftTargetCount * rightTargetCount) % MOD) % MOD;
+            lCount.merge(num, 1, Integer::sum);
         }
-        long resZero = ((long) countZero * (countZero - 1) * (countZero - 2)) / 6;
-        res += (int) (resZero % MOD);
-        return res;
+        return (int)res;
     }
 }
