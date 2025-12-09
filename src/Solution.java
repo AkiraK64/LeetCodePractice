@@ -841,6 +841,40 @@ public class Solution {
         if(isSameTree(root, subRoot)) return true;
         return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
     }
+    // 235. Lowest Common Ancestor Of Binary Search Tree
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || p == null || q == null)
+            return null;
+        if(Math.max(p.val, q.val) < root.val)
+            return lowestCommonAncestor(root.left, p, q);
+        else if(Math.min(p.val, q.val) > root.val)
+            return lowestCommonAncestor(root.right, p, q);
+        else return root;
+    }
+    // 102.
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> nodeQueue = new ArrayDeque<>();
+        if(root != null) nodeQueue.add(root);
+        boolean done = false;
+        while (!done){
+            var subRes = new ArrayList<Integer>();
+            int size = nodeQueue.size();
+            if(size == 0) done = true;
+            else{
+                while (size > 0){
+                    var node = nodeQueue.poll();
+                    if(node == null) continue;
+                    subRes.add(node.val);
+                    if(node.left != null) nodeQueue.add(node.left);
+                    if(node.right != null) nodeQueue.add(node.right);
+                    size -= 1;
+                }
+                res.add(subRes);
+            }
+        }
+        return res;
+    }
 
 
     /** <i>Heap & Priority Queue</i>
