@@ -486,4 +486,20 @@ public class DailySolution {
         }
         return (int)res;
     }
+    // 3577. Count the Number Of Computer Unlocking Permutations
+    public int countPermutations(int[] complexity) {
+        int MOD = (int)(1e9+7);
+        long res = 1;
+        int length = complexity.length;
+        if(length == 1) return 1;
+        for(int i=1;i<length;i++)
+            if(complexity[i] <= complexity[0]) return 0;
+        length -= 1;
+        while (length > 0){
+            res *= length;
+            res %= MOD;
+            length -= 1;
+        }
+        return (int)res;
+    }
 }
