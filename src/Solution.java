@@ -875,6 +875,43 @@ public class Solution {
         }
         return res;
     }
+    // 199. Binary Tree Right Side View
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> dq = new ArrayDeque<>();
+        if(root == null) return res;
+        dq.offer(root);
+        while (!dq.isEmpty()){
+            res.add(dq.peekLast().val);
+            int size = dq.size();
+            TreeNode curNode;
+            while (size > 0){
+                curNode = dq.poll();
+                if(curNode != null) {
+                    if (curNode.left != null) dq.offer(curNode.left);
+                    if (curNode.right != null) dq.offer(curNode.right);
+                }
+                size -= 1;
+            }
+        }
+        return res;
+    }
+    // 1448. Count Good Nodes In Binary Tree
+    public int goodNodes(TreeNode root) {
+        return dfs_GoodNodes(root, root.val);
+    }
+    private int dfs_GoodNodes(TreeNode root, int maxVal){
+        if(root == null)
+            return 0;
+        int res = 0;
+        if(root.val >= maxVal) {
+            res += 1;
+            maxVal = root.val;
+        }
+        res += dfs_GoodNodes(root.left, maxVal);
+        res += dfs_GoodNodes(root.right, maxVal);
+        return res;
+    }
 
 
     /** <i>Heap & Priority Queue</i>
