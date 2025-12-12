@@ -487,6 +487,7 @@ public class DailySolution {
         return (int)res;
     }
     // 3577. Count the Number Of Computer Unlocking Permutations
+    /** Math */
     public int countPermutations(int[] complexity) {
         int MOD = (int)(1e9+7);
         long res = 1;
@@ -501,5 +502,80 @@ public class DailySolution {
             length -= 1;
         }
         return (int)res;
+    }
+    // 3531. Count Covered Building
+    /** Array & Hashing */
+    public int countCoveredBuildings(int n, int[][] buildings) {
+        int[] north = new int[n+1];
+        int[] south = new int[n+1];
+        int[] west = new int[n+1];
+        int[] east = new int[n+1];
+        Arrays.fill(south, n+1);
+        Arrays.fill(west, n+1);
+        for(int[] building : buildings){
+            int x = building[0];
+            int y = building[1];
+            if(y > north[x]) north[x] = y;
+            if(y < south[x]) south[x] = y;
+            if(x > east[y]) east[y] = x;
+            if(x < west[y]) west[y] = x;
+        }
+        int res = 0;
+        for (int[] building : buildings){
+            int x = building[0];
+            int y = building[1];
+            if(x < east[y] && x > west[y] && y < north[x] && y > south[x])
+                res += 1;
+        }
+        return res;
+    }
+    // 3433. Count Mentions Per User
+    /** Array & Hashing */
+    public int[] countMentions(int numberOfUsers, List<List<String>> events) {
+        int[] mentions = new int[numberOfUsers];
+        int[] startOnlineTime = new int[numberOfUsers];
+        HashMap<String, Integer> compareString = new HashMap<>();
+        compareString.put("OFFLINE", 0);
+        compareString.put("MESSAGE", 1);
+        events.sort(new Comparator<List<String>>() {
+            @Override
+            public int compare(List<String> o1, List<String> o2) {
+                int timeStamp1 = Integer.parseInt(o1.get(1));
+                int timeStamp2 = Integer.parseInt(o2.get(1));
+                if(timeStamp1 == timeStamp2)
+                    return compareString.get(o1.getFirst()) - compareString.get(o2.getFirst());
+                return timeStamp1 - timeStamp2;
+            }
+        });
+        for(var event : events){
+            var title = event.getFirst();
+            int timeStamp = Integer.parseInt(event.get(1));
+            if(Objects.equals(title, "MESSAGE")){
+                var mentions_string = event.get(2);
+                if(Objects.equals(mentions_string, "ALL")){
+                    for(int i=0;i<numberOfUsers;i++){
+                        mentions[i] += 1;
+                    }
+                }
+                else if(Objects.equals(mentions_string, "HERE")){
+                    for(int i=0;i<numberOfUsers;i++){
+                        if(startOnlineTime[i] <= timeStamp)
+                            mentions[i] += 1;
+                    }
+                }
+                else{
+                    var ids = mentions_string.split(" ");
+                    for(var id : ids){
+                        int int_id = Integer.parseInt(id.substring(2));
+                        mentions[int_id] += 1;
+                    }
+                }
+            }
+            else{
+                int id = Integer.parseInt(event.get(2));
+                startOnlineTime[id] = timeStamp + 60;
+            }
+        }
+        return mentions;
     }
 }
