@@ -578,4 +578,34 @@ public class DailySolution {
         }
         return mentions;
     }
+    // 3606. Coupon Code Validator
+    /** Array & Hashing */
+    public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
+        int n = code.length;
+        List<String[]> list = new ArrayList<>(n);
+        Map<String, Integer> categories = new HashMap<>();
+        categories.put("electronics", 0);
+        categories.put("grocery", 1);
+        categories.put("pharmacy", 2);
+        categories.put("restaurant", 3);
+        for (int i=0;i<n;i++){
+            if(!isActive[i]) continue;
+            if(!categories.containsKey(businessLine[i])) continue;
+            if(code[i].matches("^[a-zA-Z0-9_]+$")){
+                list.add(new String[]{code[i], businessLine[i]});
+            }
+        }
+        list.sort(new Comparator<String[]>() {
+            @Override
+            public int compare(String[] o1, String[] o2) {
+                int i1 = categories.get(o1[1]);
+                int i2 = categories.get(o2[1]);
+                if(i1 == i2) return o1[0].compareTo(o2[0]);
+                return i1 - i2;
+            }
+        });
+        List<String> res = new ArrayList<>(list.size());
+        for (var e : list) res.add(e[0]);
+        return res;
+    }
 }
