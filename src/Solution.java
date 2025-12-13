@@ -936,6 +936,23 @@ public class Solution {
         res[1] = root.val;
         dfs_kthSmallest(root.right, res);
     }
+    // 105.
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int[] index = new int[]{0,0};
+        return dfs_BuildTree(preorder, inorder, Integer.MAX_VALUE, index);
+    }
+    private TreeNode dfs_BuildTree(int[] preorder, int[] inorder, int limit, int[] index){
+        if(index[0] >= preorder.length) return null;
+        if(inorder[index[1]] == limit){
+            index[1] += 1;
+            return null;
+        }
+        var root = new TreeNode(preorder[index[0]]);
+        index[0] += 1;
+        root.left = dfs_BuildTree(preorder, inorder, root.val, index);
+        root.right = dfs_BuildTree(preorder, inorder, limit, index);
+        return root;
+    }
 
 
     /** <i>Heap & Priority Queue</i>
