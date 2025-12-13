@@ -922,6 +922,20 @@ public class Solution {
         if(ancestorR != null && cur.val <= ancestorR.val) return false;
         return dfs_IsValidBST(cur.left, cur, ancestorR) && dfs_IsValidBST(cur.right, ancestorL, cur);
     }
+    // 230. Kth Smallest Element In BTS
+    public int kthSmallest(TreeNode root, int k) {
+        int[] res = new int[]{k, 0};
+        dfs_kthSmallest(root, res);
+        return res[1];
+    }
+    private void dfs_kthSmallest(TreeNode root, int[] res){
+        if(root == null) return;
+        dfs_kthSmallest(root.left, res);
+        if(res[0] == 0) return;
+        res[0] -= 1;
+        res[1] = root.val;
+        dfs_kthSmallest(root.right, res);
+    }
 
 
     /** <i>Heap & Priority Queue</i>
