@@ -912,6 +912,16 @@ public class Solution {
         res += dfs_GoodNodes(root.right, maxVal);
         return res;
     }
+    // 98. Validate Binary Search Tree
+    public boolean isValidBST(TreeNode root) {
+        return dfs_IsValidBST(root,null,null);
+    }
+    private boolean dfs_IsValidBST(TreeNode cur, TreeNode ancestorL, TreeNode ancestorR){
+        if(cur == null) return true;
+        if(ancestorL != null && cur.val >= ancestorL.val) return false;
+        if(ancestorR != null && cur.val <= ancestorR.val) return false;
+        return dfs_IsValidBST(cur.left, cur, ancestorR) && dfs_IsValidBST(cur.right, ancestorL, cur);
+    }
 
 
     /** <i>Heap & Priority Queue</i>
