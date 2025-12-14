@@ -134,4 +134,85 @@ public class WeeklySolution {
         }
         return res;
     }
+    /** Saturday - 14/12/2025 */
+    // Q1.
+    public int absDifference(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int minSum = 0;
+        int maxSum = 0;
+        for(int i=0;i<n;i++){
+            if(i < k) minSum += nums[i];
+            if(i >= n-k) maxSum += nums[i];
+        }
+        return maxSum - minSum;
+    }
+    // Q2.
+    public String reverseWords(String s) {
+        int[] count = new int[26];
+        char[] vowel = new char[]{'a', 'e', 'i', 'o', 'u'};
+        int index = 0;
+        int left = 0;
+        int right = 0;
+        int vowelCount = 0;
+        int firstCount = 0;
+        var newS = s + ' ';
+        StringBuilder res = new StringBuilder();
+        for(var c : newS.toCharArray()){
+            if(c == ' '){
+                vowelCount = 0;
+                for(var i : vowel) {
+                    vowelCount += count[i - 'a'];
+                    count[i - 'a'] = 0;
+                }
+                if(index == 0) firstCount = vowelCount;
+                var subStr = s.substring(left, right);
+                if(vowelCount == firstCount && index > 0) {
+                    res.append(new StringBuilder(subStr).reverse());
+                }
+                else{
+                    res.append(subStr);
+                }
+                res.append(' ');
+                index += 1;
+                left = right + 1;
+            }
+            else if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'){
+                count[c - 'a'] += 1;
+            }
+            right += 1;
+        }
+        return res.deleteCharAt(res.length() - 1).toString();
+    }
+    // Q3.
+    public long minMoves(int[] balance) {
+        int nIndex = -1;
+        int n = balance.length;
+        for(int i=0;i<n;i++){
+            if(balance[i] < 0){
+                nIndex = i;
+                break;
+            }
+        }
+        if(nIndex == -1) return 0;
+        int offset = 1;
+        int total = 0;
+        int need = -balance[nIndex];
+        long res = 0;
+        int left = 0;
+        int right = 0;
+        int count = 1;
+        while (need > 0 && count < n){
+            left = (nIndex - offset) % n;
+            if(left < 0) left += n;
+            right = (nIndex + offset) % n;
+            total = (left == right) ? balance[left] : (balance[left] + balance[right]);
+            count += (left == right) ? 1 : 2;
+            res += (long) offset * Math.min(total, need);
+            need -= Math.min(total, need);
+            offset += 1;
+        }
+        if(need > 0) return -1;
+        return res;
+    }
 }
