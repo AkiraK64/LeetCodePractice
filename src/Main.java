@@ -7,7 +7,7 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        String input = "cat and mice";
-        System.out.println(weeklySolution.reverseWords(input));
+        String input = "PPPPPPPSPPPSPPPPSPPPSPPPPPSPPPSPPSPPSPPPPPSPSPPPPPSPPSPPPPPSPPSPPSPPPSPPPPSPPPPSPPPPPSPSPPPPSPSPPPSPPPPSPPPPPSPSPPSPPPPSPPSPPSPPSPPPSPPSPSPPSSSS";
+        System.out.println(dailySolution.numberOfWays(input));
     }
 }

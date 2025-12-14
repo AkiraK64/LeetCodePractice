@@ -608,4 +608,27 @@ public class DailySolution {
         for (var e : list) res.add(e[0]);
         return res;
     }
+    // 2147.
+    public int numberOfWays(String corridor) {
+        int MOD = (int)(1e9 + 7);
+        int n = corridor.length();
+        int countS = 0;
+        int countP = 0;
+        long res = 1;
+        for(int i=0;i<n;i++){
+            var c = corridor.charAt(i);
+            if(c == 'S'){
+                if(countS == 2){
+                    res = (res * (countP + 1)) % MOD;
+                    countP = 0;
+                    countS = 0;
+                }
+                countS += 1;
+            }
+            else if(countS == 2){
+                countP += 1;
+            }
+        }
+        return countS == 2 ? (int)res : 0;
+    }
 }
