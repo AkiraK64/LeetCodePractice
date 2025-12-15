@@ -608,7 +608,8 @@ public class DailySolution {
         for (var e : list) res.add(e[0]);
         return res;
     }
-    // 2147.
+    // 2147. Number of Ways to Divide a Long Corridor
+    /** Math */
     public int numberOfWays(String corridor) {
         int MOD = (int)(1e9 + 7);
         int n = corridor.length();
@@ -630,5 +631,23 @@ public class DailySolution {
             }
         }
         return countS == 2 ? (int)res : 0;
+    }
+    // 2110. Number of Smooth Descent Periods of a Stock
+    /** Two Pointers */
+    public long getDescentPeriods(int[] prices) {
+        int l = 0;
+        int n = prices.length;
+        long res = 0;
+        for(int r=0;r<n;r++){
+            if(r+1 < n && prices[r+1] + 1 == prices[r]){
+                continue;
+            }
+            else{
+                int m = r - l + 1;
+                res += ((long) m * (m + 1)) / 2;
+                l = r + 1;
+            }
+        }
+        return res;
     }
 }
