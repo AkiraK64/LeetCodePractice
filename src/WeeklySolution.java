@@ -151,38 +151,36 @@ public class WeeklySolution {
     public String reverseWords(String s) {
         int[] count = new int[26];
         char[] vowel = new char[]{'a', 'e', 'i', 'o', 'u'};
-        int index = 0;
-        int left = 0;
-        int right = 0;
+        var listStr = s.split(" ");
         int vowelCount = 0;
+        int index = 0;
         int firstCount = 0;
-        var newS = s + ' ';
         StringBuilder res = new StringBuilder();
-        for(var c : newS.toCharArray()){
-            if(c == ' '){
-                vowelCount = 0;
-                for(var i : vowel) {
-                    vowelCount += count[i - 'a'];
-                    count[i - 'a'] = 0;
-                }
-                if(index == 0) firstCount = vowelCount;
-                var subStr = s.substring(left, right);
-                if(vowelCount == firstCount && index > 0) {
-                    res.append(new StringBuilder(subStr).reverse());
-                }
-                else{
-                    res.append(subStr);
-                }
-                res.append(' ');
-                index += 1;
-                left = right + 1;
-            }
-            else if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'){
+        for(var str : listStr){
+            for(var c : str.toCharArray()){
                 count[c - 'a'] += 1;
             }
-            right += 1;
+            vowelCount = 0;
+            for(var c : vowel){
+                vowelCount += count[c - 'a'];
+                count[c - 'a'] = 0;
+            }
+            if(index == 0) {
+                firstCount = vowelCount;
+                res.append(str);
+            }
+            else{
+                res.append(' ');
+                if(vowelCount == firstCount){
+                    res.append(new StringBuilder(str).reverse());
+                }
+                else{
+                    res.append(str);
+                }
+            }
+            index += 1;
         }
-        return res.deleteCharAt(res.length() - 1).toString();
+        return res.toString();
     }
     // Q3.
     public long minMoves(int[] balance) {
