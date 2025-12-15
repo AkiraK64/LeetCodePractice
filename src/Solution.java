@@ -947,11 +947,11 @@ public class Solution {
             index[1] += 1;
             return null;
         }
-        var root = new TreeNode(preorder[index[0]]);
+        TreeNode node = new TreeNode(preorder[index[0]]);
         index[0] += 1;
-        root.left = dfs_BuildTree(preorder, inorder, root.val, index);
-        root.right = dfs_BuildTree(preorder, inorder, limit, index);
-        return root;
+        node.left = dfs_BuildTree(preorder, inorder, node.val, index);
+        node.right = dfs_BuildTree(preorder, inorder, limit, index);
+        return node;
     }
 
 
