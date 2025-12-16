@@ -650,4 +650,5 @@ public class DailySolution {
         }
         return res;
     }
+    // 3562. Maximum Profit from Trading Stocks with Discounts (CANNOT SOLVE)
 }
