@@ -651,4 +651,45 @@ public class DailySolution {
         return res;
     }
     // 3562. Maximum Profit from Trading Stocks with Discounts (CANNOT SOLVE)
+    // 3573. Best Time To Sell And Buy Stock V
+    public long maximumProfit(int[] prices, int k) {
+        long[][][] dp = new long[prices.length][k+1][3];
+        for(int i=0;i<prices.length;i++){
+            for (int j=0;j<=k;j++){
+                dp[i][j][0] = -1;
+                dp[i][j][1] = -1;
+                dp[i][j][2] = -1;
+            }
+        }
+        return dp_MaximumProfit(0, k, 0, prices, dp);
+    }
+    private long dp_MaximumProfit(int index, int stepLeft, int nextAction, int[] prices, long[][][] dp){
+        if(index == prices.length) return 0;
+        if(stepLeft == 0) return 0;
+        int nextActionIndex = 0;
+        if(nextAction != 0) nextActionIndex = (nextAction + 3) / 2;
+        if(dp[index][stepLeft][nextActionIndex] != -1) return dp[index][stepLeft][nextActionIndex];
+        if(nextAction == 0){
+            long ifDont = dp_MaximumProfit(index+1, stepLeft, 0, prices, dp);
+            if(index == prices.length - 1){
+                dp[index][stepLeft][nextActionIndex] = ifDont;
+            }
+            else{
+                long ifBuy = -prices[index] + dp_MaximumProfit(index+1, stepLeft, 1, prices, dp);
+                long ifSell = prices[index] + dp_MaximumProfit(index+1, stepLeft, -1, prices, dp);
+                dp[index][stepLeft][nextActionIndex] = Math.max(Math.max(ifBuy, ifSell), ifDont);
+            }
+        }
+        else{
+            long ifDo = (long) nextAction * prices[index] + dp_MaximumProfit(index+1, stepLeft-1, 0, prices, dp);
+            if(index == prices.length - 1){
+                dp[index][stepLeft][nextActionIndex] = ifDo;
+            }
+            else {
+                long ifDont = dp_MaximumProfit(index + 1, stepLeft, nextAction, prices, dp);
+                dp[index][stepLeft][nextActionIndex] = Math.max(ifDo, ifDont);
+            }
+        }
+        return dp[index][stepLeft][nextActionIndex];
+    }
 }
