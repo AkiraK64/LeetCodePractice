@@ -6,8 +6,9 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        int[] prices = new int[]{12,16,19,19,8,1,19,13,9};
-        int k = 3;
-        System.out.println(dailySolution.maximumProfit(prices, k));
+        int[] prices = new int[]{4,7,13};
+        int[] strategy = new int[]{-1,-1,0};
+        int k = 2;
+        System.out.println(dailySolution.maxProfit(prices, strategy, k));
     }
 }

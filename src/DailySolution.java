@@ -692,4 +692,28 @@ public class DailySolution {
         }
         return dp[index][stepLeft][nextActionIndex];
     }
+    // 3652. Best Time to Buy and Sell Stock using Strategy
+    public long maxProfit(int[] prices, int[] strategy, int k) {
+        int n = prices.length;
+        long subTotal = 0;
+        long subTotalModify = 0;
+        int l = 0;
+        int m = k/2;
+        for(int i=0;i<k;i++){
+            subTotal += (long) prices[i] * strategy[i];
+            if(i >= m) subTotalModify += prices[i];
+        }
+        long total = subTotal;
+        long modify = subTotalModify - subTotal;
+        for(int r=k;r<n;r++){
+            long profit = (long) prices[r] * strategy[r];
+            subTotal += (profit - (long) prices[l] * strategy[l]);
+            subTotalModify += prices[r] - prices[m];
+            modify = Math.max(modify, subTotalModify - subTotal);
+            total += profit;
+            l += 1;
+            m += 1;
+        }
+        return Math.max(total, total + modify);
+    }
 }
