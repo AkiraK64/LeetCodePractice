@@ -1052,6 +1052,80 @@ public class Solution {
             subRes.removeLast();
         }
     }
+    // 40. Combination Sum II
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> subRes = new ArrayList<>();
+        Arrays.sort(candidates);
+        bt_CombinationSum2(0, target, candidates, subRes, res);
+        return res;
+    }
+    private void bt_CombinationSum2(int index, int target, int[] candidates, ArrayList<Integer> subRes, List<List<Integer>> res){
+        int left = 0;
+        for(int i=index;i<candidates.length;i++){
+            if(i > index && candidates[i] == candidates[i-1]) continue;
+            left = target - candidates[i];
+            if(left < 0) continue;
+            subRes.add(candidates[i]);
+            if(left == 0) res.add(new ArrayList<>(subRes));
+            else bt_CombinationSum2(i+1, left, candidates, subRes, res);
+            subRes.removeLast();
+        }
+    }
+    // 46. Permutations
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> subRes = new ArrayList<>();
+        int n = nums.length;
+        boolean[] used = new boolean[n];
+        bt_Permute(0, n, nums, used, subRes, res);
+        return res;
+    }
+    private void bt_Permute(int index, int n, int[] nums, boolean[] used, ArrayList<Integer> subRes, List<List<Integer>> res){
+        for(int i=0;i<n;i++){
+            if(!used[i]){
+                used[i] = true;
+                subRes.add(nums[i]);
+                if(index == n-1) res.add(new ArrayList<>(subRes));
+                else bt_Permute(index+1, n, nums, used, subRes, res);
+                subRes.removeLast();
+                used[i] = false;
+            }
+        }
+    }
+    // 51. N Queens
+    public List<List<String>> solveNQueens(int n) {
+        int[] subRes = new int[n];
+        List<List<String>> res = new ArrayList<>();
+        bt_SolveNQueens(0, n, subRes, res);
+        return res;
+    }
+    private void bt_SolveNQueens(int index, int n, int[] subRes, List<List<String>> res){
+        for(int i=0;i<n;i++){
+            if(isNQueensCandidate(index, i, subRes)){
+                subRes[index] = i;
+                if(index == n-1){
+                    List<String> rows = new ArrayList<>();
+                    for(int j=0;j<n;j++){
+                        StringBuilder row = new StringBuilder();
+                        row.append(".".repeat(subRes[j]));
+                        row.append('Q');
+                        row.append(".".repeat(n-subRes[j]-1));
+                        rows.add(row.toString());
+                    }
+                    res.add(rows);
+                }
+                else bt_SolveNQueens(index+1, n, subRes, res);
+            }
+        }
+    }
+    private boolean isNQueensCandidate(int row, int col, int[] subRes){
+        for(int i=0;i<row;i++){
+            if(subRes[i] == col) return false;
+            if(Math.abs(subRes[i] - col) == row - i) return false;
+        }
+        return true;
+    }
 
 
     /** <i>1-D Dynamic Programing</i>
