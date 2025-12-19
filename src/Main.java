@@ -6,9 +6,8 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        int n = 6;
-        int firstPerson = 5;
-        int[][] meetings = new int[][]{{2,1,1},{0,1,1},{3,2,1},{4,2,2}};
-        System.out.println(dailySolution.findAllPeople(n, meetings, firstPerson));
+        char[][] board = new char[][]{{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        String word = "ABCCDE";
+        System.out.println(solution.exist(board, word));
     }
 }

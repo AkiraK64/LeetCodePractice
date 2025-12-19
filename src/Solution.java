@@ -1019,19 +1019,15 @@ public class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>((int)Math.pow(2, nums.length));
         ArrayList<Integer> subRes = new ArrayList<>(nums.length);
-        bt_SubSets(-1, nums, subRes, res);
+        bt_SubSets(0, nums, subRes, res);
         return res;
     }
-    private void bt_SubSets(int prev, int[] nums, ArrayList<Integer> subRes, List<List<Integer>> res){
-        for(int i=prev; i<nums.length;i++){
-            if(i == prev){
-                res.add(new ArrayList<>(subRes));
-            }
-            else{
-                subRes.add(nums[i]);
-                bt_SubSets(i, nums, subRes, res);
-                subRes.removeLast();
-            }
+    private void bt_SubSets(int index, int[] nums, ArrayList<Integer> subRes, List<List<Integer>> res){
+        res.add(new ArrayList<>(subRes));
+        for(int i=index; i<nums.length;i++){
+            subRes.add(nums[i]);
+            bt_SubSets(i+1, nums, subRes, res);
+            subRes.removeLast();
         }
     }
     // 39. Combination Sum
@@ -1125,6 +1121,77 @@ public class Solution {
             if(Math.abs(subRes[i] - col) == row - i) return false;
         }
         return true;
+    }
+    // 90. Subsets II
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>((int)Math.pow(2, nums.length));
+        ArrayList<Integer> subRes = new ArrayList<>(nums.length);
+        Arrays.sort(nums);
+        bt_SubsetsWithDup(0, nums, subRes, res);
+        return res;
+    }
+    private void bt_SubsetsWithDup(int index, int[] nums, ArrayList<Integer> subRes, List<List<Integer>> res){
+        res.add(new ArrayList<>(subRes));
+        for(int i=index; i<nums.length;i++){
+            if(i == index || nums[i] != nums[i-1]){
+                subRes.add(nums[i]);
+                bt_SubsetsWithDup(i+1, nums, subRes, res);
+                subRes.removeLast();
+            }
+        }
+    }
+    // 22. Generate Parenthesis
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        StringBuilder subRes = new StringBuilder();
+        bt_generateParenthesis(0,0,n,subRes,res);
+        return res;
+    }
+    private void bt_generateParenthesis(int cOpen, int cClose, int n, StringBuilder subRes, List<String> res){
+        if(cOpen == n && cClose == n){
+            res.add(subRes.toString());
+            return;
+        }
+        if(cOpen < n){
+            subRes.append('(');
+            bt_generateParenthesis(cOpen+1,cClose,n,subRes,res);
+            subRes.deleteCharAt(cOpen+cClose);
+        }
+        if(cClose < n && cOpen > cClose){
+            subRes.append(')');
+            bt_generateParenthesis(cOpen,cClose+1,n,subRes,res);
+            subRes.deleteCharAt(cOpen+cClose);
+        }
+    }
+    // 79. Word Search
+    public boolean exist(char[][] board, String word) {
+        int m = board.length;
+        int n = board[0].length;
+        boolean[][] used = new boolean[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(bt_Exist(0, i, j, board, word, used)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    private boolean bt_Exist(int index, int row, int col, char[][] board, String word, boolean[][] used){
+        if(index == word.length()) return true;
+        int m = board.length;
+        int n = board[0].length;
+        if(row < 0 || row >= m) return false;
+        if(col < 0 || col >= n) return false;
+        if(used[row][col]) return false;
+        if(board[row][col] != word.charAt(index)) return false;
+        used[row][col] = true;
+        boolean res = bt_Exist(index+1,row+1,col,board,word,used) ||
+                        bt_Exist(index+1,row-1,col,board,word,used) ||
+                        bt_Exist(index+1,row,col+1,board,word,used) ||
+                        bt_Exist(index+1,row,col-1,board,word,used);
+        used[row][col] = false;
+        return res;
     }
 
 
