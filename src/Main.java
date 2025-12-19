@@ -6,9 +6,9 @@ public class Main {
         var solution = new Solution();
         var dailySolution = new DailySolution();
         var weeklySolution = new WeeklySolution();
-        int[] prices = new int[]{4,7,13};
-        int[] strategy = new int[]{-1,-1,0};
-        int k = 2;
-        System.out.println(dailySolution.maxProfit(prices, strategy, k));
+        int n = 6;
+        int firstPerson = 5;
+        int[][] meetings = new int[][]{{2,1,1},{0,1,1},{3,2,1},{4,2,2}};
+        System.out.println(dailySolution.findAllPeople(n, meetings, firstPerson));
     }
 }

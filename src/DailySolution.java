@@ -652,6 +652,7 @@ public class DailySolution {
     }
     // 3562. Maximum Profit from Trading Stocks with Discounts (CANNOT SOLVE)
     // 3573. Best Time To Sell And Buy Stock V
+    /** Dynamic Programming */
     public long maximumProfit(int[] prices, int k) {
         long[][][] dp = new long[prices.length][k+1][3];
         for(int i=0;i<prices.length;i++){
@@ -693,6 +694,7 @@ public class DailySolution {
         return dp[index][stepLeft][nextActionIndex];
     }
     // 3652. Best Time to Buy and Sell Stock using Strategy
+    /** Two Pointers */
     public long maxProfit(int[] prices, int[] strategy, int k) {
         int n = prices.length;
         long subTotal = 0;
@@ -715,5 +717,73 @@ public class DailySolution {
             m += 1;
         }
         return Math.max(total, total + modify);
+    }
+    // 2092. Find All People With Secret
+    /** Set & Find-Union */
+    public List<Integer> findAllPeople(int n, int[][] meetings, int firstPerson) {
+        int[] parent = new int[n];
+        HashSet<Integer>[] peopleSets = new HashSet[n];
+        for(int i=0;i<n;i++){
+            parent[i] = i;
+            peopleSets[i] = new HashSet<>();
+            peopleSets[i].add(i);
+        }
+        parent[firstPerson] = 0;
+        peopleSets[0].add(firstPerson);
+        TreeMap<Integer, List<int[]>> meetingMap = new TreeMap<>();
+        for(var meeting : meetings){
+            meetingMap.computeIfAbsent(meeting[2], k->new ArrayList<>()).add(new int[]{meeting[0], meeting[1]});
+        }
+        for(var timeStamp : meetingMap.keySet()){
+            var listMeetings = meetingMap.get(timeStamp);
+            HashSet<Integer> undoSet = new HashSet<>();
+            for(var meeting : listMeetings){
+                union_AllPeople(meeting[0], meeting[1], parent, peopleSets, undoSet);
+            }
+            undo_AllPeople(parent, peopleSets, undoSet);
+        }
+        return peopleSets[0].stream().toList();
+    }
+    private void union_AllPeople(int p1, int p2, int[] parent, HashSet<Integer>[] peopleSets, HashSet<Integer> undoSet){
+        int n1 = p1;
+        int n2 = p2;
+
+        while (p1 != parent[p1])
+            p1 = parent[p1];
+        while (p2 != parent[p2])
+            p2 = parent[p2];
+
+        if(p1 == p2) return;
+
+        if(p1 == 0 || p2 == 0){
+            if(p1 == 0){
+                parent[p2] = 0;
+                peopleSets[0].addAll(peopleSets[p2]);
+            }
+            else{
+                parent[p1] = 0;
+                peopleSets[0].addAll(peopleSets[p1]);
+            }
+            undoSet.remove(n1);
+            undoSet.remove(n2);
+        }
+        else {
+            undoSet.add(n1);
+            undoSet.add(n2);
+            if (peopleSets[p1].size() > peopleSets[p2].size()) {
+                parent[p2] = p1;
+                peopleSets[p1].addAll(peopleSets[p2]);
+            } else {
+                parent[p1] = p2;
+                peopleSets[p2].addAll(peopleSets[p1]);
+            }
+        }
+    }
+    private void undo_AllPeople(int[] parent, HashSet<Integer>[] peopleSets, HashSet<Integer> undoSet){
+        for(var i : undoSet){
+            parent[i] = i;
+            peopleSets[i] = new HashSet<>();
+            peopleSets[i].add(i);
+        }
     }
 }
