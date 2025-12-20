@@ -786,4 +786,19 @@ public class DailySolution {
             peopleSets[i].add(i);
         }
     }
+    // 944. Delete Columns to Make Sorted
+    public int minDeletionSize(String[] strs) {
+        int n = strs.length;
+        int res = 0;
+        int length = strs[0].length();
+        for(int i=0;i<length;i++){
+            for(int j=1;j<n;j++){
+                if(strs[j].charAt(i) < strs[j-1].charAt(i)){
+                    res += 1;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
 }
