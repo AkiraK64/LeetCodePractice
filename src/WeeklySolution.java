@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class WeeklySolution {
     /** Sunday - 30/11/2025 */
@@ -134,7 +131,7 @@ public class WeeklySolution {
         }
         return res;
     }
-    /** Saturday - 14/12/2025 */
+    /** Sunday - 14/12/2025 */
     // Q1.
     public int absDifference(int[] nums, int k) {
         Arrays.sort(nums);
@@ -211,6 +208,87 @@ public class WeeklySolution {
             offset += 1;
         }
         if(need > 0) return -1;
+        return res;
+    }
+    /** Saturday - 20/12/2025 */
+    // Q1. Minimum Numbers of Operations to Have Distinct Elements
+    public int minOperationsII(int[] nums) {
+        int n = nums.length;
+        int reminder = n % 3;
+        int group = n / 3 + 1;
+        HashSet<Integer> set = new HashSet<>();
+        int count = 0;
+        for(int i=n-1;i>=0;i--){
+            if(reminder == 0){
+                if(set.size() == n-1-i) count += 1;
+                else break;
+                reminder = 3;
+            }
+            set.add(nums[i]);
+            reminder -= 1;
+        }
+        if(set.size() == n) count += 1;
+        return group - count;
+    }
+    // Q2. Maximum Sum of Three Numbers Divisible by Three
+    public int maximumSum(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        List<Integer>[] list = new List[3];
+        for(int i=0;i<3;i++)
+            list[i] = new ArrayList<>(3);
+        int count = 0;
+        for(int i=n-1;i>=0;i--){
+            int index = nums[i] % 3;
+            if(list[index].size() < 3) {
+                list[index].add(nums[i]);
+                count += 1;
+                if(count == 9) break;
+            }
+        }
+        int res = 0;
+        for(int i=0;i<3;i++){
+            if(list[i].size() == 3){
+                res = Math.max(res, list[i].get(0) + list[i].get(1) + list[i].get(2));
+            }
+        }
+        if(list[0].size() > 0 && list[1].size() > 0 && list[2].size() > 0)
+            res = Math.max(res, list[0].getFirst() + list[1].getFirst() + list[2].getFirst());
+        return res;
+    }
+    // Q3. Maximum Score After Binary Swaps
+    public long maximumScore(int[] nums, String s) {
+        int n = nums.length;
+        long res = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        for(int i=0;i<n;i++){
+            pq.offer(nums[i]);
+            if(s.charAt(i) == '1') {
+                res += pq.poll();
+            }
+        }
+        return res;
+    }
+    // Q4. Last Remaining Integer After Alternating Deletion Operations
+    public long lastInteger(long n) {
+        long step = 2;
+        long res = 1;
+        boolean left = true;
+        long rightBound = n;
+        while (step <= rightBound){
+            long reminder = res % step;
+            if(left) {
+                long p = rightBound / step;
+                res = p * step + reminder;
+                if (res > rightBound) res -= step;
+                rightBound = res;
+            }
+            else{
+                res = reminder;
+            }
+            left = !left;
+            step *= 2;
+        }
         return res;
     }
 }
