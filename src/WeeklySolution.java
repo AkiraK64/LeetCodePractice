@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class WeeklySolution {
+
     /** Sunday - 30/11/2025 */
     // Q1. Count Elements With At least K Greater Values
     public int countElements(int[] nums, int k) {
@@ -47,6 +48,8 @@ public class WeeklySolution {
     public long[] minOperations(int[] nums, int k, int[][] queries) {
         return new long[0];
     }
+
+
     /** Saturday - 6/12/2025 */
     // Q1. Complete Prime
     public boolean completePrime(int num) {
@@ -131,6 +134,8 @@ public class WeeklySolution {
         }
         return res;
     }
+
+
     /** Sunday - 14/12/2025 */
     // Q1.
     public int absDifference(int[] nums, int k) {
@@ -210,6 +215,8 @@ public class WeeklySolution {
         if(need > 0) return -1;
         return res;
     }
+
+
     /** Saturday - 20/12/2025 */
     // Q1. Minimum Numbers of Operations to Have Distinct Elements
     public int minOperationsII(int[] nums) {
@@ -290,5 +297,34 @@ public class WeeklySolution {
             step *= 2;
         }
         return res;
+    }
+
+
+    /** Sunday - 21/12/2025 */
+    // Q1.
+    public int mirrorDistance(int n) {
+        int rv_n = 0;
+        int copy = n;
+        while (copy > 0){
+            rv_n = rv_n * 10 + copy % 10;
+            copy /= 10;
+        }
+        return Math.abs(n - rv_n);
+    }
+    // Q2.
+    public long minCost(String s, int[] cost) {
+        long[] charArrs = new long[26];
+        long totalCost = 0;
+        int n = s.length();
+        for(int i=0;i<n;i++){
+            var c = s.charAt(i);
+            charArrs[c - 'a'] += cost[i];
+            totalCost += cost[i];
+        }
+        long maxCost = 0;
+        for(int i=0;i<26;i++){
+            maxCost = Math.max(maxCost, charArrs[i]);
+        }
+        return totalCost - maxCost;
     }
 }
