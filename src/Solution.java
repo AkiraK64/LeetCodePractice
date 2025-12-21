@@ -1193,6 +1193,72 @@ public class Solution {
         used[row][col] = false;
         return res;
     }
+    // 131. Palindrome Partitioning
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        ArrayList<Integer> subRes = new ArrayList<>();
+        bt_partition(0,s,subRes,res);
+        return res;
+    }
+    private void bt_partition(int index, String s, ArrayList<Integer> subRes, List<List<String>> res){
+        int size = subRes.size();
+        int length = s.length();
+        if(size > 0 && subRes.get(size-1) == length-1){
+            List<String> sRes = new ArrayList<>();
+            for(int i=0;i<size;i++){
+                if(i==0) sRes.add(s.substring(0, subRes.getFirst()+1));
+                else sRes.add(s.substring(subRes.get(i-1)+1, subRes.get(i)+1));
+            }
+            res.add(sRes);
+            return;
+        }
+        int lastIndex = 0;
+        if(size > 0) lastIndex = subRes.get(size-1)+1;
+        for(int i=index;i<length;i++){
+            if(isPalindrome(lastIndex, i, s)){
+                subRes.add(i);
+                bt_partition(i+1,s,subRes,res);
+                subRes.removeLast();
+            }
+        }
+    }
+    private boolean isPalindrome(int start, int end, String str){
+        int l = start;
+        int r = end;
+        while (l < r){
+            if(str.charAt(l) != str.charAt(r)) return false;
+            l += 1;
+            r -= 1;
+        }
+        return true;
+    }
+    // 17. Letter Combinations of a Phone Number
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        Map<Character, List<Character>> map = new HashMap<>();
+        map.put('2', new ArrayList<>(List.of('a', 'b', 'c')));
+        map.put('3', new ArrayList<>(List.of('d', 'e', 'f')));
+        map.put('4', new ArrayList<>(List.of('g', 'h', 'i')));
+        map.put('5', new ArrayList<>(List.of('j', 'k', 'l')));
+        map.put('6', new ArrayList<>(List.of('m', 'n', 'o')));
+        map.put('7', new ArrayList<>(List.of('p', 'q', 'r', 's')));
+        map.put('8', new ArrayList<>(List.of('t', 'u', 'v')));
+        map.put('9', new ArrayList<>(List.of('w', 'x', 'y', 'z')));
+        bt_LetterCombinations(0, digits, new StringBuilder(), res, map);
+        return res;
+    }
+    private void bt_LetterCombinations(int index, String digits, StringBuilder subRes, List<String> res, Map<Character, List<Character>> map){
+        int n = digits.length();
+        if(index == n){
+            res.add(subRes.toString());
+            return;
+        }
+        for(var c : map.get(digits.charAt(index))){
+            subRes.append(c);
+            bt_LetterCombinations(index+1, digits, subRes, res, map);
+            subRes.deleteCharAt(subRes.length()-1);
+        }
+    }
 
 
     /** <i>1-D Dynamic Programing</i>
