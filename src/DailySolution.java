@@ -787,6 +787,7 @@ public class DailySolution {
         }
     }
     // 944. Delete Columns to Make Sorted
+    /** Iterator */
     public int minDeletionSize(String[] strs) {
         int n = strs.length;
         int res = 0;
@@ -798,6 +799,51 @@ public class DailySolution {
                     break;
                 }
             }
+        }
+        return res;
+    }
+    // 955. Delete Columns to Make Sorted II
+    /** Iterator */
+    public int minDeletionSizeII(String[] strs) {
+        int res = 0;
+        int n = strs.length;
+        int strSize = strs[0].length();
+        boolean[] delCols = new boolean[strSize];
+        int count;
+        for(int i=0;i<strSize;i++){
+            count = 0;
+            for(int j=1;j<n;j++){
+                if(strs[j].charAt(i) < strs[j-1].charAt(i)){
+                    int index = i-1;
+                    boolean pass = false;
+                    while (index >= 0){
+                        if(delCols[index]){
+                            index -= 1;
+                        }
+                        else{
+                            if(strs[j].charAt(index) == strs[j-1].charAt(index)){
+                                index -= 1;
+                            }
+                            else{
+                                pass = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(pass){
+                        count += 1;
+                    }
+                    else{
+                        res += 1;
+                        delCols[i] = true;
+                        break;
+                    }
+                }
+                else if(strs[j].charAt(i) > strs[j-1].charAt(i)){
+                    count += 1;
+                }
+            }
+            if(count == n-1) break;
         }
         return res;
     }
