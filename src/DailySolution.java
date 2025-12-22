@@ -847,4 +847,30 @@ public class DailySolution {
         }
         return res;
     }
+    // 960. Delete Columns to Make Sorted II
+    /** Dynamic Programming */
+    public int minDeletionSizeIII(String[] strs) {
+        int colCount = strs[0].length();
+        int[] dp = new int[colCount];
+        Arrays.fill(dp, 1);
+        for(int curCol=0;curCol<colCount;curCol++){
+            for(int prevCol=0;prevCol<curCol;prevCol++){
+                boolean hasDecreasing = false;
+                for(var str : strs){
+                    if(str.charAt(prevCol) > str.charAt(curCol)){
+                        hasDecreasing = true;
+                        break;
+                    }
+                }
+                if(!hasDecreasing){
+                    dp[curCol] = Math.max(dp[curCol], dp[prevCol] + 1);
+                }
+            }
+        }
+        int maxIncreasingCol = 0;
+        for(var d : dp){
+            maxIncreasingCol = Math.max(maxIncreasingCol, d);
+        }
+        return colCount - maxIncreasingCol;
+    }
 }
