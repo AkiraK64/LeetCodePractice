@@ -1,5 +1,7 @@
 public class Main {
     /** Neetcode:
+     * Intervals - 435 (1/3)
+     * Intervals - 253 (1/3)
      * Dairy:
      * 960 - (1/3)
      */
