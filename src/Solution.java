@@ -1381,6 +1381,31 @@ public class Solution {
         }
         return true;
     }
+    // 435. Non-overlapping Intervals
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a,b)->(a[1]-b[1]));
+        int count = 0;
+        int end = Integer.MIN_VALUE;
+        for(var i : intervals){
+            if(i[0] >= end){
+                count += 1;
+                end = i[1];
+            }
+        }
+        return intervals.length - count;
+    }
+    // 253. Meeting Rooms II
+    public int minMeetingRooms(List<Interval> intervals) {
+        intervals.sort((a,b)->(a.start-b.start));
+        PriorityQueue<Integer> rooms = new PriorityQueue<>();
+        for(var i : intervals){
+            if(!rooms.isEmpty() && rooms.peek() <= i.start){
+                rooms.poll();
+            }
+            rooms.offer(i.end);
+        }
+        return rooms.size();
+    }
 
 
     /** <i>Math & Geometry</i>
