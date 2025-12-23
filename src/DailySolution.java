@@ -873,4 +873,34 @@ public class DailySolution {
         }
         return colCount - maxIncreasingCol;
     }
+    // 2054. Two Best Non-Overlapping Events
+    public int maxTwoEvents(int[][] events) {
+        Arrays.sort(events, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[0] == o2[0]) return o1[1] - o2[1];
+                return o1[0] - o2[0];
+            }
+        });
+        int res = 0;
+        int maxNonOverlappingValue = 0;
+        PriorityQueue<int[]> overlapping = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[1] == o2[1]) return o2[2] - o1[2];
+                return o1[1] - o2[1];
+            }
+        });
+        for(var i : events){
+            while (!overlapping.isEmpty()){
+                if(overlapping.peek()[1] >= i[0]){
+                    break;
+                }
+                maxNonOverlappingValue = Math.max(maxNonOverlappingValue, overlapping.poll()[2]);
+            }
+            res = Math.max(res, i[2] + maxNonOverlappingValue);
+            overlapping.offer(i);
+        }
+        return res;
+    }
 }
