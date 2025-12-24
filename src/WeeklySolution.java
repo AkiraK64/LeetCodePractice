@@ -327,4 +327,36 @@ public class WeeklySolution {
         }
         return totalCost - maxCost;
     }
+    // Q3. Minimum Swaps to Avoid Forbidden Values
+    public int minSwaps(int[] nums, int[] forbidden) {
+        int n = nums.length;
+        Map<Integer, Integer> count = new HashMap<>();
+        // count
+        for(var num : nums){
+            count.merge(num, 1, Integer::sum);
+        }
+        // count
+        for(var f : forbidden){
+            count.merge(f, 1, Integer::sum);
+        }
+        // check count (if > n => can not swap => -1)
+        for(var c : count.entrySet()){
+            if(c.getValue() > n) return -1;
+        }
+        // count forbidden pair
+        Map<Integer, Integer> badCount = new HashMap<>();
+        int badTotal = 0;
+        for(int i=0;i<n;i++){
+            if(nums[i] == forbidden[i]){
+                badCount.merge(nums[i], 1, Integer::sum);
+                badTotal += 1;
+            }
+        }
+        // count max forbidden pair with same value
+        int maxi = 0;
+        for(var pair : badCount.entrySet()){
+            maxi = Math.max(maxi, pair.getValue());
+        }
+        return Math.max(maxi, (badTotal + 1)/2);
+    }
 }
