@@ -853,27 +853,26 @@ public class DailySolution {
         int colCount = strs[0].length();
         int[] dp = new int[colCount];
         Arrays.fill(dp, 1);
-        for(int curCol=0;curCol<colCount;curCol++){
-            for(int prevCol=0;prevCol<curCol;prevCol++){
-                boolean hasDecreasing = false;
+        for (int curCol=0;curCol<colCount;curCol++){
+            for (int prevCol=0;prevCol<curCol;prevCol++){
+                boolean check = true;
                 for(var str : strs){
                     if(str.charAt(prevCol) > str.charAt(curCol)){
-                        hasDecreasing = true;
+                        check = false;
                         break;
                     }
                 }
-                if(!hasDecreasing){
-                    dp[curCol] = Math.max(dp[curCol], dp[prevCol] + 1);
-                }
+                if(check) dp[curCol] = Math.max(dp[curCol], dp[prevCol] + 1);
             }
         }
-        int maxIncreasingCol = 0;
+        int maxCol = 0;
         for(var d : dp){
-            maxIncreasingCol = Math.max(maxIncreasingCol, d);
+            maxCol = Math.max(maxCol, d);
         }
-        return colCount - maxIncreasingCol;
+        return colCount - maxCol;
     }
     // 2054. Two Best Non-Overlapping Events
+    /** Intervals & Max Heap */
     public int maxTwoEvents(int[][] events) {
         Arrays.sort(events, new Comparator<int[]>() {
             @Override
@@ -900,6 +899,24 @@ public class DailySolution {
             }
             res = Math.max(res, i[2] + maxNonOverlappingValue);
             overlapping.offer(i);
+        }
+        return res;
+    }
+    // 3074. Apple Redistribution into Boxes
+    /** Arrays & Math */
+    public int minimumBoxes(int[] apple, int[] capacity) {
+        int total = 0;
+        int res = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        for(var a : apple){
+            total += a;
+        }
+        for(var c : capacity){
+            pq.offer(c);
+        }
+        while (!pq.isEmpty() && total > 0){
+            total -= pq.poll();
+            res += 1;
         }
         return res;
     }
