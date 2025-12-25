@@ -920,4 +920,17 @@ public class DailySolution {
         }
         return res;
     }
+    // 3075. Maximum Happiness of Selected Children
+    public long maximumHappinessSum(int[] happiness, int k) {
+        Arrays.sort(happiness);
+        long res = 0;
+        int decreasing = 0;
+        int index = happiness.length-1;
+        while (index >= 0 && decreasing < k){
+            res += Math.max(0, happiness[index] - decreasing);
+            decreasing += 1;
+            index -= 1;
+        }
+        return res;
+    }
 }
