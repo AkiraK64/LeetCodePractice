@@ -137,7 +137,7 @@ public class WeeklySolution {
 
 
     /** Sunday - 14/12/2025 */
-    // Q1.
+    // Q1. Absolute Difference Between Maximum and Minimum K Elements
     public int absDifference(int[] nums, int k) {
         Arrays.sort(nums);
         int n = nums.length;
@@ -149,7 +149,7 @@ public class WeeklySolution {
         }
         return maxSum - minSum;
     }
-    // Q2.
+    // Q2. Reverse Words With Same Vowel Count
     public String reverseWords(String s) {
         int[] count = new int[26];
         char[] vowel = new char[]{'a', 'e', 'i', 'o', 'u'};
@@ -184,7 +184,7 @@ public class WeeklySolution {
         }
         return res.toString();
     }
-    // Q3.
+    // Q3. Minimum Moves to Balance Circurlar Array
     public long minMoves(int[] balance) {
         int nIndex = -1;
         int n = balance.length;
@@ -301,7 +301,7 @@ public class WeeklySolution {
 
 
     /** Sunday - 21/12/2025 */
-    // Q1.
+    // Q1. Mirror Distance of an Integer
     public int mirrorDistance(int n) {
         int rv_n = 0;
         int copy = n;
@@ -311,7 +311,7 @@ public class WeeklySolution {
         }
         return Math.abs(n - rv_n);
     }
-    // Q2.
+    // Q2. Minimum Deletion Cost to Make All Characters Equal
     public long minCost(String s, int[] cost) {
         long[] charArrs = new long[26];
         long totalCost = 0;
