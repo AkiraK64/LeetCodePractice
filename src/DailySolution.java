@@ -921,6 +921,7 @@ public class DailySolution {
         return res;
     }
     // 3075. Maximum Happiness of Selected Children
+    /** Arrays */
     public long maximumHappinessSum(int[] happiness, int k) {
         Arrays.sort(happiness);
         long res = 0;
@@ -932,5 +933,28 @@ public class DailySolution {
             index -= 1;
         }
         return res;
+    }
+    // 2483. Minimum Penalty for a Shop
+    /** Arrays */
+    public int bestClosingTime(String customers) {
+        int leftN = 0;
+        int rightY = 0;
+        for(var c : customers.toCharArray()){
+            if(c == 'Y') rightY += 1;
+        }
+        int res = 0;
+        int penalty = customers.length();
+        int hour = 0;
+        for(var c : customers.toCharArray()){
+            int newPenalty = leftN + rightY;
+            if(penalty > newPenalty){
+                penalty = newPenalty;
+                res = hour;
+            }
+            if(c == 'Y') rightY -= 1;
+            else leftN += 1;
+            hour += 1;
+        }
+        return penalty > leftN + rightY ? hour : res;
     }
 }
