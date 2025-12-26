@@ -1,5 +1,7 @@
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PracticeSolution {
     // 8. String to Integer (atoi)
@@ -53,5 +55,25 @@ public class PracticeSolution {
             right -= 1;
         }
         return true;
+    }
+    // 13. Roman To Integer
+    /** String */
+    public int romanToInt(String s) {
+        Map<Character, Integer> mapValue = new HashMap<>();
+        Map<Character, Character> mapCase = new HashMap<>();
+        mapValue.put('I', 1); mapValue.put('V', 5); mapValue.put('X', 10); mapValue.put('L', 50);
+        mapValue.put('C', 100); mapValue.put('D', 500); mapValue.put('M', 1000);
+        mapCase.put('V', 'I'); mapCase.put('X', 'I'); mapCase.put('L', 'X'); mapCase.put('C', 'X');
+        mapCase.put('D', 'C'); mapCase.put('M', 'C');
+        char prevChar = ' ';
+        int res = 0;
+        for(var c : s.toCharArray()){
+            if(prevChar != ' ' && mapCase.getOrDefault(c, ' ') == prevChar){
+                res -= 2 * mapValue.get(prevChar);
+            }
+            prevChar = c;
+            res += mapValue.get(c);
+        }
+        return res;
     }
 }
