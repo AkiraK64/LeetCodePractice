@@ -957,4 +957,86 @@ public class DailySolution {
         }
         return penalty > leftN + rightY ? hour : res;
     }
+    // 2402. Meeting Rooms III
+    /** Heap & Priority Queue */
+    public int mostBooked(int n, int[][] meetings) {
+        Arrays.sort(meetings, (a,b)->(a[0]-b[0]));
+
+        /** 0-room index, 1-meeting counts, 2-end time */
+        PriorityQueue<int[]> usingRooms = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if(o1[2] == o2[2]) return o1[0] - o2[0];
+                return o1[2] - o2[2];
+            }
+        });
+        PriorityQueue<int[]> availableRooms = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+
+        for(int i=0;i<n;i++){
+            availableRooms.add(new int[]{i,0,0});
+        }
+
+        int m = meetings.length;
+        for(int i=0;i<m;i++){
+            while (!usingRooms.isEmpty()){
+                var room = usingRooms.peek();
+                if(room[2] <= meetings[i][0]){
+                    availableRooms.offer(room);
+                    usingRooms.poll();
+                }
+                else{
+                    break;
+                }
+            }
+
+            if(availableRooms.isEmpty()){
+                var room = usingRooms.poll();
+                room[1] += 1;
+                room[2] += (meetings[i][1] - meetings[i][0]);
+                usingRooms.offer(room);
+            }
+            else{
+                var room = availableRooms.poll();
+                room[1] += 1;
+                room[2] = meetings[i][1];
+                usingRooms.offer(room);
+            }
+        }
+
+        int res = 0;
+        int maxMeetings = 0;
+
+        while (!usingRooms.isEmpty()){
+            var room = usingRooms.poll();
+            if(room[1] > maxMeetings){
+                maxMeetings = room[1];
+                res = room[0];
+            }
+            else if(room[1] == maxMeetings){
+                if(room[0] < res){
+                    res = room[0];
+                }
+            }
+        }
+
+        while (!availableRooms.isEmpty()){
+            var room = availableRooms.poll();
+            if(room[1] > maxMeetings){
+                maxMeetings = room[1];
+                res = room[0];
+            }
+            else if(room[1] == maxMeetings){
+                if(room[0] < res){
+                    res = room[0];
+                }
+            }
+        }
+
+        return res;
+    }
 }
