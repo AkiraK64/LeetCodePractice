@@ -1039,4 +1039,23 @@ public class DailySolution {
 
         return res;
     }
+    // 1351. Count Negative Numbers in a Sorted Matrix
+    /** Iterator */
+    public int countNegatives(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int colBound = n;
+        int count = 0;
+        for (int[] ints : grid) {
+            if (colBound == 0) break;
+            for (int j = 0; j < colBound; j++) {
+                if (ints[j] < 0) {
+                    colBound = j;
+                    break;
+                }
+                count += 1;
+            }
+        }
+        return m * n - count;
+    }
 }
