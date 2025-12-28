@@ -847,7 +847,7 @@ public class DailySolution {
         }
         return res;
     }
-    // 960. Delete Columns to Make Sorted II
+    // 960. Delete Columns to Make Sorted III
     /** Dynamic Programming */
     public int minDeletionSizeIII(String[] strs) {
         int colCount = strs[0].length();
