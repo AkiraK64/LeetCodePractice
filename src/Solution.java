@@ -1384,15 +1384,14 @@ public class Solution {
     // 435. Non-overlapping Intervals
     public int eraseOverlapIntervals(int[][] intervals) {
         Arrays.sort(intervals, (a,b)->(a[1]-b[1]));
-        int count = 0;
-        int end = Integer.MIN_VALUE;
+        PriorityQueue<Integer> rooms = new PriorityQueue<>(Comparator.reverseOrder());
         for(var i : intervals){
-            if(i[0] >= end){
-                count += 1;
-                end = i[1];
+            if(rooms.isEmpty()) rooms.add(i[1]);
+            else if(rooms.peek() <= i[0]){
+                rooms.add(i[1]);
             }
         }
-        return intervals.length - count;
+        return intervals.length - rooms.size();
     }
     // 253. Meeting Rooms II
     public int minMeetingRooms(List<Interval> intervals) {
