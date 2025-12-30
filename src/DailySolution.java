@@ -1098,4 +1098,38 @@ public class DailySolution {
         memoMap.put(key, false);
         return false;
     }
+    // 840. Magic Squares In Grid
+    /** Arrays & Math */
+    public int numMagicSquaresInside(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int res = 0;
+        for(int i=1;i<m-1;i++){
+            for(int j=1;j<n-1;j++){
+                if(grid[i][j] == 5){
+                    if(isMagicSquares(grid, i, j)) res += 1;
+                }
+            }
+        }
+        return res;
+    }
+    private boolean isMagicSquares(int[][] grid, int i, int j){
+        Set<Integer> check = new HashSet<>();
+        int sub = 0;
+        for(int off=-1;off<=1;off++){
+            sub = Math.abs(grid[i-1][j+off] - grid[i+1][j-off]);
+            if(grid[i-1][j+off] + grid[i+1][j-off] != 10) return false;
+            if(sub >= 10) return false;
+            if(check.contains(sub)) return false;
+            check.add(sub);
+        }
+        sub = Math.abs(grid[i][j-1] - grid[i][j+1]);
+        if(grid[i][j-1] + grid[i][j+1] != 10) return false;
+        if(sub >= 10) return false;
+        if(check.contains(sub)) return false;
+        check.add(sub);
+        if(grid[i-1][j-1] + grid[i-1][j] + grid[i-1][j+1] != 15) return false;
+        if(grid[i-1][j-1] + grid[i][j-1] + grid[i+1][j-1] != 15) return false;
+        return true;
+    }
 }
