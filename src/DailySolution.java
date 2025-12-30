@@ -1062,40 +1062,36 @@ public class DailySolution {
     /** Backtracking */
     public boolean pyramidTransition(String bottom, List<String> allowed) {
         int[][] transition = new int[6][6];
-        for(var s : allowed){
-            int left = s.charAt(0) - 'A';
-            int right = s.charAt(1) - 'A';
-            int top = s.charAt(2) - 'A';
+        for(var p : allowed){
+            int left = p.charAt(0) - 'A';
+            int right = p.charAt(1) - 'A';
+            int top = p.charAt(2) - 'A';
             transition[left][right] |= 1 << top;
         }
-        Map<String, Boolean> memoMap = new HashMap<>();
-        return canBuildPyramid(bottom, new StringBuilder(), transition, memoMap);
+        Map<String, Boolean> dp = new HashMap<>();
+        return canBuildPyramid(bottom, new StringBuilder(), transition, dp);
     }
-    private boolean canBuildPyramid(String currentLevel, StringBuilder nextLevel, int[][] transition, Map<String, Boolean> memoMap){
-        if(currentLevel.length() == 1) return true;
-        if(nextLevel.length() + 1 == currentLevel.length()){
-            return canBuildPyramid(nextLevel.toString(), new StringBuilder(), transition, memoMap);
-        }
-
-        String key = currentLevel + '.' + nextLevel.toString();
-        if(memoMap.containsKey(key)) return memoMap.get(key);
-
+    private boolean canBuildPyramid(String curLevel, StringBuilder nextLevel, int[][] transition, Map<String, Boolean> dp){
+        if(curLevel.length() == 1) return true;
+        if(nextLevel.length() + 1 == curLevel.length())
+            return canBuildPyramid(nextLevel.toString(), new StringBuilder(), transition, dp);
+        String key = curLevel + '.' + nextLevel.toString();
+        if(dp.containsKey(key)) return dp.get(key);
         int n = nextLevel.length();
-        int left = currentLevel.charAt(n) - 'A';
-        int right = currentLevel.charAt(n+1) - 'A';
+        int left = curLevel.charAt(n) - 'A';
+        int right = curLevel.charAt(n+1) - 'A';
         int top = transition[left][right];
-
         for(int i=0;i<6;i++){
-            if((top >> i & 1) == 1){
+            if(((top >> i) & 1) == 1){
                 nextLevel.append((char)(i + 'A'));
-                if(canBuildPyramid(currentLevel, nextLevel, transition, memoMap)){
-                    memoMap.put(key, true);
+                if(canBuildPyramid(curLevel, nextLevel, transition, dp)){
+                    dp.put(key, true);
                     return true;
                 }
-                nextLevel.deleteCharAt(nextLevel.length()-1);
+                nextLevel.deleteCharAt(nextLevel.length() - 1);
             }
         }
-        memoMap.put(key, false);
+        dp.put(key, false);
         return false;
     }
     // 840. Magic Squares In Grid
