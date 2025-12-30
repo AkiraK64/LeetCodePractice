@@ -1,7 +1,6 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
+import com.sun.source.tree.Tree;
+
+import java.util.*;
 
 public class PracticeSolution {
     // 8. String to Integer (atoi)
@@ -75,5 +74,37 @@ public class PracticeSolution {
             res += mapValue.get(c);
         }
         return res;
+    }
+    // 108. Convert Sorted Array to Binary Search Tree
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums.length == 0) return null;
+        int middle = nums.length / 2;
+        TreeNode root = new TreeNode(nums[middle]);
+        var left = sortedArrayToBST(Arrays.copyOfRange(nums, 0, middle));
+        var right = sortedArrayToBST(Arrays.copyOfRange(nums, middle+1, nums.length));
+        root.left = left;
+        root.right = right;
+        return root;
+    }
+    // 109. Convert Sorted List to Binary Search Tree
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head == null) return null;
+        if(head.next == null) return new TreeNode(head.val);
+        var slow = head;
+        var fast = head;
+        var cur = head;
+        while (fast.next != null){
+            cur = slow;
+            slow = slow.next;
+            fast = fast.next;
+            if(fast.next != null) fast = fast.next;
+        }
+        cur.next = null;
+        var root = new TreeNode(slow.val);
+        var left = sortedListToBST(head);
+        var right = sortedListToBST(slow.next);
+        root.left = left;
+        root.right = right;
+        return root;
     }
 }
