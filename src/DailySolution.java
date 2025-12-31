@@ -1128,4 +1128,51 @@ public class DailySolution {
         if(grid[i-1][j-1] + grid[i][j-1] + grid[i+1][j-1] != 15) return false;
         return true;
     }
+    // 1970. Last Day When You Can Still Cross
+    /** Binary Search */
+    public int latestDayToCross(int row, int col, int[][] cells) {
+        int l = 0;
+        int r = row * col - 1;
+        int res = 0;
+        while (l <= r){
+            int mid = (l + r) / 2;
+            if(canCross(mid, row, col, cells)){
+                l = mid + 1;
+                res = mid;
+            }
+            else{
+                r = mid - 1;
+            }
+        }
+        return res + 1;
+    }
+    private boolean canCross(int curDay, int row, int col, int[][] cells){
+        int[][] grid = new int[row][col];
+        for(int i=0;i<=curDay;i++){
+            grid[cells[i][0]-1][cells[i][1]-1] = 1;
+        }
+        Deque<int[]> path = new ArrayDeque<>();
+        for(int c=0;c<col;c++){
+            if(grid[0][c] == 0){
+                path.add(new int[]{0,c});
+                grid[0][c] = 1;
+            }
+        }
+        int[] direction = new int[]{-1,0,1,0,-1};
+        while (!path.isEmpty()){
+            var curPos = path.poll();
+            int curRow = curPos[0];
+            int curCol = curPos[1];
+            if(curRow == row - 1) return true;
+            for(int i=0;i<4;i++){
+                int nextRow = curRow + direction[i];
+                int nextCol = curCol + direction[i+1];
+                if(nextRow >= 0 && nextRow < row && nextCol >= 0 && nextCol < col && grid[nextRow][nextCol] == 0){
+                    path.offer(new int[]{nextRow, nextCol});
+                    grid[nextRow][nextCol] = 1;
+                }
+            }
+        }
+        return false;
+    }
 }
