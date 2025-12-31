@@ -76,6 +76,7 @@ public class PracticeSolution {
         return res;
     }
     // 108. Convert Sorted Array to Binary Search Tree
+    /** Binary Search Tree */
     public TreeNode sortedArrayToBST(int[] nums) {
         if(nums.length == 0) return null;
         int middle = nums.length / 2;
@@ -87,6 +88,7 @@ public class PracticeSolution {
         return root;
     }
     // 109. Convert Sorted List to Binary Search Tree
+    /** Binary Search Tree */
     public TreeNode sortedListToBST(ListNode head) {
         if(head == null) return null;
         if(head.next == null) return new TreeNode(head.val);
