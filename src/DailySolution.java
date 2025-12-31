@@ -1062,10 +1062,10 @@ public class DailySolution {
     /** Backtracking */
     public boolean pyramidTransition(String bottom, List<String> allowed) {
         int[][] transition = new int[6][6];
-        for(var p : allowed){
-            int left = p.charAt(0) - 'A';
-            int right = p.charAt(1) - 'A';
-            int top = p.charAt(2) - 'A';
+        for(var s : allowed){
+            int left = s.charAt(0) - 'A';
+            int right = s.charAt(1) - 'A';
+            int top = s.charAt(2) - 'A';
             transition[left][right] |= 1 << top;
         }
         Map<String, Boolean> dp = new HashMap<>();
@@ -1075,7 +1075,7 @@ public class DailySolution {
         if(curLevel.length() == 1) return true;
         if(nextLevel.length() + 1 == curLevel.length())
             return canBuildPyramid(nextLevel.toString(), new StringBuilder(), transition, dp);
-        String key = curLevel + '.' + nextLevel.toString();
+        String key = curLevel + '.' + nextLevel;
         if(dp.containsKey(key)) return dp.get(key);
         int n = nextLevel.length();
         int left = curLevel.charAt(n) - 'A';
