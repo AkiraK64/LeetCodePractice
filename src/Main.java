@@ -3,7 +3,7 @@ import java.util.List;
 public class Main {
     /** Neetcode:
      * Dairy:
-     * 756 (2/3)
+     * 1970 (1/3)
      * Weekly Contest:
      */
     public static void main(String[] args) {
