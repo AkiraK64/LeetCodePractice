@@ -109,4 +109,59 @@ public class PracticeSolution {
         root.right = right;
         return root;
     }
+    // 701. Insert Into A Binary Search Tree
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if(root == null) return new TreeNode(val);
+        if(val < root.val){
+            var left = insertIntoBST(root.left, val);
+            root.left = left;
+        }
+        else{
+            var right = insertIntoBST(root.right, val);
+            root.right = right;
+        }
+        return root;
+    }
+    // 700. Search In A Binary Search Tree
+    public TreeNode searchBST(TreeNode root, int val) {
+        if(root == null) return null;
+        if(val == root.val) return root;
+        else if(val < root.val) return searchBST(root.left, val);
+        else return searchBST(root.right, val);
+    }
+    // 450. Delete Node In A BST
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if(root == null) return null;
+        if(key == root.val){
+            if(root.left == null && root.right == null) return null;
+            if(root.right == null){
+                return root.left;
+            }
+            else {
+                var newNode = root.right;
+                if(newNode.left == null){
+                    newNode.left = root.left;
+                    return newNode;
+                }
+                else{
+                    var prevNode = newNode;
+                    while (newNode.left != null){
+                        prevNode = newNode;
+                        newNode = newNode.left;
+                    }
+                    prevNode.left = newNode.right;
+                    newNode.left = root.left;
+                    newNode.right = root.right;
+                    return newNode;
+                }
+            }
+        }
+        else if(key < root.val) {
+            root.left = deleteNode(root.left, key);
+        }
+        else {
+            root.right = deleteNode(root.right, key);
+        }
+        return root;
+    }
 }
