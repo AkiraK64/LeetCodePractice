@@ -186,6 +186,96 @@ public class Solution {
         }
         return res;
     }
+    // 1929. Concatenation Of Array
+    public int[] getConcatenation(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[2*n];
+        for(int i=0;i<2*n;i++){
+            ans[i] = nums[i%n];
+        }
+        return ans;
+    }
+    // 14. Longest Common Prefix
+    public String longestCommonPrefix(String[] strs) {
+        StringBuilder res = new StringBuilder();
+        int index = 0;
+        int n = strs.length;
+        int maxi = Integer.MAX_VALUE;
+        for(var str : strs){
+            maxi = Math.min(str.length(), maxi);
+        }
+        while (index < maxi){
+            boolean stop = false;
+            for(int i=1;i<n;i++){
+                if(strs[i].charAt(index) != strs[i-1].charAt(index)){
+                    stop = true;
+                    break;
+                }
+            }
+            if(stop) break;
+            res.append(strs[0].charAt(index));
+            index += 1;
+        }
+        return res.toString();
+    }
+    // 912. Sort an Array
+    public int[] sortArray(int[] nums) {
+        mergesort_SortArray(0, nums.length-1, nums);
+        return nums;
+    }
+    private void mergesort_SortArray(int start, int end, int[] nums){
+        if(start >= end) return;
+        int mid = (start + end) / 2;
+        mergesort_SortArray(start, mid, nums);
+        mergesort_SortArray(mid+1, end, nums);
+        merge_SortArray(start, mid, end, nums);
+    }
+    private void merge_SortArray(int start, int mid, int end, int[] nums){
+        int l = start;
+        int r = mid + 1;
+        int[] tmp = new int[end - start + 1];
+        int k = 0;
+        while (l <= mid && r <= end){
+            if(nums[l] < nums[r]){
+                tmp[k] = nums[l];
+                k += 1;
+                l += 1;
+            }
+            else{
+                tmp[k] = nums[r];
+                k += 1;
+                r += 1;
+            }
+        }
+        while (l <= mid){
+            tmp[k] = nums[l];
+            k += 1;
+            l += 1;
+        }
+        while (r <= end){
+            tmp[k] = nums[r];
+            k += 1;
+            r += 1;
+        }
+        for(int i=start;i<=end;i++){
+            nums[i] = tmp[i-start];
+        }
+    }
+    // 75. Sort Colors
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        int[] colors = new int[3];
+        for(var num : nums){
+            colors[num] += 1;
+        }
+        int numOfRed = colors[0];
+        int numOfWhite = colors[0] + colors[1];
+        for (int i=0;i<n;i++){
+            if(i < numOfRed) nums[i] = 0;
+            else if(i < numOfWhite) nums[i] = 1;
+            else nums[i] = 2;
+        }
+    }
 
 
     /** <i>Two Pointers</i>
