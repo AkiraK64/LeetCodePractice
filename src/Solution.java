@@ -276,6 +276,27 @@ public class Solution {
             else nums[i] = 2;
         }
     }
+    // 27. Remove Element
+    public int removeElement(int[] nums, int val) {
+        int k = 0;
+        List<Integer> tmp = new ArrayList<>(nums.length);
+        for(var num : nums){
+            if(num != val){
+                k += 1;
+                tmp.add(num);
+            }
+        }
+        int index = 0;
+        for(var num : tmp){
+            nums[index] = num;
+            index += 1;
+        }
+        while (index < nums.length){
+            nums[index] = val;
+            index += 1;
+        }
+        return k;
+    }
 
 
     /** <i>Two Pointers</i>
