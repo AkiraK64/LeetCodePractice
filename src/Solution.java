@@ -472,6 +472,19 @@ public class Solution {
             if(slow == slow2) return slow;
         }
     }
+    // 344. Reverse String
+    public void reverseString(char[] s) {
+        int n = s.length;
+        int half = n / 2;
+        char[] tmp = new char[half];
+        for(int i=0;i<half;i++){
+            tmp[i] = s[i];
+            s[i] = s[n-i-1];
+        }
+        for(int i=n-half;i<n;i++){
+            s[i] = tmp[n-1-i];
+        }
+    }
 
 
     /** <i>Sliding Window</i>
