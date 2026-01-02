@@ -1782,4 +1782,41 @@ public class Solution {
         }
         return res * sign;
     }
+    // 67. Add Binary
+    public String addBinary(String a, String b) {
+        String a_rv = new StringBuilder(a).reverse().toString();
+        String b_rv = new StringBuilder(b).reverse().toString();
+        int aLength = a_rv.length();
+        int bLength = b_rv.length();
+        int i = 0;
+        StringBuilder res = new StringBuilder();
+        int reminder = 0;
+        while (i < aLength && i < bLength){
+            int digitA = a_rv.charAt(i) - '0';
+            int digitB = b_rv.charAt(i) - '0';
+            int value = digitA + digitB + reminder;
+            reminder = (value > 1) ? 1 : 0;
+            char v = (char) (value % 2 + '0');
+            res.append(v);
+            i += 1;
+        }
+        while (i < aLength){
+            int digitA = a_rv.charAt(i) - '0';
+            int value = digitA + reminder;
+            reminder = (value > 1) ? 1 : 0;
+            char v = (char) (value % 2 + '0');
+            res.append(v);
+            i += 1;
+        }
+        while (i < bLength){
+            int digitB = b_rv.charAt(i) - '0';
+            int value = digitB + reminder;
+            reminder = (value > 1) ? 1 : 0;
+            char v = (char) (value % 2 + '0');
+            res.append(v);
+            i += 1;
+        }
+        if(reminder == 1) res.append('1');
+        return res.reverse().toString();
+    }
 }
