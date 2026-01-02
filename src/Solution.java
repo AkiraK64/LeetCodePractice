@@ -297,6 +297,18 @@ public class Solution {
         }
         return k;
     }
+    // 169. Majority Element
+    public int majorityElement(int[] nums) {
+        Map<Integer, Integer> numMap = new HashMap<>();
+        for(var num : nums){
+            numMap.merge(num, 1, Integer::sum);
+        }
+        TreeMap<Integer, List<Integer>> freq = new TreeMap<>();
+        for(var key : numMap.keySet()){
+            freq.computeIfAbsent(numMap.get(key), k -> new ArrayList<>()).add(key);
+        }
+        return freq.lastEntry().getValue().getFirst();
+    }
 
 
     /** <i>Two Pointers</i>
