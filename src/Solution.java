@@ -309,6 +309,24 @@ public class Solution {
         }
         return freq.lastEntry().getValue().getFirst();
     }
+    // 229. Majority Element II
+    public List<Integer> majorityElementII(int[] nums) {
+        Map<Integer, Integer> numMap = new HashMap<>();
+        for(var num : nums){
+            numMap.merge(num, 1, Integer::sum);
+        }
+        TreeMap<Integer, List<Integer>> freq = new TreeMap<>(Collections.reverseOrder());
+        for(var key : numMap.keySet()){
+            freq.computeIfAbsent(numMap.get(key), k -> new ArrayList<>()).add(key);
+        }
+        List<Integer> res = new ArrayList<>();
+        int time = Math.floorDiv(nums.length, 3);
+        for(var key : freq.keySet()){
+            if(key <= time) break;
+            res.addAll(freq.get(key));
+        }
+        return res;
+    }
 
 
     /** <i>Two Pointers</i>
