@@ -327,6 +327,20 @@ public class Solution {
         }
         return res;
     }
+    // 560. Subarray Sum Equals K
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> prefix = new HashMap<>();
+        int total = 0;
+        prefix.put(0, 1);
+        int res = 0;
+        for(var num : nums){
+            total += num;
+            int p = total - k;
+            res += prefix.getOrDefault(p, 0);
+            prefix.merge(total, 1, Integer::sum);
+        }
+        return res;
+    }
 
 
     /** <i>Two Pointers</i>
