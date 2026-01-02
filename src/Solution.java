@@ -341,6 +341,15 @@ public class Solution {
         }
         return res;
     }
+    // 41. First Missing Positive
+    public int firstMissingPositive(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for(var num : nums) numSet.add(num);
+        int res = 1;
+        while (numSet.contains(res))
+            res += 1;
+        return res;
+    }
 
 
     /** <i>Two Pointers</i>
