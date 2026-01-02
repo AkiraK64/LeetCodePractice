@@ -315,7 +315,7 @@ public class DailySolution {
     // 3623. Count Number Of Trapezoids I
     /** Array & Hashing */
     public int countTrapezoids(int[][] points) {
-        int MOD = 1000000007;
+        int MOD = (int)(1e9+7);
         HashMap<Integer, Integer> map = new HashMap<>();
         for(var point : points){
             map.put(point[1], map.getOrDefault(point[1], 0) + 1);
@@ -1174,5 +1174,16 @@ public class DailySolution {
             }
         }
         return false;
+    }
+    // 961. N-Repeated Element in Size 2N Array
+    public int repeatedNTimes(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        int size = 0;
+        for(var num : nums){
+            numSet.add(num);
+            size += 1;
+            if(numSet.size() < size) return num;
+        }
+        return -1;
     }
 }
