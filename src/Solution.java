@@ -507,7 +507,76 @@ public class Solution {
     }
     // 1768. Merge Strings Alternately
     public String mergeAlternately(String word1, String word2) {
-
+        int i1 = 0;
+        int i2 = 0;
+        int n1 = word1.length();
+        int n2 = word2.length();
+        boolean isWord1Merging = true;
+        StringBuilder res = new StringBuilder();
+        while (i1 < n1 && i2 < n2){
+            if(isWord1Merging){
+                res.append(word1.charAt(i1));
+                i1 += 1;
+            }
+            else{
+                res.append(word2.charAt(i2));
+                i2 += 1;
+            }
+            isWord1Merging = !isWord1Merging;
+        }
+        while (i1 < n1){
+            res.append(word1.charAt(i1));
+            i1 += 1;
+        }
+        while (i2 < n2){
+            res.append(word2.charAt(i2));
+            i2 += 1;
+        }
+        return res.toString();
+    }
+    // 88. Merge Sorted Array
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i1 = 0;
+        int i2 = 0;
+        int[] tmp1 = new int[m];
+        for(int i=0;i<m;i++)
+            tmp1[i] = nums1[i];
+        int k = 0;
+        while (i1 < m && i2 < n){
+            if(tmp1[i1] < nums2[i2]){
+                nums1[k] = tmp1[i1];
+                i1 += 1;
+            }
+            else{
+                nums1[k] = nums2[i2];
+                i2 += 1;
+            }
+            k += 1;
+        }
+        while (i1 < m){
+            nums1[k] = tmp1[i1];
+            i1 += 1;
+            k += 1;
+        }
+        while (i2 < n){
+            nums1[k] = nums2[i2];
+            i2 += 1;
+            k += 1;
+        }
+    }
+    // 26. Remove Duplicates from Sorted Array
+    public int removeDuplicates(int[] nums) {
+        int p1 = 1;
+        int p2 = 1;
+        int n = nums.length;
+        while (p1 < n){
+            if(nums[p1] != nums[p1-1]) {
+                nums[p2] = nums[p1];
+                p2 += 1;
+            }
+            p1 += 1;
+        }
+        return p2;
     }
 
 
