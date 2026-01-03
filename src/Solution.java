@@ -816,6 +816,44 @@ public class Solution {
         }
         return res;
     }
+    // 658. Find K Closest Elements
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int n = arr.length;
+        int l = 0;
+        int r = n;
+        LinkedList<Integer> res = new LinkedList<>();
+        if(arr[0] > x){
+            for(int i=0;i<k;i++){
+                res.add(arr[i]);
+            }
+        }
+        else if(arr[n-1] < x){
+            for (int i=n-1;i>=n-k;i--){
+                res.addFirst(arr[i]);
+            }
+        }
+        else {
+            for (int i = 0; i < n - 1; i++) {
+                if (arr[i] <= x && x <= arr[i + 1]) {
+                    l = i;
+                    r = i + 1;
+                }
+            }
+            while (res.size() < k){
+                int leftDist = l < 0 ? Integer.MAX_VALUE : Math.abs(x - arr[l]);
+                int rightDist = r >= n ? Integer.MAX_VALUE : Math.abs(x - arr[r]);
+                if(leftDist <= rightDist){
+                    if(l >= 0) res.addFirst(arr[l]);
+                    l -= 1;
+                }
+                else{
+                    if(r < n) res.add(arr[r]);
+                    r += 1;
+                }
+            }
+        }
+        return res;
+    }
 
 
     /** <i>Stack</i>
