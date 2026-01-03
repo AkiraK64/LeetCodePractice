@@ -578,6 +578,77 @@ public class Solution {
         }
         return p2;
     }
+    // 189. Rotate Array
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+        int[] tmp = new int[k];
+        for(int i=n-k;i<n;i++){
+            tmp[i-n+k] = nums[i];
+        }
+        for(int i=n-1;i>=k;i--){
+            nums[i] = nums[i-k];
+        }
+        for(int i=0;i<k;i++){
+            nums[i] = tmp[i];
+        }
+    }
+    // 18. 4sum
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        int length = nums.length;
+        List<List<Integer>> res = new ArrayList<>();
+        if(length < 4) return res;
+        Arrays.sort(nums);
+        for(int i=0;i<length-3;i++){
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            for(int j=length-1;j>i+2;j--){
+                if(j < length-1 && nums[j] == nums[j+1]) continue;
+                int left = i+1;
+                int right = j-1;
+                while (left < right){
+                    long sum = (long) (nums[i] + nums[left]) + (long) (nums[right] + nums[j]);
+                    if(sum == target){
+                        res.add(List.of(nums[i], nums[left], nums[right], nums[j]));
+                        left += 1;
+                        right -= 1;
+                        while (left < right && nums[left] == nums[left-1])
+                            left += 1;
+                    }
+                    else if(sum < target){
+                        left += 1;
+                        while (left < right && nums[left] == nums[left-1])
+                            left += 1;
+                    }
+                    else{
+                        right -= 1;
+                        while (left < right && nums[right] == nums[right+1])
+                            right -= 1;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    // 881. Boats to Save People
+    public int numRescueBoats(int[] people, int limit) {
+        int res = 0;
+        Arrays.sort(people);
+        int l = 0;
+        int r = people.length - 1;
+        while (l < r){
+            if(people[l] + people[r] > limit){
+                res += 1;
+                r -= 1;
+            }
+            else{
+                res += 1;
+                l += 1;
+                r -= 1;
+            }
+        }
+        if(l == r) res += 1;
+        return res;
+    }
 
 
     /** <i>Sliding Window</i>
