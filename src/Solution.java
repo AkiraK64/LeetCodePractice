@@ -485,6 +485,30 @@ public class Solution {
             s[i] = tmp[n-1-i];
         }
     }
+    // 680. Valid Palindrome II
+    public boolean validPalindrome(String s) {
+        int l = 0;
+        int r = s.length() - 1;
+        while (l < r){
+            if(s.charAt(l) != s.charAt(r))
+                return checkValidPalindrome(l+1, r, s) || checkValidPalindrome(l, r-1, s);
+            l += 1;
+            r -= 1;
+        }
+        return true;
+    }
+    private boolean checkValidPalindrome(int l, int r, String s){
+        while (l < r){
+            if(s.charAt(l) != s.charAt(r)) return false;
+            l += 1;
+            r -= 1;
+        }
+        return true;
+    }
+    // 1768. Merge Strings Alternately
+    public String mergeAlternately(String word1, String word2) {
+
+    }
 
 
     /** <i>Sliding Window</i>
