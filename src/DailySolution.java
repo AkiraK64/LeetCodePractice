@@ -1137,39 +1137,35 @@ public class DailySolution {
         while (l <= r){
             int mid = (l + r) / 2;
             if(canCross(mid, row, col, cells)){
-                l = mid + 1;
                 res = mid;
+                l = mid + 1;
             }
-            else{
-                r = mid - 1;
-            }
+            else r = mid - 1;
         }
         return res + 1;
     }
-    private boolean canCross(int curDay, int row, int col, int[][] cells){
+    private boolean canCross(int day, int row, int col, int[][] cells){
         int[][] grid = new int[row][col];
-        for(int i=0;i<=curDay;i++){
+        for(int i=0;i<=day;i++){
             grid[cells[i][0]-1][cells[i][1]-1] = 1;
         }
-        Deque<int[]> path = new ArrayDeque<>();
-        for(int c=0;c<col;c++){
-            if(grid[0][c] == 0){
-                path.add(new int[]{0,c});
-                grid[0][c] = 1;
+        Queue<int[]> path = new ArrayDeque<>();
+        int[] direction = new int[]{-1,0,1,0,-1};
+        for(int i=0;i<col;i++){
+            if(grid[0][i] == 0){
+                grid[0][i] = 1;
+                path.offer(new int[]{0, i});
             }
         }
-        int[] direction = new int[]{-1,0,1,0,-1};
         while (!path.isEmpty()){
             var curPos = path.poll();
-            int curRow = curPos[0];
-            int curCol = curPos[1];
-            if(curRow == row - 1) return true;
+            if(curPos[0] == row - 1) return true;
             for(int i=0;i<4;i++){
-                int nextRow = curRow + direction[i];
-                int nextCol = curCol + direction[i+1];
-                if(nextRow >= 0 && nextRow < row && nextCol >= 0 && nextCol < col && grid[nextRow][nextCol] == 0){
-                    path.offer(new int[]{nextRow, nextCol});
+                int nextRow = curPos[0] + direction[i];
+                int nextCol = curPos[1] + direction[i+1];
+                if(nextRow >= 0 && nextCol >= 0 && nextRow < row && nextCol < col && grid[nextRow][nextCol] == 0){
                     grid[nextRow][nextCol] = 1;
+                    path.offer(new int[]{nextRow, nextCol});
                 }
             }
         }
