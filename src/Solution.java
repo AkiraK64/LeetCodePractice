@@ -649,6 +649,29 @@ public class Solution {
         if(l == r) res += 1;
         return res;
     }
+    // 42. Trapping Rain Water
+    public int trap(int[] height) {
+        int n = height.length;
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+        int leftMx = 0;
+        int rightMx = 0;
+        for(int i=1;i<n;i++){
+            leftMx = Math.max(leftMx, height[i-1]);
+            leftMax[i] = leftMx;
+        }
+        for(int i=n-2;i>=0;i--){
+            rightMx = Math.max(rightMx, height[i+1]);
+            rightMax[i] = rightMx;
+        }
+        int res = 0;
+        for(int i=0;i<n;i++){
+            int trapVal = Math.min(leftMax[i], rightMax[i]) - height[i];
+            if(trapVal < 0) trapVal = 0;
+            res += trapVal;
+        }
+        return res;
+    }
 
 
     /** <i>Sliding Window</i>
