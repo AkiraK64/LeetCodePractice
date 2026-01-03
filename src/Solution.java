@@ -774,6 +774,48 @@ public class Solution {
         }
         return res;
     }
+    // 219. Contains Duplicate II
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> numMap = new HashMap<>();
+        int index = 0;
+        for(var num : nums){
+            if(numMap.containsKey(num) && index - numMap.get(num) <= k)
+                return true;
+            numMap.put(num, index);
+            index += 1;
+        }
+        return false;
+    }
+    // 209. Minimum Size Subarray Sum
+    public int minSubArrayLen(int target, int[] nums) {
+        int l = 0;
+        int n = nums.length;
+        int total = 0;
+        int start = 0;
+        while (start < n && total < target){
+            total += nums[start];
+            start += 1;
+        }
+        if(total < target && start == n) return 0;
+        while (l < start && total >= target){
+            total -= nums[l];
+            l += 1;
+        }
+        l -= 1;
+        total += nums[l];
+        int res = start - l;
+        for(int r=start;r<n;r++){
+            total += nums[r];
+            while (l <= r && total >= target){
+                total -= nums[l];
+                l += 1;
+            }
+            l -= 1;
+            total += nums[l];
+            res = Math.min(r-l+1, res);
+        }
+        return res;
+    }
 
 
     /** <i>Stack</i>
@@ -817,7 +859,6 @@ public class Solution {
         }
         return res;
     }
-    // 155. Min Stack
     // 150. Evaluate Reverse Polish Notation
     public int evalRPN(String[] tokens) {
         Stack<Integer> stack = new Stack<>();
@@ -862,6 +903,37 @@ public class Solution {
             else if(time > carSt.peek()) carSt.push(time);
         }
         return carSt.size();
+    }
+    // 682. Baseball Game
+    public int calPoints(String[] operations) {
+        Stack<Integer> records = new Stack<>();
+        int res = 0;
+        for(var operation : operations){
+            switch (operation){
+                case "+":
+                    int first = records.pop();
+                    int second = records.peek();
+                    records.push(first);
+                    int sum = first + second;
+                    res += sum;
+                    records.push(sum);
+                    break;
+                case "D":
+                    int value = records.peek();
+                    res += value * 2;
+                    records.push(value * 2);
+                    break;
+                case "C":
+                    res -= records.pop();
+                    break;
+                default:
+                    int newVal = Integer.parseInt(operation);
+                    res += newVal;
+                    records.push(newVal);
+                    break;
+            }
+        }
+        return res;
     }
 
 
