@@ -1176,6 +1176,7 @@ public class DailySolution {
         return false;
     }
     // 961. N-Repeated Element in Size 2N Array
+    /** Set */
     public int repeatedNTimes(int[] nums) {
         Set<Integer> numSet = new HashSet<>();
         int size = 0;
@@ -1185,5 +1186,19 @@ public class DailySolution {
             if(numSet.size() < size) return num;
         }
         return -1;
+    }
+    // 1411. Number of Ways to Paint Nx3 Grid
+    /** Dynamic Programming - Bottom Up */
+    public int numOfWays(int n) {
+        int MOD = (int)(1e9 + 7);
+        long[] endTries = new long[n];
+        long[] endPairs = new long[n];
+        endTries[0] = 6;
+        endPairs[0] = 6;
+        for(int i=1;i<n;i++){
+            endTries[i] = (2 * endTries[i-1] + 2 * endPairs[i-1]) % MOD;
+            endPairs[i] = (2 * endTries[i-1] + 3 * endPairs[i-1]) % MOD;
+        }
+        return (int)((endTries[n-1] + endPairs[n-1]) % MOD);
     }
 }
