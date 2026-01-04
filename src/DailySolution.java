@@ -1197,4 +1197,30 @@ public class DailySolution {
         }
         return (int)((endTries[n-1] + endPairs[n-1]) % MOD);
     }
+    // 1390. Four Divisors
+    /** Math */
+    public int sumFourDivisors(int[] nums) {
+        int sum = 0;
+        for(var num : nums){
+            sum += sumOfFourDivisors(num);
+        }
+        return sum;
+    }
+    private int sumOfFourDivisors(int num){
+        if(num < 6) return 0;
+        int half = (int) Math.sqrt(num);
+        if(half * half == num) return 0;
+        int t = 2;
+        int sum = 1 + num;
+        int count = 2;
+        while (t <= half){
+            if(num % t == 0){
+                count += 2;
+                if(count > 4) return 0;
+                sum += (t + num / t);
+            }
+            t += 1;
+        }
+        return count == 4 ? sum : 0;
+    }
 }
