@@ -1001,6 +1001,64 @@ public class Solution {
         }
         return res;
     }
+    // 71. Simplify Path
+    public String simplifyPath(String path) {
+        int l = 0;
+        int n = path.length();
+        Stack<String> pathSt = new Stack<>();
+        for(int i=1;i<=n;i++){
+            if(i == n || path.charAt(i) == '/'){
+                if(i - l > 1){
+                    String element = path.substring(l+1, i);
+                    if(element.equals("..")){
+                        if(!pathSt.isEmpty()) pathSt.pop();
+                    }
+                    else if(!element.equals(".")){
+                        pathSt.push(element);
+                    }
+                }
+                l = i;
+            }
+        }
+        if(pathSt.isEmpty()) return "/";
+        StringBuilder res = new StringBuilder();
+        while (!pathSt.isEmpty()){
+            res.insert(0, "/" + pathSt.pop());
+        }
+        return res.toString();
+    }
+    // 394. Decode String
+    public String decodeString(String s) {
+        int n = s.length();
+        Stack<String> strStack = new Stack<>();
+        Stack<Integer> numberStack = new Stack<>();
+        StringBuilder tmpStr = new StringBuilder();
+        int tmpNumber = 0;
+        for(int i=0;i<n;i++){
+            char c = s.charAt(i);
+            if(c == '['){
+                strStack.push(tmpStr.toString());
+                numberStack.push(tmpNumber);
+                tmpStr = new StringBuilder();
+                tmpNumber = 0;
+            }
+            else if(c == ']'){
+                int num = numberStack.pop();
+                String str = strStack.pop();
+                tmpStr = new StringBuilder(str + tmpStr.toString().repeat(num));
+            }
+            else{
+                int number = c - '0';
+                if(number >= 0 && number <= 9){
+                    tmpNumber = (tmpNumber * 10 + number);
+                }
+                else{
+                    tmpStr.append(c);
+                }
+            }
+        }
+        return tmpStr.toString();
+    }
 
 
     /** <i>Binary Search</i>
