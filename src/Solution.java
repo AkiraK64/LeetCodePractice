@@ -973,6 +973,34 @@ public class Solution {
         }
         return res;
     }
+    // 735.Asteroid Collision
+    public int[] asteroidCollision(int[] asteroids) {
+        Stack<Integer> st = new Stack<>();
+        for(var a : asteroids){
+            boolean exploded = false;
+            while (!st.isEmpty()){
+                int prevA = st.peek();
+                if(prevA < 0 && a < 0 || prevA > 0 && a > 0) break;
+                if(prevA < 0 && a > 0) break;
+                int check = Math.abs(prevA) - Math.abs(a);
+                if(check < 0){
+                    st.pop();
+                }
+                else{
+                    if(check == 0) st.pop();
+                    exploded = true;
+                    break;
+                }
+            }
+            if(!exploded) st.push(a);
+        }
+        int n = st.size();
+        int[] res = new int[n];
+        for(int i=n-1;i>=0;i--){
+            res[i] = st.pop();
+        }
+        return res;
+    }
 
 
     /** <i>Binary Search</i>
