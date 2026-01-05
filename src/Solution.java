@@ -1166,6 +1166,77 @@ public class Solution {
         }
         return -1;
     }
+    // 35. Search Insert Position
+    public int searchInsert(int[] nums, int target) {
+        int l = 0;
+        int r = nums.length - 1;
+        while (l <= r){
+            int mid = (l + r) / 2;
+            if(nums[mid] == target) return mid;
+            else if(nums[mid] < target) l = mid + 1;
+            else r = mid - 1;
+        }
+        return l;
+    }
+    // 374. Guess Number Higher or Lower
+    public int guessNumber(int n) {
+        long l = 1;
+        long r = n;
+        while (l <= r){
+            int mid = Math.toIntExact((l + r) / 2);
+            if(guess(mid) == 0) return mid;
+            else if(guess(mid) < 0) r = mid - 1;
+            else l = mid + 1;
+        }
+        return -1;
+    }
+    private int guess(int n){
+        return new Random().nextInt(-1,1);
+    }
+    // 69. Sqrt(x)
+    public int mySqrt(int x) {
+        long l = 0;
+        long r = x;
+        long res = 0;
+        while (l <= r){
+            long mid = (l + r) / 2;
+            long check = (mid * mid) - x;
+            if(check == 0){
+                res = mid;
+                break;
+            }
+            else if(check < 0) {
+                res = mid;
+                l = mid + 1;
+            }
+            else r = mid - 1;
+        }
+        return (int)res;
+    }
+    // 81. Search in Rotated Sorted Array II
+    public boolean searchIII(int[] nums, int target) {
+        return searchIn(0, nums.length - 1, target, nums);
+    }
+    private boolean searchIn(int l, int r, int target, int[] nums){
+        if(l > r) return false;
+        int mid = (l + r) / 2;
+        if(nums[mid] == target) return true;
+        else if(nums[mid] == nums[l] && nums[mid] == nums[r]){
+            return searchIn(l, mid-1, target, nums) || searchIn(mid+1, r, target, nums);
+        }
+        else if(nums[mid] <= nums[l] && nums[mid] <= nums[r]){
+            if(target > nums[mid] && target <= nums[r]) return searchIn(mid + 1, r, target, nums);
+            else return searchIn(l, mid-1, target, nums);
+        }
+        else if(nums[mid] >= nums[l] && nums[mid] >= nums[r]){
+            if(target < nums[mid] && target >= nums[l]) return searchIn(l, mid-1, target, nums);
+            else return searchIn(mid + 1, r, target, nums);
+        }
+        else{
+            if(target < nums[mid]) return searchIn(l, mid-1, target, nums);
+            else return searchIn(mid + 1, r, target, nums);
+        }
+    }
 
 
     /** <i>Linked List</i>
