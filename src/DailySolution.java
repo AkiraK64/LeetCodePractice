@@ -1223,4 +1223,25 @@ public class DailySolution {
         }
         return count == 4 ? sum : 0;
     }
+    // 1975. Maximum Matrix Sum
+    /** Math */
+    public long maxMatrixSum(int[][] matrix) {
+        long res = 0;
+        int mini = Integer.MAX_VALUE;
+        int n = matrix.length;
+        int count = 0;
+        for(int[] row : matrix){
+            for(var num : row){
+                int absNum = num;
+                if(num < 0){
+                    count += 1;
+                    absNum = -num;
+                }
+                mini = Math.min(mini, absNum);
+                res += absNum;
+            }
+        }
+        if(count % 2 == 1) res -= 2L * mini;
+        return res;
+    }
 }
