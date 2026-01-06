@@ -1244,4 +1244,31 @@ public class DailySolution {
         if(count % 2 == 1) res -= 2L * mini;
         return res;
     }
+    // 1161. Maximum Level Sum of a Binary Tree
+    /** Tree - BFS */
+    public int maxLevelSum(TreeNode root) {
+        Queue<TreeNode> q = new ArrayDeque<>();
+        q.add(root);
+        int minLv = 0;
+        int level = 0;
+        int maxSum = Integer.MIN_VALUE;
+        int sum = 0;
+        while (!q.isEmpty()){
+            int size = q.size();
+            sum = 0;
+            level += 1;
+            while (size > 0){
+                var node = q.poll();
+                sum += node.val;
+                if(node.left != null) q.offer(node.left);
+                if(node.right != null) q.offer(node.right);
+                size -= 1;
+            }
+            if(sum > maxSum){
+                maxSum = sum;
+                minLv = level;
+            }
+        }
+        return minLv;
+    }
 }
