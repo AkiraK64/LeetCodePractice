@@ -1448,6 +1448,34 @@ public class Solution {
         }
         return head.next;
     }
+    // 92. Reverse Linked List II
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        int index = 1;
+        var cur = head;
+        var prevLeft = cur;
+        while (cur.next != null && index != left){
+            prevLeft = cur;
+            cur = cur.next;
+            index += 1;
+        }
+        Stack<ListNode> st = new Stack<>();
+        while (cur.next != null && index != right){
+            st.push(cur);
+            cur = cur.next;
+            index += 1;
+        }
+        st.push(cur);
+        if(left == 1) head = cur;
+        var nextRight = cur.next;
+        cur = prevLeft;
+        while (!st.isEmpty()){
+            var node = st.pop();
+            cur.next = node;
+            cur = node;
+        }
+        cur.next = nextRight;
+        return head;
+    }
 
 
     /** <i>Tree</i>
