@@ -1237,6 +1237,45 @@ public class Solution {
             else return searchIn(mid + 1, r, target, nums);
         }
     }
+    // 1011. Capacity To Ship Packages Within D Days
+    public int shipWithinDays(int[] weights, int days) {
+        int l = 0;
+        int r = 0;
+        for(var w : weights) {
+            l = Math.max(l, w);
+            r += w;
+        }
+        int res = 0;
+        while (l <= r){
+            int mid = (l + r) / 2;
+            if(canShipWithinDays(weights, days, mid)){
+                res = mid;
+                r = mid - 1;
+            }
+            else{
+                l = mid + 1;
+            }
+        }
+        return res;
+    }
+    private boolean canShipWithinDays(int[] weights, int days, int capacity){
+        int countDays = 0;
+        int totalWeight = 0;
+        int n = weights.length;
+        int index = 0;
+        while (index < n){
+            totalWeight += weights[index];
+            if(totalWeight > capacity){
+                countDays += 1;
+                totalWeight = 0;
+            }
+            else{
+                if(index == n-1) countDays += 1;
+                index += 1;
+            }
+        }
+        return countDays <= days;
+    }
 
 
     /** <i>Linked List</i>
