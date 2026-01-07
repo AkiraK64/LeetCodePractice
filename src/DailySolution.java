@@ -1271,4 +1271,27 @@ public class DailySolution {
         }
         return minLv;
     }
+    // 1339. Maximum Product of Splitted Binary Tree
+    /** Tree - Set */
+    public int maxProduct(TreeNode root) {
+        Set<Long> treeSet = new HashSet<>();
+        long total = sumOfValuesInTree(root, treeSet);
+        int MOD = (int)(1e9 + 7);
+        long minValue = 0;
+        long minDiff = total + 1;
+        for(var value : treeSet){
+            long diff = Math.abs(total - 2 * value);
+            if(diff < minDiff){
+                minValue = value;
+                minDiff = diff;
+            }
+        }
+        return (int)((minValue * (total - minValue)) % MOD);
+    }
+    private long sumOfValuesInTree(TreeNode root, Set<Long> treeSet){
+        if(root == null) return 0;
+        long res = root.val + sumOfValuesInTree(root.left, treeSet) + sumOfValuesInTree(root.right, treeSet);
+        treeSet.add(res);
+        return res;
+    }
 }
