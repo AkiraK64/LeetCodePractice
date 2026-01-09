@@ -1315,4 +1315,25 @@ public class DailySolution {
         }
         return dp[n-1][m-1];
     }
+    // 865. Smallest Subtree with all the Deepest Nodes
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+        Map<TreeNode, Integer> dfs = new HashMap<>();
+        return rc_SubtreeWithAllDeepest(root, dfs);
+    }
+    private TreeNode rc_SubtreeWithAllDeepest(TreeNode root, Map<TreeNode, Integer> dfs){
+        int left = dfs_SubtreeWithAllDeepest(root.left, dfs);
+        int right = dfs_SubtreeWithAllDeepest(root.right, dfs);
+        if(left == right) return root;
+        if(left < right) return rc_SubtreeWithAllDeepest(root.right, dfs);
+        return rc_SubtreeWithAllDeepest(root.left, dfs);
+    }
+    private int dfs_SubtreeWithAllDeepest(TreeNode root, Map<TreeNode, Integer> dfs){
+        if(root == null) return 0;
+        if(dfs.containsKey(root)) return dfs.get(root);
+        int left = dfs_SubtreeWithAllDeepest(root.left, dfs);
+        int right = dfs_SubtreeWithAllDeepest(root.right, dfs);
+        int res = 1 + Math.max(left, right);
+        dfs.put(root, res);
+        return res;
+    }
 }
