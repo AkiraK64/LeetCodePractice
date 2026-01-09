@@ -1323,6 +1323,7 @@ public class DailySolution {
     private TreeNode rc_SubtreeWithAllDeepest(TreeNode root, Map<TreeNode, Integer> dfs){
         int left = dfs_SubtreeWithAllDeepest(root.left, dfs);
         int right = dfs_SubtreeWithAllDeepest(root.right, dfs);
+        //System.out.println(root.val + "," + left + "," + right);
         if(left == right) return root;
         if(left < right) return rc_SubtreeWithAllDeepest(root.right, dfs);
         return rc_SubtreeWithAllDeepest(root.left, dfs);
