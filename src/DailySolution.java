@@ -1316,6 +1316,7 @@ public class DailySolution {
         return dp[n-1][m-1];
     }
     // 865. Smallest Subtree with all the Deepest Nodes
+    /** Tree - DFS */
     public TreeNode subtreeWithAllDeepest(TreeNode root) {
         Map<TreeNode, Integer> dfs = new HashMap<>();
         return rc_SubtreeWithAllDeepest(root, dfs);
@@ -1336,5 +1337,39 @@ public class DailySolution {
         int res = 1 + Math.max(left, right);
         dfs.put(root, res);
         return res;
+    }
+    // 712. Minimum ASCII Delete Sum for Two Strings
+    /** Dynamic Programming - Bottom Up */
+    public int minimumDeleteSum(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+        int[][] dp = new int[n][m];
+
+        dp[0][0] = (s1.charAt(0) == s2.charAt(0) ? 0 : s1.charAt(0) + s2.charAt(0));
+
+        int total = s1.charAt(0);
+        for(int i=1;i<n;i++){
+            dp[i][0] = (s1.charAt(i) == s2.charAt(0) ? total : dp[i-1][0] + s1.charAt(i));
+            total += s1.charAt(i);
+        }
+
+        total = s2.charAt(0);
+        for(int j=1;j<m;j++){
+            dp[0][j] = (s2.charAt(j) == s1.charAt(0) ? total : dp[0][j-1] + s2.charAt(j));
+            total += s2.charAt(j);
+        }
+
+        for(int i=1;i<n;i++){
+            for(int j=1;j<m;j++){
+                if(s1.charAt(i) == s2.charAt(j)){
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = Math.min(dp[i-1][j] + s1.charAt(i), dp[i][j-1] + s2.charAt(j));
+                }
+            }
+        }
+
+        return dp[n-1][m-1];
     }
 }
