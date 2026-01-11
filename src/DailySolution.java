@@ -1372,4 +1372,51 @@ public class DailySolution {
 
         return dp[n-1][m-1];
     }
+    // 85. Maximal Rectangle
+    /** Iterator & Stack */
+    public int maximalRectangle(char[][] matrix) {
+        int res = 0;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[] heights = new int[n];
+        for(var row : matrix){
+            for(int i=0;i<n;i++){
+                if(row[i] == '1') heights[i] += 1;
+                else heights[i] = 0;
+            }
+            res = maxRegionByHeights(n, res, heights);
+        }
+        return res;
+    }
+    private int maxRegionByHeights(int n, int res, int[] heights){
+        int[] left = new int[n];
+        int[] right = new int[n];
+        Arrays.fill(right, n);
+        List<Integer> l = new ArrayList<>(n);
+        for(int i=0;i<n;i++){
+            int lastIndex = l.size() - 1;
+            while (lastIndex >= 0){
+                int j = l.get(lastIndex);
+                if(heights[j] > heights[i]){
+                    right[j] = i;
+                    l.removeLast();
+                    lastIndex -= 1;
+                }
+                else if(heights[j] == heights[i]){
+                    lastIndex -= 1;
+                }
+                else{
+                    lastIndex = l.get(lastIndex);
+                    break;
+                }
+            }
+            left[i] = lastIndex;
+            l.addLast(i);
+        }
+        for(int i=0;i<n;i++){
+            int w = right[i]-left[i]-1;
+            res = Math.max(res, w * heights[i]);
+        }
+        return res;
+    }
 }
