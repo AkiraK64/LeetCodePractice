@@ -1129,7 +1129,7 @@ public class DailySolution {
         return true;
     }
     // 1970. Last Day When You Can Still Cross
-    /** Binary Search */
+    /** Binary Search & BFS */
     public int latestDayToCross(int row, int col, int[][] cells) {
         int l = 0;
         int r = row * col - 1;
@@ -1389,8 +1389,8 @@ public class DailySolution {
         return res;
     }
     private int maxRegionByHeights(int n, int res, int[] heights){
-        int[] left = new int[n];
-        int[] right = new int[n];
+        int[] left = new int[n]; // nearest index in left-side that heights[l] < heights[i]
+        int[] right = new int[n]; // nearest index in right-side that heights[r] < heights[i]
         Arrays.fill(right, n);
         List<Integer> l = new ArrayList<>(n);
         for(int i=0;i<n;i++){
@@ -1416,6 +1416,18 @@ public class DailySolution {
         for(int i=0;i<n;i++){
             int w = right[i]-left[i]-1;
             res = Math.max(res, w * heights[i]);
+        }
+        return res;
+    }
+    // 1266. Minimum Time Visiting All Points
+    /** Iteratos & Math */
+    public int minTimeToVisitAllPoints(int[][] points) {
+        int res = 0;
+        int n = points.length;
+        for(int i=1;i<n;i++){
+            int x = Math.abs(points[i][0] - points[i-1][0]);
+            int y = Math.abs(points[i][1] - points[i-1][1]);
+            res += Math.max(x, y);
         }
         return res;
     }
