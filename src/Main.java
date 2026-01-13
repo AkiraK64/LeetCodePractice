@@ -3,9 +3,7 @@ import java.util.List;
 
 public class Main {
     /** Neetcode:
-     * 42 - Two Pointers (1/3)
      * Dairy:
-     * 85 (2/3)
      * Weekly Contest:
      */
     public static void main(String[] args) {
