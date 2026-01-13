@@ -1431,4 +1431,32 @@ public class DailySolution {
         }
         return res;
     }
+    // 3453. Separate Squares I
+    /** Binary Search */
+    public double separateSquares(int[][] squares) {
+        long total = 0;
+        double l = 0;
+        double r = 0;
+        double OS1 = 1e-5;
+        double OS2 = 2 * 1e-10;
+        for(var square : squares){
+            r = Math.max(r, square[1] + square[2]);
+            total += (long) square[2] * square[2];
+        }
+        while (l <= r){
+            double mid = (l + r) / 2;
+            double half = underSquares(mid, squares);
+            if(half * 2 < total - OS2) l = mid + OS1;
+            else r = mid - OS1;
+        }
+        return l;
+    }
+    private double underSquares(double y, int[][] squares){
+        double res = 0;
+        for (var square : squares){
+            if(square[1] >= y) continue;
+            res += (square[2] * Math.min(square[2], y - square[1]));
+        }
+        return res;
+    }
 }
