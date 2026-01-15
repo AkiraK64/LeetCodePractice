@@ -1459,4 +1459,36 @@ public class DailySolution {
         }
         return res;
     }
+    // 2943. Maximize Area of Square Hole in Grid
+    /** Iterator & Math */
+    public int maximizeSquareHoleArea(int n, int m, int[] hBars, int[] vBars) {
+        int vMax = 0; // the maximum possible value of vertical side of the square
+        int hMax = 0; // the maximum possible value of horizontal side of the square
+        Arrays.sort(hBars);
+        int l = hBars[0];
+        int r = hBars[0];
+        int hLength = hBars.length;
+        for(int i=1;i<hLength;i++){
+            if (hBars[i] != hBars[i - 1] + 1) {
+                vMax = Math.max(vMax, (r - l) + (l > 0 ? 1 : 0) + (r < n + 2 ? 1 : 0));
+                l = hBars[i];
+            }
+            r = hBars[i];
+        }
+        vMax = Math.max(vMax, (r - l) + (l > 0 ? 1 : 0) + (r < n + 2 ? 1 : 0));
+        Arrays.sort(vBars);
+        l = vBars[0];
+        r = vBars[0];
+        int vLength = vBars.length;
+        for(int i=1;i<vLength;i++){
+            if (vBars[i] != vBars[i - 1] + 1) {
+                hMax = Math.max(hMax, (r - l) + (l > 0 ? 1 : 0) + (r < m + 2 ? 1 : 0));
+                l = vBars[i];
+            }
+            r = vBars[i];
+        }
+        hMax = Math.max(hMax, (r - l) + (l > 0 ? 1 : 0) + (r < m + 2 ? 1 : 0));
+        int res = Math.min(hMax, vMax);
+        return res * res;
+    }
 }
