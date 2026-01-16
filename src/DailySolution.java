@@ -1491,4 +1491,37 @@ public class DailySolution {
         int res = Math.min(hMax, vMax);
         return res * res;
     }
+    // 2975. Maximum Square Area by Removing Fences From a Field
+    /** Set */
+    public int maximizeSquareArea(int m, int n, int[] hFences, int[] vFences) {
+        int hLength = hFences.length;
+        int[] hF = new int[hLength + 2];
+        hF[0] = 1;
+        hF[hLength + 1] = m;
+        System.arraycopy(hFences, 0, hF, 1, hLength);
+        Set<Integer> sides = new HashSet<>();
+        for(int i=1;i<hLength+2;i++){
+            for(int j=0;j<i;j++){
+                sides.add(Math.abs(hF[i] - hF[j]));
+            }
+        }
+        int vLength = vFences.length;
+        int[] vF = new int[vLength + 2];
+        vF[0] = 1;
+        vF[vLength + 1] = n;
+        System.arraycopy(vFences, 0, vF, 1, vLength);
+        int maxSide = -1;
+        for(int i=1;i<vLength+2;i++){
+            for(int j=0;j<i;j++){
+                int side = Math.abs(vF[i] - vF[j]);
+                if(sides.contains(side)) {
+                    maxSide = Math.max(maxSide, side);
+                }
+            }
+        }
+        if(maxSide == -1) return -1;
+        int MOD = (int)(1e9+7);
+        long res = (long) maxSide * maxSide;
+        return (int)(res % MOD);
+    }
 }
