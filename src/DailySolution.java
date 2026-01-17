@@ -1524,4 +1524,24 @@ public class DailySolution {
         long res = (long) maxSide * maxSide;
         return (int)(res % MOD);
     }
+    // 3047. Find the Largest Area of Square Inside Two Rectangles
+    /** Bruce Force & Math */
+    public long largestSquareArea(int[][] bottomLeft, int[][] topRight) {
+        int n = bottomLeft.length;
+        int side = 0;
+        for(int i=1;i<n;i++){
+            for(int j=0;j<i;j++){
+                int xMax = Math.max(topRight[i][0], topRight[j][0]) - Math.min(bottomLeft[i][0], bottomLeft[j][0]);
+                int xTotal = topRight[i][0] - bottomLeft[i][0] + topRight[j][0] - bottomLeft[j][0];
+                int x = xTotal - xMax;
+                if(x <= 0) continue;
+                int yMax = Math.max(topRight[i][1], topRight[j][1]) - Math.min(bottomLeft[i][1], bottomLeft[j][1]);
+                int yTotal = topRight[i][1] - bottomLeft[i][1] + topRight[j][1] - bottomLeft[j][1];
+                int y = yTotal - yMax;
+                if(y <= 0) continue;
+                side = Math.max(side, Math.min(x, y));
+            }
+        }
+        return (long) side * side;
+    }
 }
