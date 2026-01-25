@@ -1544,4 +1544,15 @@ public class DailySolution {
         }
         return (long) side * side;
     }
+    // 1984. Minimum Difference Between Highest and Lowest of K Scores
+    /** Arrays */
+    public int minimumDifference(int[] nums, int k) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int res = nums[k-1] - nums[0];
+        for(int i=1;i<=n-k;i++){
+            res = Math.min(res, nums[i+k-1] - nums[i]);
+        }
+        return res;
+    }
 }
