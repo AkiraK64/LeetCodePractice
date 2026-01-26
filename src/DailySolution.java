@@ -1555,4 +1555,29 @@ public class DailySolution {
         }
         return res;
     }
+    // 1200. Minimum Absolute Difference
+    /** Arrays */
+    public List<List<Integer>> minimumAbsDifference(int[] arr) {
+        int n = arr.length;
+        List<List<Integer>> pairs = new ArrayList<>((n+1)/2);
+        Arrays.sort(arr);
+        int minDiff = Integer.MAX_VALUE;
+        int index = 0;
+        for(int i=0;i<n-1;i++){
+            int diff = arr[i+1] - arr[i];
+            if(diff == minDiff){
+                pairs.add(new ArrayList<>(List.of(arr[i], arr[i+1])));
+            }
+            else if(diff < minDiff){
+                index = pairs.size();
+                pairs.add(new ArrayList<>(List.of(arr[i], arr[i+1])));
+                minDiff = diff;
+            }
+        }
+        List<List<Integer>> res = new ArrayList<>(pairs.size() - index);
+        for(int i=index;i<pairs.size();i++){
+            res.add(pairs.get(i));
+        }
+        return res;
+    }
 }
