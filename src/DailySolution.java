@@ -1580,4 +1580,22 @@ public class DailySolution {
         }
         return res;
     }
+    // 3637. Trionic Array I
+    /** Array */
+    public boolean isTrionic(int[] nums) {
+        int p = -1;
+        int q = -1;
+        int n = nums.length;
+        for(int i=0;i<n-1;i++){
+            if(nums[i] == nums[i+1]) return false;
+            if(p == -1){
+                if(nums[i+1] < nums[i]) p = i;
+            }
+            else if(q == -1){
+                if(nums[i+1] > nums[i]) q = i;
+            }
+            else if(nums[i+1] < nums[i]) return false;
+        }
+        return (p > 0 && q > p && q < n-1);
+    }
 }
