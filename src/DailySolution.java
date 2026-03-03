@@ -1598,4 +1598,13 @@ public class DailySolution {
         }
         return (p > 0 && q > p && q < n-1);
     }
+    // 1545. Find Kth Bit in Nth Binary String
+    /** Recursion */
+    public char findKthBit(int n, int k) {
+        if(n == 1) return '0';
+        int length = (int)(Math.pow(2, n) - 1);
+        if(2 * k + 1 == length) return '1';
+        else if(2 * k + 1 < length) return findKthBit(n-1, k);
+        else return findKthBit(n-1, length + 1 - k) == '0' ? '1' : '0';
+    }
 }
