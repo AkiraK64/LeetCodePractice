@@ -1607,4 +1607,53 @@ public class DailySolution {
         else if(2 * k + 1 < length) return findKthBit(n-1, k);
         else return findKthBit(n-1, length + 1 - k) == '0' ? '1' : '0';
     }
+    // 1582. Special Positions in a Binary Matrix
+    /** Iterator */
+    public int numSpecial(int[][] mat) {
+        int rowCount = mat.length;
+        int colCount = mat[0].length;
+        int[] rows = new int[rowCount];
+        Arrays.fill(rows, -1);
+        int[] cols = new int[colCount];
+        for(int i=0;i<rowCount;i++){
+            for(int j=0;j<colCount;j++){
+                if(mat[i][j] == 1){
+                    if(rows[i] == -1){
+                        rows[i] = j;
+                    }
+                    else if(rows[i] >= 0){
+                        rows[i] = -2;
+                    }
+                    cols[j] += 1;
+                }
+            }
+        }
+        int res = 0;
+        for(int i=0;i<rowCount;i++){
+            if(rows[i] < 0) continue;
+            if(cols[rows[i]] == 1) res += 1;
+        }
+        return res;
+    }
+    // 1022. Sum of Root to Leaf Binary Numbers
+    /** Binary Tree - DFS */
+    public int sumRootToLeaf(TreeNode root) {
+        if(root == null) return 0;
+        return dfs_sumRootToLeaf(root, 0);
+    }
+    private int dfs_sumRootToLeaf(TreeNode root, int prevSum){
+        prevSum = prevSum * 2 + root.val;
+        if(root.left == null && root.right == null){
+            return prevSum;
+        }
+        else if(root.left == null){
+            return dfs_sumRootToLeaf(root.right, prevSum);
+        }
+        else if(root.right == null){
+            return dfs_sumRootToLeaf(root.left, prevSum);
+        }
+        else{
+            return dfs_sumRootToLeaf(root.left, prevSum) + dfs_sumRootToLeaf(root.right, prevSum);
+        }
+    }
 }
