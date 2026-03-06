@@ -1656,4 +1656,27 @@ public class DailySolution {
             return dfs_sumRootToLeaf(root.left, prevSum) + dfs_sumRootToLeaf(root.right, prevSum);
         }
     }
+    // 1784. Check if Binary String Has at Most One Segment of Ones
+    /** Iterator */
+    public boolean checkOnesSegment(String s) {
+        boolean meetZero = false;
+        for(var c : s.toCharArray()){
+            if(!meetZero && c == '0') meetZero = true;
+            else if(meetZero && c == '1') return false;
+        }
+        return true;
+    }
+    // 1758. Minimum Changes To Make Alternating Binary String
+    /** Iterator */
+    public int minOperations(String s) {
+        char checked = '0';
+        int count_1 = 0;
+        int count_2 = 0;
+        for(var c : s.toCharArray()){
+            if(c == checked) count_2 += 1;
+            else count_1 += 1;
+            checked = (char) ('0' + '1' - checked);
+        }
+        return Math.min(count_1, count_2);
+    }
 }
